@@ -20,20 +20,23 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    passwordHash: {
+    password: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true,
       }
+    },
+    passwordHash: {
+      type: DataTypes.STRING,
     }
   })
 
-  User.beforeCreate(user => 
-    new sequelize.Promise(resolve => {
+  User.beforeCreate(user => {
+    return new sequelize.Promise(resolve => {
       bcrypt.hash(user.password, null, null, (err, hashed) => resolve(hashed));
     })
       .then(hash => user.passwordHash = hash)
-  )
+  })
 
   return User;
 }
