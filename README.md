@@ -11,17 +11,17 @@
 
 - Install dependencies
   + frontend 
-    + cd `frontend/pizza-ordering-system && npm install`
+    + $ `cd frontend/pizza-ordering-system && npm install`
   
   + backend
-    + cd `backend/server && npm install`
+    + $ `cd backend/server && npm install`
 
 - Start development server
   + frontend
-    + cd `frontend/pizza-ordering-system && npm start`
+    + $ `cd frontend/pizza-ordering-system && npm start`
   
   + backend
-    + cd `backend/server && npm start`
+    + $ `cd backend/server && npm start`
 
 ## Explanations
 
