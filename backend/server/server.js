@@ -7,11 +7,13 @@ const config = require('./config/config.json')[env];
 const syncs = require('./syncs');
 const models = require('./models')(syncs.registerModels, config).models();
 const router = require('./controllers')(syncs.registerRouters, models).router();
+const passport = require('./middlewares/authentication')(config['secretOrKey'], models);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(router);
+app.use(passport.initialize());
 
 const PORT = process.env.PORT || 3001;
 

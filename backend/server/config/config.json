@@ -4,7 +4,7 @@
     "password": "se_app",
     "database": "se_app_development",
     "host": "localhost",
-    "dialect": "postgres"
-  },
-  "secretOrKey": "sepizzaorderingsystem"
+    "dialect": "postgres",
+    "secretOrKey": "sepizzaorderingsystem"
+  }
 }
