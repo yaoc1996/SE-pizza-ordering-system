@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-
 import { withRouter, Switch, Route } from 'react-router-dom';
+
+import {
+  Home,
+} from './components';
 
 class App extends Component {
   constructor() {
@@ -16,10 +19,15 @@ class App extends Component {
   }
 
   render() {
+    const appStyle = {
+      height: '100vh',
+      width: '100vw',
+      overflow: 'hidden',
+    }
     return (
-      <div className="App">
+      <div className="App" style={appStyle}>
         <Switch>
-          <Route exact path='/home' />
+          <Route exact path='/home' component={Home} />
         </Switch>
       </div>
     );
