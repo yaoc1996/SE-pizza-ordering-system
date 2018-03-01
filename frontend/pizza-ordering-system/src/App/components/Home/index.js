@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 import {
-  GoogleMaps
+  GoogleMaps,
 } from './components';
 
 import {
   HomeView,
-  Header,
-  AddressInput,
+  HeaderView,
   MapView,
+  SearchBox,
 } from './_styled';
 
 class Home extends Component {
@@ -38,19 +38,22 @@ class Home extends Component {
     }, 15000);
   }
   render() {
-    const addressInputProps = {
+    const { stores } = this.state;
+    const searchBoxProps = {
+      id: 'search-box',
       placeholder: '147 70th st, Brooklyn, NY 11209...',
-    }
-
+      onKeyUp: this.onSearch,
+    };
     const mapProps = {
-      stores: this.state.stores,
-    }
+      stores,
+      inputId: 'search-box',
+    };
 
     return (
       <HomeView>
-        <Header>
-          <AddressInput { ...addressInputProps } />
-        </Header>
+        <HeaderView>
+          <SearchBox { ...searchBoxProps} />
+        </HeaderView>
         <MapView>
           <GoogleMaps { ...mapProps }/>
         </MapView>
