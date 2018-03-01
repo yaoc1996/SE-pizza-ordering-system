@@ -2,19 +2,29 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 
 import {
-  url,
-  params,
-  midTownManhattanCoords,
-} from './_constants';
-
-import {
   loadGoogleMaps,
+  initGoogleMaps,
+  initSearchBox,
 } from './_lib';
 
 import {
   Map,
 } from './_styled';
 
+import { GoogleMapsApiKey } from './config/config.json';
+
+const url = 'https://maps.googleapis.com/maps/api/js?';
+const params = {
+  key: GoogleMapsApiKey,
+  v: '3.exp',
+  libraries: 'places',
+  callback: 'googleMapsApiCallback',
+}
+
+const midTownManhattanCoords = {
+  lat: 40.7549,
+  lng: -73.9840,
+}
 
 class GoogleMaps extends Component {
   constructor() {
@@ -22,80 +32,72 @@ class GoogleMaps extends Component {
 
     this.state = {
       loadingMap: true,
-      markers: [],
     }
 
-    this.initMap = this.initMap.bind(this);
+    this.googleMapsApiCallback = this.googleMapsApiCallback.bind(this);
+    this.createStoreMarkers = this.createStoreMarkers.bind(this);
+    this.reAdjustMarker = this.reAdjustMarker.bind(this);
+    this.reAdjustCenter = this.reAdjustCenter.bind(this);
+    this.setMapZoom = this.setMapZoom.bind(this);
   }
-
-
 
   componentDidMount() {
-    window.initMap = this.initMap;
+    window.googleMapsApiCallback = this.googleMapsApiCallback;
     loadGoogleMaps(url, params);
   }
-
+  
   componentWillReceiveProps(props) {
     const { stores } = props;
-
+    
     if (this.props.stores !== stores) {
-      _.forEach(this.state.markers, x => x.setMap(null));
-      this.setState({ 
-        markers: this.createStoreMarkers(stores),
-      })
+      _.forEach(this.storeMarkers, x => x.setMap(null));
+      this.storeMarkers = this.createStoreMarkers(stores);
     }
+  }
+  
+  googleMapsApiCallback() {
+    this.setState({ loadingMap: false });
+    
+    const { inputId } = this.props;    
+    const obj = initGoogleMaps(midTownManhattanCoords);
+    this.marker = obj.marker;
+    this.map = obj.map;
+    this.searchBox = initSearchBox(
+      inputId,
+      this.map, 
+      this.reAdjustMarker, 
+      this.reAdjustCenter,
+      this.setMapZoom,
+    );
   }
 
   createStoreMarkers(stores) {
     const { google } = window;
-    const markers = _.map(stores, x => 
-      new google.maps.Marker({
-        position: {
-          lat: x.lat,
-          lng: x.lng,
-        },
-        map: this.map,
-        animation: google.maps.Animation.DROP,
-      })
-    )
-    return markers;
+    if (google) {
+      const markers = _.map(stores, x => 
+        new google.maps.Marker({
+          position: {
+            lat: x.lat,
+            lng: x.lng,
+          },
+          map: this.map,
+          animation: google.maps.Animation.DROP,
+        })
+      )
+      return markers;
+    }
   }
 
-  initMap() {
-    this.setState({ loadingMap: false });
+  reAdjustMarker(latLng) {
+    this.marker.setPosition(latLng);
+  }
 
-    const { google } = window;
-    const mapDiv = document.getElementById('map');
+  reAdjustCenter(latLng) {
+    this.map.panTo(latLng);
+  }
 
-    this.map = new google.maps.Map(mapDiv, {
-      zoom: 14,
-      center: midTownManhattanCoords,
-      mapTypeControl: false,
-      fullscreenControl: false,
-      streetViewControl: false,
-      styles: [
-        {
-          featureType: 'poi',
-          elementType: 'labels',
-          stylers: [{ visibility: 'off' }],
-        },
-        {
-          featureType: 'transit',
-          elementType: 'labels',
-          stylers: [{ visibility: 'off' }],
-        }
-      ]
-    });
-
-    this.marker = new google.maps.Marker({
-      position: midTownManhattanCoords,
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-    });
-
-    google.maps.event.addListener(this.map, 'click', e => {
-      this.marker.setPosition(e.latLng);
-    })
+  setMapZoom(zoom) {
+    this.map.setZoom(zoom);
   }
 
   render() {
