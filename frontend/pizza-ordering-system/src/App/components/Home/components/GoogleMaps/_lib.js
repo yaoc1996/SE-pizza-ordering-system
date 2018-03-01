@@ -98,8 +98,26 @@ function initSearchBox(
   }
 }
 
+function createStoreMarkers(stores, map) {
+  const { google } = window;
+  if (google && map) {
+    const markers = _.map(stores, x => 
+      new google.maps.Marker({
+        position: {
+          lat: x.lat,
+          lng: x.lng,
+        },
+        map,
+        animation: google.maps.Animation.DROP,
+      })
+    )
+    return markers;
+  }
+}
+
 export {
   loadGoogleMaps,
   initGoogleMaps,
   initSearchBox,
+  createStoreMarkers,
 };

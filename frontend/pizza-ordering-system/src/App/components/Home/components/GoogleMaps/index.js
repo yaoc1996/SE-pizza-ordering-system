@@ -5,6 +5,7 @@ import {
   loadGoogleMaps,
   initGoogleMaps,
   initSearchBox,
+  createStoreMarkers,
 } from './_lib';
 
 import {
@@ -35,7 +36,6 @@ class GoogleMaps extends Component {
     }
 
     this.googleMapsApiCallback = this.googleMapsApiCallback.bind(this);
-    this.createStoreMarkers = this.createStoreMarkers.bind(this);
     this.reAdjustMarker = this.reAdjustMarker.bind(this);
     this.reAdjustCenter = this.reAdjustCenter.bind(this);
     this.setMapZoom = this.setMapZoom.bind(this);
@@ -51,7 +51,7 @@ class GoogleMaps extends Component {
     
     if (this.props.stores !== stores) {
       _.forEach(this.storeMarkers, x => x.setMap(null));
-      this.storeMarkers = this.createStoreMarkers(stores);
+      this.storeMarkers = createStoreMarkers(stores, this.map);
     }
   }
   
@@ -69,23 +69,6 @@ class GoogleMaps extends Component {
       this.reAdjustCenter,
       this.setMapZoom,
     );
-  }
-
-  createStoreMarkers(stores) {
-    const { google } = window;
-    if (google) {
-      const markers = _.map(stores, x => 
-        new google.maps.Marker({
-          position: {
-            lat: x.lat,
-            lng: x.lng,
-          },
-          map: this.map,
-          animation: google.maps.Animation.DROP,
-        })
-      )
-      return markers;
-    }
   }
 
   reAdjustMarker(latLng) {
