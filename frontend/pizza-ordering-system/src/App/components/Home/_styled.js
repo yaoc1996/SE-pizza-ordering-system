@@ -6,22 +6,29 @@ const HomeView = styled.div`
   position: relative;
 `
 
-const Header = styled.div`
+const HeaderView = styled.div`
   position: relative;
   width: 100%;
   height: 150px;
-  background: #f7f7f7;
-  border-bottom: 1px solid #fff;
-  text-align: left;
 `
 
-const AddressInput = styled.input`
-  width: 500px;
-  height: 50px;
-  margin: 35px 0 0 65px;
+const MapView = styled.div`
+  width: 100%;
+  height: calc(100% - 150px);
+  position: relative;
+`
+
+const SearchBox = styled.input`
+  width: 400px;
+  height: 40px;
+  margin: 25px 0 0 25px;
   padding: 0 25px;
   border: 1px solid #eee;
   color: #333;
+  -webkit-transition: all 0.15s ease;
+  -moz-transition: all 0.15s ease;
+  -o-transition: all 0.15s ease;
+  transition: all 0.15s ease;
 
   :hover {
     box-shadow: 0px 1px 10px 1px #eee;
@@ -32,15 +39,9 @@ const AddressInput = styled.input`
   }
 `
 
-const MapView = styled.div`
-  width: 100%;
-  height: calc(100% - 150px);
-  position: relative;
-`
-
 export {
   HomeView,
-  Header,
-  AddressInput,
+  HeaderView,
   MapView,
+  SearchBox,
 };
