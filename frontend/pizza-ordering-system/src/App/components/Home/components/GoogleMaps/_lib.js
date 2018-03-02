@@ -101,17 +101,52 @@ function initSearchBox(
 function createStoreMarkers(stores, map) {
   const { google } = window;
   if (google && map) {
-    const markers = _.map(stores, x => 
-      new google.maps.Marker({
+    const markers = _.map(stores, store => {
+      const marker = new google.maps.Marker({
         position: {
-          lat: x.lat,
-          lng: x.lng,
+          lat: store.lat,
+          lng: store.lng,
         },
         map,
         animation: google.maps.Animation.DROP,
+      });
+
+      const contentString = `
+        <div style="margin-left: -15px;">
+          <label>${store.name}</label>
+          <p>${store.address}</p>
+        </div>
+      `;
+
+      marker.infoWindow = new google.maps.InfoWindow({
+        content: contentString,
+        closeControl: false,
       })
-    )
-    return markers;
+
+      return marker;
+    })
+
+    _.forEach(markers, marker => {
+      marker.addListener('click', () => {
+        _.forEach(markers, otherMarker => {
+          if (otherMarker !== marker) {
+            otherMarker.infoWindow.close();
+          }
+        })
+
+        if (marker.infoWindow.getMap()) {
+          marker.infoWindow.close();
+        } else {
+          marker.infoWindow.open(map, marker);
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          setTimeout(() => {
+            marker.setAnimation(null);
+          }, 700);
+        }
+      })
+    })
+
+    return markers
   }
 }
 
