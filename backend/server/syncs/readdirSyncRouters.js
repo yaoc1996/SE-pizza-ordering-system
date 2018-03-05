@@ -1,18 +1,29 @@
-const _ = require('lodash');
+const express = require('express');
 const fs = require('fs');
+const _ = require('lodash');
 
-function registerRouters(dir, basename, models) {
-  const router = require('express').Router();
+function readdirSyncRouters(dir, models) {
+  const router = express.Router();
 
   fs
     .readdirSync(dir)
-    .filter(file => file[0] !== '.' && file !== basename)
     .forEach(file => {
-      var name = _.replace(file, '.js', '');
-      router.use(`/${name}`, require(`${dir}/${name}`)(registerRouters, models).router())
+      fs.lstat(`${dir}/${file}`, (err, stats) => {
+        if (err) return console.log(err);
+        
+        const name = _.replace(file, '.js', '');
+        const route = file === 'index.js' ? '' : name;
+
+        var subRouter = 
+          stats.isDirectory()
+            ? readdirSyncRouters(`${dir}/${file}`, models)
+            : require(`${dir}/${file}`)(express, models).router()
+
+        router.use(`/${route}`, subRouter);
+      })
     })
 
   return router;
 }
 
-module.exports = registerRouters;
+module.exports = readdirSyncRouters;
