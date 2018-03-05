@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config/config.json')[env];
 
-const syncs = require('./syncs');
-const models = require('./models')(syncs.registerModels, config).models();
-const router = require('./controllers')(syncs.registerRouters, models).router();
+const readdirSyncModels = require('./syncs/readdirSyncModels');
+const readdirSyncRouters = require('./syncs/readdirSyncRouters');
+
+const models = readdirSyncModels(`${__dirname}/models`, config);
+const router = readdirSyncRouters(`${__dirname}/controllers`, models);
+
 const passport = require('./middlewares/authentication')(config['secretOrKey'], models);
 
 app.use(bodyParser.json());
