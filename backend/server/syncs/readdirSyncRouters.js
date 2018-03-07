@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const _ = require('lodash');
 
-function readdirSyncRouters(dir, models) {
+function readdirSyncRouters(dir, models, passport, secretOrKey) {
   const router = express.Router();
 
   fs
@@ -16,8 +16,18 @@ function readdirSyncRouters(dir, models) {
 
         var subRouter = 
           stats.isDirectory()
-            ? readdirSyncRouters(`${dir}/${file}`, models)
-            : require(`${dir}/${file}`)(express, models).router()
+            ? readdirSyncRouters(
+                `${dir}/${file}`, 
+                models,
+                passport,
+                secretOrKey,
+              )
+            : require(`${dir}/${file}`)(
+                express, 
+                models,
+                passport,
+                secretOrKey,
+              ).router()
 
         router.use(`/${route}`, subRouter);
       })
