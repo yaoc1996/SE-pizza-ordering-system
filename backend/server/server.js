@@ -14,7 +14,7 @@ const models = readdirSyncModels(
 );
 
 const passport = require('./middlewares/authentication')(
-  secretOrKey, 
+  secretOrKey,
   models,
 );
 
