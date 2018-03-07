@@ -25,17 +25,7 @@ class Home extends Component {
       this.setState({
         stores: fakeLocations,
       })
-    }, 5000);
-    setTimeout(() => {
-      this.setState({
-        stores: [],
-      })
-    }, 10000);
-    setTimeout(() => {
-      this.setState({
-        stores: fakeLocations,
-      })
-    }, 15000);
+    }, 3000);
   }
   render() {
     const { stores } = this.state;
@@ -68,14 +58,20 @@ const fakeLocations = [
   {
     lat: 40.742727,
     lng: -73.983244,
+    name: 'joes pizza',
+    address: '123 123st st',
   },
   {
     lat: 40.746527,
     lng: -73.993244,
+    name: 'pizza paradise',
+    address: '123 123st st',
   },
   {
     lat: 40.752727,
     lng: -73.973244,
+    name: 'nom nom',
+    address: '123 123st st',
   }
 ]
 
