@@ -58,19 +58,19 @@ const fakeLocations = [
   {
     lat: 40.742727,
     lng: -73.983244,
-    storeName: 'joes pizza',
+    name: 'joes pizza',
     address: '123 123st st',
   },
   {
     lat: 40.746527,
     lng: -73.993244,
-    storeName: 'pizza paradise',
+    name: 'pizza paradise',
     address: '123 123st st',
   },
   {
     lat: 40.752727,
     lng: -73.973244,
-    storeName: 'nom nom',
+    name: 'nom nom',
     address: '123 123st st',
   }
 ]
