@@ -23,10 +23,12 @@ module.exports = (express, models, passport, secretOrKey) => ({
     })
       .then(user => {
         const { username } = user;
+
         const payload = { username };
         const token = jwt.sign(
           payload,
           secretOrKey,
+          { expiresIn: '10h' },
         );
 
         res.json({
@@ -36,10 +38,13 @@ module.exports = (express, models, passport, secretOrKey) => ({
         })
       })
       .catch(e => {
-        console.log(e.errors);
+        const message = 
+          (e.errors)
+            ? e.errors[0].message
+            : 'error encountered while creating user';
         res.json({
           success: false,
-          message: 'error encountered while creating user', 
+          message,
         });
       })
   }
