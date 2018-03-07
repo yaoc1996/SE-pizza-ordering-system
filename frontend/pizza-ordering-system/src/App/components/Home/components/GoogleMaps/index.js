@@ -59,9 +59,9 @@ class GoogleMaps extends Component {
     this.setState({ loadingMap: false });
     
     const { inputId } = this.props;    
-    const { map, marker } = initGoogleMaps(midTownManhattanCoords);
-    this.map = map;
-    this.marker = marker;
+    const obj = initGoogleMaps(midTownManhattanCoords);
+    this.marker = obj.marker;
+    this.map = obj.map;
     this.searchBox = initSearchBox(
       inputId,
       this.map, 
