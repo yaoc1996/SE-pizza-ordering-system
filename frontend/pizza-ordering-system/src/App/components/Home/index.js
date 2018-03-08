@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-import {
-  GoogleMaps,
-} from './components';
+import GoogleMaps from './components/GoogleMaps';
 
 import {
   HomeView,

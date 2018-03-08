@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
-import {
-  SidePanel,
-  Home,
-} from './components';
+import SidePanel from './components/SidePanel';
+import Home from './components/Home';
 
 import {
   AppView,
   MainView,
-} from './_styled';
+} from './styled';
 
 class App extends Component {
   constructor() {
