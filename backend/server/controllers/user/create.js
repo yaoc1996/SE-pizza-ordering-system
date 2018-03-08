@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (express, models, passport, secretOrKey) => ({
+module.exports = ({ express, models, secretOrKey }) => ({
   router() {
     const router = express.Router();
 
@@ -41,7 +41,9 @@ module.exports = (express, models, passport, secretOrKey) => ({
         const message = 
           (e.errors)
             ? e.errors[0].message
-            : 'error encountered while creating user';
+            : 'error encountered during user create';
+
+        console.log(e);
         res.json({
           success: false,
           message,

@@ -2,13 +2,13 @@ const express = require('express');
 const fs = require('fs');
 const _ = require('lodash');
 
-function readdirSyncRouters(dir, models, passport, secretOrKey) {
+function readdirSyncRouters({ dirname, models, passport, secretOrKey }) {
   const router = express.Router();
 
   fs
-    .readdirSync(dir)
+    .readdirSync(dirname)
     .forEach(file => {
-      fs.lstat(`${dir}/${file}`, (err, stats) => {
+      fs.lstat(`${dirname}/${file}`, (err, stats) => {
         if (err) return console.log(err);
         
         const name = _.replace(file, '.js', '');
@@ -16,18 +16,18 @@ function readdirSyncRouters(dir, models, passport, secretOrKey) {
 
         var subRouter = 
           stats.isDirectory()
-            ? readdirSyncRouters(
-                `${dir}/${file}`, 
+            ? readdirSyncRouters({
+                dirname: `${dirname}/${file}`, 
                 models,
                 passport,
                 secretOrKey,
-              )
-            : require(`${dir}/${file}`)(
+              })
+            : require(`${dirname}/${file}`)({
                 express, 
                 models,
                 passport,
                 secretOrKey,
-              ).router()
+            }).router()
 
         router.use(`/${route}`, subRouter);
       })

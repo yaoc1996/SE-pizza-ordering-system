@@ -8,22 +8,22 @@ const secretOrKey = config['secretOrKey'];
 const readdirSyncModels = require('./syncs/readdirSyncModels');
 const readdirSyncRouters = require('./syncs/readdirSyncRouters');
 
-const models = readdirSyncModels(
-  `${__dirname}/models`, 
+const models = readdirSyncModels({
+  dirname: `${__dirname}/models`, 
   config,
-);
+});
 
-const passport = require('./middlewares/authentication')(
+const passport = require('./middlewares/authentication')({
   secretOrKey,
   models,
-);
+});
 
-const router = readdirSyncRouters(
-  `${__dirname}/controllers`, 
+const router = readdirSyncRouters({
+  dirname: `${__dirname}/controllers`, 
   models, 
   passport,
   secretOrKey,
-);
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
