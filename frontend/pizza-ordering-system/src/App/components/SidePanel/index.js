@@ -12,7 +12,7 @@ import {
   FieldLabel,
   FieldInput,
   FieldSubmitButton,
-} from './_styled';
+} from './styled';
 
 class SidePanel extends Component {
   constructor() {
