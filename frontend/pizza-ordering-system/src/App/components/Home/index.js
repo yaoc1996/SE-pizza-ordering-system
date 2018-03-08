@@ -9,7 +9,7 @@ import {
   HeaderView,
   MapView,
   SearchBox,
-} from './_styled';
+} from './styled';
 
 class Home extends Component {
   constructor() {
