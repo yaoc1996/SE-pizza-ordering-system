@@ -41,7 +41,9 @@ module.exports = ({ express, models, secretOrKey }) => ({
         const message = 
           (e.errors)
             ? e.errors[0].message
-            : 'error encountered while creating user';
+            : 'error encountered during user create';
+
+        console.log(e);
         res.json({
           success: false,
           message,
