@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import {
-  loadGoogleMaps,
-  initGoogleMaps,
-  initSearchBox,
-  createStoreMarkers,
-} from './_lib';
+import loadGoogleMaps from './lib/loadGoogleMaps';
+import initGoogleMaps from './lib/initGoogleMaps';
+import initSearchBox from './lib/initSearchBox';
+import initStoreMarkers from './lib/initStoreMarkers';
 
 import {
   Map,
-} from './_styled';
+} from './styled';
 
 import { GoogleMapsApiKey } from './config/config.json';
 
@@ -51,7 +49,7 @@ class GoogleMaps extends Component {
     
     if (this.props.stores !== stores) {
       _.forEach(this.storeMarkers, x => x.setMap(null));
-      this.storeMarkers = createStoreMarkers(stores, this.map);
+      this.storeMarkers = initStoreMarkers(stores, this.map);
     }
   }
   
