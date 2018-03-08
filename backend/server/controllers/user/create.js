@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (express, models, passport, secretOrKey) => ({
+module.exports = ({ express, models, secretOrKey }) => ({
   router() {
     const router = express.Router();
 

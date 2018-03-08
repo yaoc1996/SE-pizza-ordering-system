@@ -2,14 +2,14 @@ const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const { ExtractJwt, Strategy } = passportJWT;
 
-module.exports = (secretOrKey, { User }) => {
+module.exports = ({ secretOrKey, models }) => {
   const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
     secretOrKey,
   };
 
   const strategy = new Strategy(jwtOptions, (jwt_payload, next) => {
-    User.findOne({
+    models.User.findOne({
       where: {
         username: jwt_payload.username,
       },

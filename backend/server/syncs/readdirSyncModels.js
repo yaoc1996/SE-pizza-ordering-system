@@ -2,7 +2,7 @@ const fs = require('fs');
 const Sequelize = require('sequelize');
 const path = require('path');
 
-module.exports = (dir, config) => {
+module.exports = ({ dirname, config }) => {
   const db = {};
 
   const sequelize = 
@@ -16,14 +16,14 @@ module.exports = (dir, config) => {
         );
 
   fs
-    .readdirSync(dir)
+    .readdirSync(dirname)
     .filter(file => 
       (file[0] !== '.') 
       && (file !== 'index.js') 
       && (file.slice(-3) === '.js')
     )
     .forEach(file => {
-      const model = sequelize.import(path.join(dir, file));
+      const model = sequelize.import(path.join(dirname, file));
       const modelName = `${model.name.charAt(0).toUpperCase()}${model.name.slice(1)}`;
       db[modelName] = model;
     });

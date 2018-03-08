@@ -1,4 +1,4 @@
-module.exports = (express, models) => ({
+module.exports = ({ express }) => ({
   router() {
     const router = express.Router();
     router.get('/', (req, res) => {
