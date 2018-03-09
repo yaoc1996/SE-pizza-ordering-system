@@ -38,10 +38,12 @@ class SidePanel extends Component {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    login(email, password)
-      .then(json => {
-        console.log(json);
-      })
+    if (email && password) {
+      login(email, password)
+        .then(json => {
+          console.log(json);
+        })
+    }
   }
 
   render() {
