@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
-import SidePanel from './components/SidePanel';
-import Home from './components/Home';
+import SidePanel from './SidePanel';
+import Home from './Home';
 
 import {
   AppView,
