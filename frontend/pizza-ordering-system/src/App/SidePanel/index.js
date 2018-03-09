@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
+import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
+
 import login from './lib/login';
+import signup from './lib/signup';
 
 import {
   PanelView,
   ToggleButton,
   MaterialIcon,
-  LoginForm,
-  LoginLabel,
-  FormField,
-  FieldLabel,
-  FieldInput,
-  FieldSubmitButton,
 } from './styled';
 
 class SidePanel extends Component {
@@ -19,17 +17,42 @@ class SidePanel extends Component {
     super();
 
     this.state = {
-      collapsed: false,
+      visibleForm: 'signup',
     }
 
+    this.setPanelState = this.setPanelState.bind(this);
     this.onToggle = this.onToggle.bind(this);
     this.onLogin = this.onLogin.bind(this);
+    this.ifLoginSuccess = this.ifLoginSuccess.bind(this);
+    this.onSignup = this.onSignup.bind(this);
+  }
+
+  setPanelState(state) {
+    this.setState(state);
   }
 
   onToggle() {
-    this.setState(({ collapsed }) => ({
-      collapsed: !collapsed
+    this.props.setAppState(({ collapsedSidePanel }) => ({
+      collapsedSidePanel: !collapsedSidePanel
     }))
+  }
+
+  ifLoginSuccess({ message, token, user }) {
+    const {
+      store,
+      setAppState,
+    } = this.props;
+
+    window.localStorage.setItem('token', token);
+    setAppState({
+      user,
+    })
+
+    if (store) {
+      //redirect to store
+    }
+
+    console.log(message);
   }
 
   onLogin(e) {
@@ -37,64 +60,92 @@ class SidePanel extends Component {
 
     const email = e.target.email.value;
     const password = e.target.password.value;
-
-    login(email, password)
-      .then(json => {
-        console.log(json);
+    
+    if (email && password) {
+      login({
+        email, 
+        password
       })
+        .then(json => {
+          if (json.success) {
+            this.ifLoginSuccess(json);
+          } else {
+            console.log(json.message)
+          }
+        })
+    }
+  }
+
+  onSignup(e) {
+    e.preventDefault();
+
+    const username = e.target.username.value;
+    const firstname = e.target.firstname.value;
+    const lastname = e.target.lastname.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+    
+    if (password === confirmPassword) {
+      signup({
+        username,
+        firstname,
+        lastname,
+        email,
+        password,
+      })
+        .then(json => {
+          if (json.success) {
+            this.ifLoginSuccess(json);
+          } else {
+            console.log(json.message);
+          }
+        })
+    }
   }
 
   render() {
-    const { collapsed } = this.state;
+    const {
+      setPanelState,
+      onLogin,
+      onSignup,
+    } = this;
+
+    const { visibleForm } = this.state;
+
+    const { collapsedSidePanel } = this.props;
 
     const sidePanelProps = {
-      collapsed,
+      collapsedSidePanel,
     }
 
     const toggleButtonProps = {
       onClick: this.onToggle,
     }
 
-    const formProps = {
-      onSubmit: this.onLogin,
+    const loginFormProps = {
+      setPanelState,
+      onLogin,
     }
 
-    const emailInputProps = {
-      name: 'email',
-      type: 'text',
-    }
-
-    const passwordInputProps = {
-      name: 'password',
-      type: 'password',
-    }
-
-    const submitButtonProps = {
-      type: 'submit',
+    const signupFormProps = {
+      setPanelState,
+      onSignup,
     }
 
     return (
       <PanelView { ...sidePanelProps } >
         <ToggleButton { ...toggleButtonProps } >
           <MaterialIcon>
-            { collapsed ? 'keyboard_arrow_left' : 'keyboard_arrow_right' }
+            { collapsedSidePanel ? 'keyboard_arrow_left' : 'keyboard_arrow_right' }
           </MaterialIcon>
         </ToggleButton>
 
-        <LoginForm { ...formProps } >
-          <LoginLabel>Welcome!</LoginLabel>
-          <FormField>
-            <FieldLabel>Email</FieldLabel>
-            <FieldInput { ...emailInputProps } />
-          </FormField>
-          <FormField>
-            <FieldLabel>Password</FieldLabel>
-            <FieldInput { ...passwordInputProps } />
-          </FormField>
-          <FormField>
-          <FieldSubmitButton { ...submitButtonProps } >&nbsp;Log In</FieldSubmitButton>
-          </FormField>
-        </LoginForm>
+        {
+          visibleForm === 'login'
+            ? <LoginForm { ...loginFormProps } />
+            : <SignupForm { ...signupFormProps } />
+        }
       </PanelView>
     )
   }
