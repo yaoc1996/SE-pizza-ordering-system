@@ -14,19 +14,43 @@ class App extends Component {
     super();
 
     this.state = {
-      message: null,
+      store: null,
+      user: null,
+      collapsedSidePanel: false,
     }
+
+    this.setAppState = this.setAppState.bind(this);
   }
 
   componentDidMount() {
 
   }
 
+  setAppState(state) {
+    this.setState(state);
+  }
+
   render() {
+    const {
+      setAppState
+    } = this;
+
+    const {
+      store,
+      user,
+      collapsedSidePanel,
+    } = this.state;
+
+    const sidePanelProps = {
+      store,
+      user,
+      setAppState,
+      collapsedSidePanel,
+    }
 
     return (
       <AppView>
-        <SidePanel />
+        <SidePanel { ...sidePanelProps } />
         <MainView>
 
           <Switch>
