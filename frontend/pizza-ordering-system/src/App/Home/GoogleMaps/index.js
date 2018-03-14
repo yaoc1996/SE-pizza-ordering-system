@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import loadGoogleMaps from './lib/loadGoogleMaps';
-import initGoogleMaps from './lib/initGoogleMaps';
-import initSearchBox from './lib/initSearchBox';
-import initStoreMarkers from './lib/initStoreMarkers';
+import loadGoogleMaps from 'lib/loadGoogleMaps';
+import initGoogleMaps from 'lib/initGoogleMaps';
+import initSearchBox from 'lib/initSearchBox';
+import initStoreMarkers from 'lib/initStoreMarkers';
 
 import {
   Map,
@@ -45,11 +45,19 @@ class GoogleMaps extends Component {
   }
   
   componentWillReceiveProps(props) {
-    const { stores } = props;
+    const { map } = this;
+    const { 
+      stores,
+      redirectToStore,
+    } = props;
     
     if (this.props.stores !== stores) {
       _.forEach(this.storeMarkers, x => x.setMap(null));
-      this.storeMarkers = initStoreMarkers(stores, this.map);
+      this.storeMarkers = initStoreMarkers({
+        stores,
+        map,
+        redirectToStore,
+      });
     }
   }
   

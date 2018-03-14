@@ -24,8 +24,7 @@ function initStoreMarkers(stores, map) {
       marker.infoWindow = new google.maps.InfoWindow({
         content: contentString,
         closeControl: false,
-        storeName: store.name,
-        storeAddress: store.address,
+        store,
       })
 
       return marker;
@@ -44,8 +43,8 @@ function initStoreMarkers(stores, map) {
         } else {
           marker.infoWindow.open(map, marker);
           const redirectToStore = () => {
-            console.log(marker.infoWindow.storeName);
-            // code to redirect to store page here;
+            console.log(marker.infoWindow.store);
+            
           }
           const enterButton = document.getElementById('button');
           enterButton.onclick = redirectToStore;

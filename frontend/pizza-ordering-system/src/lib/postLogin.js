@@ -1,4 +1,4 @@
-function login(body) {
+function postLogin(body) {
   return (
     fetch('/user/login', {
       method: 'POST',
@@ -14,4 +14,4 @@ function login(body) {
   )
 }
 
-export default login;
+export default postLogin;

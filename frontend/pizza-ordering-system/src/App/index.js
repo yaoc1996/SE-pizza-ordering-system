@@ -48,6 +48,10 @@ class App extends Component {
       collapsedSidePanel,
     }
 
+    const homeProps = {
+      
+    }
+
     return (
       <AppView>
         <SidePanel { ...sidePanelProps } />
