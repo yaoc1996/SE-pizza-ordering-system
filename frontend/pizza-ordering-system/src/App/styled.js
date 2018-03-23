@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const AppView = styled.div`
   position: relative;
+  min-width: 400px;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
