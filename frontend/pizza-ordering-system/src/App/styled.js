@@ -5,6 +5,7 @@ const AppView = styled.div`
   min-width: 400px;
   width: 100vw;
   height: 100vh;
+  font-size: 12px;  
   overflow: hidden;
 `;
 
