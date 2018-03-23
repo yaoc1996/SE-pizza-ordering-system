@@ -3,6 +3,7 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 
 import Home from './Routes/Home';
 import Login from './Routes/Login';
+import Signup from './Routes/Signup';
 
 import {
   AppView,
@@ -49,7 +50,6 @@ class App extends Component {
         <MainView>
 
           <Switch>
-            <Route exact path='/home' component={Home} />
             <Route 
               exact
               path='/login'
@@ -59,6 +59,16 @@ class App extends Component {
                   redirect={redirect}
                   { ...props } />
               } />
+            <Route 
+              exact
+              path='/signup'
+              render={props => 
+                <Signup
+                  setAppState={setAppState}
+                  redirect={redirect}
+                  { ...props } />
+              } />
+            <Route path='/home' component={Home} />            
           </Switch>
 
         </MainView>
