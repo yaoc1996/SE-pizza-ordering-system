@@ -9,12 +9,24 @@ import {
   SearchBox,
 } from './styled';
 
+import {
+  FloatRButton,
+} from 'styled';
+
 class Home extends Component {
   constructor() {
     super();
 
     this.state = {
       stores: [],
+    }
+
+    this.goTo = this.goTo.bind(this);
+  }
+
+  goTo(dest) {
+    return () => {
+      this.props.history.push(dest);
     }
   }
 
@@ -25,9 +37,11 @@ class Home extends Component {
       })
     }, 3000);
   }
+
   render() {
     const {
       onSearch,
+      goTo,
     } = this;
 
     const { stores } = this.state;
@@ -35,9 +49,13 @@ class Home extends Component {
     return (
       <HomeView>
         <HeaderView>
+          <FloatRButton
+            onClick={goTo('signup')} >Sign Up</FloatRButton>
+          <FloatRButton
+            onClick={goTo('login')} >Login</FloatRButton>
           <SearchBox
             id='search-box'
-            placeholder='147 70th st, Brooklyn, NY 11209...'
+            placeholder='Enter an address...'
             onKeyUp={onSearch} />
         </HeaderView>
         <MapView>

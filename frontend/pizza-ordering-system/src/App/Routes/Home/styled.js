@@ -10,6 +10,7 @@ const HeaderView = styled.div`
   position: relative;
   width: 100%;
   height: 150px;
+  background: #f9f9f9;
 `
 
 const MapView = styled.div`
@@ -21,7 +22,7 @@ const MapView = styled.div`
 const SearchBox = styled.input`
   width: 400px;
   height: 40px;
-  margin: 25px 0 0 25px;
+  margin-top: 36px;
   padding: 0 25px;
   border: 1px solid #eee;
   color: #333;
