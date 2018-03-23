@@ -105,6 +105,29 @@ const FloatRButton = FormButton.extend`
   }
 `
 
+const FloatLButton = FloatRButton.extend`
+  float: left;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 6px 0 0 6px;
+`
+
+const ClickableLabel = styled.label`
+  display: block;
+  color: #90A4AE;
+  font-weight: 700;
+  
+  :hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  :active {
+    color: #455A64;
+  }
+`
+
 export {
   HVCenteredBox,
   PageHeading,
@@ -115,5 +138,7 @@ export {
   FFLabel,
   FFInput,
   FormButton,
+  FloatLButton,
   FloatRButton,
+  ClickableLabel,
 }
