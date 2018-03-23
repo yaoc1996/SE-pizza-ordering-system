@@ -4,7 +4,7 @@ const HVCenteredBox = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -50%);
 `
 
 const PageHeading = styled.h1`
@@ -33,12 +33,13 @@ const Form = styled.form`
   min-width: 376px;
   max-width: 420px;
   margin: auto;
+  margin-bottom: 36px;
 `
 
 const FormField = styled.div`
   position: relative;
   width: 100%;
-  padding: 36px 0;
+  padding: 24px 0;
   
   :first-of-type {
     border-top: 1px solid #ddd;
@@ -93,6 +94,17 @@ const FormButton = styled.button`
   }
 `
 
+const FloatRButton = FormButton.extend`
+  float: right;
+  color: #455A64;
+  background: #CFD8DC;
+  margin: 6px 6px 0 0;
+
+  :hover {
+    background: #90A4AE;
+  }
+`
+
 export {
   HVCenteredBox,
   PageHeading,
@@ -103,4 +115,5 @@ export {
   FFLabel,
   FFInput,
   FormButton,
+  FloatRButton,
 }
