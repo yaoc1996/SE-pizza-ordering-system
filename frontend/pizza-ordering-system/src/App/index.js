@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
-import Home from './Home';
-import Login from './Login';
+import Home from './Routes/Home';
+import Login from './Routes/Login';
 
 import {
   AppView,
@@ -14,12 +14,12 @@ class App extends Component {
     super();
 
     this.state = {
-      store: null,
       user: null,
-      collapsedSidePanel: false,
+      redirectDest: '/',
     }
 
     this.setAppState = this.setAppState.bind(this);
+    this.redirect = this.redirect.bind(this);
   }
 
   componentDidMount() {
@@ -30,15 +30,18 @@ class App extends Component {
     this.setState(state);
   }
 
+  redirect() {
+    this.props.history.push(this.state.redirectDest);
+  }
+
   render() {
     const {
-      setAppState
+      setAppState,
+      redirect
     } = this;
 
     const {
-      store,
       user,
-      collapsedSidePanel,
     } = this.state;
 
     return (
@@ -47,7 +50,15 @@ class App extends Component {
 
           <Switch>
             <Route exact path='/home' component={Home} />
-            <Route exact path='/login' component={Login} />
+            <Route 
+              exact
+              path='/login'
+              render={props => 
+                <Login
+                  setAppState={setAppState}
+                  redirect={redirect}
+                  { ...props } />
+              } />
           </Switch>
 
         </MainView>
