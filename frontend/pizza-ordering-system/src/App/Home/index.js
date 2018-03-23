@@ -26,24 +26,23 @@ class Home extends Component {
     }, 3000);
   }
   render() {
+    const {
+      onSearch,
+    } = this;
+
     const { stores } = this.state;
-    const searchBoxProps = {
-      id: 'search-box',
-      placeholder: '147 70th st, Brooklyn, NY 11209...',
-      onKeyUp: this.onSearch,
-    };
-    const mapProps = {
-      stores,
-      inputId: 'search-box',
-    };
 
     return (
       <HomeView>
         <HeaderView>
-          <SearchBox { ...searchBoxProps} />
+          <SearchBox
+            id='search-box'
+            placeholder='147 70th st, Brooklyn, NY 11209...'
+            onKeyUp={onSearch} />
         </HeaderView>
         <MapView>
-          <GoogleMaps { ...mapProps }/>
+          <GoogleMaps
+            stores={stores} />
         </MapView>
       </HomeView>
     )

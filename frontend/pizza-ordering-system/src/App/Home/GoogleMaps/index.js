@@ -64,12 +64,11 @@ class GoogleMaps extends Component {
   googleMapsApiCallback() {
     this.setState({ loadingMap: false });
     
-    const { inputId } = this.props;    
     const { map, marker } = initGoogleMaps(midTownManhattanCoords);
     this.map = map;
     this.marker = marker;
     this.searchBox = initSearchBox(
-      inputId,
+      'search-box',
       this.map, 
       this.reAdjustMarker, 
       this.reAdjustCenter,
@@ -94,7 +93,8 @@ class GoogleMaps extends Component {
     return (
       loadingMap
         ? <div>Loading</div>
-        : <Map id='map' />
+        : <Map
+            id='map' />
     )
   }
 }

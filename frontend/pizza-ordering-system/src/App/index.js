@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
-import SidePanel from './SidePanel';
 import Home from './Home';
 
 import {
@@ -41,20 +40,8 @@ class App extends Component {
       collapsedSidePanel,
     } = this.state;
 
-    const sidePanelProps = {
-      store,
-      user,
-      setAppState,
-      collapsedSidePanel,
-    }
-
-    const homeProps = {
-      
-    }
-
     return (
       <AppView>
-        <SidePanel { ...sidePanelProps } />
         <MainView>
 
           <Switch>
