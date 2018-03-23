@@ -8,6 +8,7 @@ const AppView = styled.div`
   overflow: hidden;
 `;
 
+
 const MainView = styled.div`
   position: relative;
   width: 100%;
