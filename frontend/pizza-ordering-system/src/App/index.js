@@ -16,7 +16,7 @@ class App extends Component {
 
     this.state = {
       user: null,
-      redirectDest: '/',
+      redirectDest: '/home',
     }
 
     this.setAppState = this.setAppState.bind(this);
@@ -38,11 +38,12 @@ class App extends Component {
   render() {
     const {
       setAppState,
-      redirect
+      redirect,
     } = this;
 
     const {
       user,
+      redirectDest,
     } = this.state;
 
     return (
@@ -57,6 +58,7 @@ class App extends Component {
                 <Login
                   setAppState={setAppState}
                   redirect={redirect}
+                  redirectDest={redirectDest}
                   { ...props } />
               } />
             <Route 
@@ -66,6 +68,7 @@ class App extends Component {
                 <Signup
                   setAppState={setAppState}
                   redirect={redirect}
+                  redirectDest={redirectDest}
                   { ...props } />
               } />
             <Route path='/home' component={Home} />            
