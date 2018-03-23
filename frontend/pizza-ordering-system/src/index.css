@@ -3,6 +3,10 @@
   -moz-transition: all .15s ease;
   -o-transition: all .15s ease;
   transition: all .15s ease;
+  -webkit-animation: fade-in .33s ease;
+  -moz-animation: fade-in .33s ease;
+  -o-animation: fade-in .33s ease;
+  animation: fade-in .33s ease;
 }
 
 body {
@@ -13,4 +17,13 @@ body {
 
 .gm-style-iw {
   text-align: left;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
