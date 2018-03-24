@@ -10,18 +10,13 @@ import {
   FFLabel,
   FFInput,
   FormButton,
-  FloatLButton,
   FloatRButton,
-  ClickableLabel,
 } from 'styled';
 
-import postLogin from 'lib/postLogin';
+import postSMLogin from 'lib/postSMLogin';
 
 const Login = props => {
   const {
-    redirectDest,
-    redirect,
-    setAppState,
     history,
   } = props;
 
@@ -35,16 +30,13 @@ const Login = props => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    postLogin({
+    postSMLogin({
       email,
       password,
     })
       .then(json => {
         if (json && json.success) {
-          setAppState({
-            user: json.user,
-          })
-          redirect();
+
         }
         console.log(json);
       })
@@ -52,13 +44,12 @@ const Login = props => {
 
   return (
     <Fragment>
-      <FloatLButton
-        onClick={goTo('/home')} >Home</FloatLButton>
       <FloatRButton
-        onClick={goTo('/signup')} >Go To Sign Up</FloatRButton>
+        onClick={goTo('/storemanager/signup')}>Signup to be a Store Manager</FloatRButton>
       <HVCenteredBox>
-        <PageHeading>Log In</PageHeading>
-        <LogoLabel>OPDS</LogoLabel>
+        <PageHeading
+          style={{ color: '#F8BBD0' }} >Log In</PageHeading>
+        <LogoLabel>Welcome Back</LogoLabel>
         <AppNameLabel>Online Pizza Delivery System</AppNameLabel>
         <Form
           onSubmit={onLogin} >
@@ -78,11 +69,6 @@ const Login = props => {
           </FormField>
           <FormButton>Login</FormButton>
         </Form>
-        {
-          redirectDest === '/store' &&
-          <ClickableLabel
-            onClick={redirect} >Continue without logging in...</ClickableLabel>
-        }
         </HVCenteredBox>
     </Fragment>
   )

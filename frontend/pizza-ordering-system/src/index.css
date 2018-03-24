@@ -9,6 +9,17 @@
   animation: fade-in .33s ease;
 }
 
+#map * {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  -webkit-animation: none;
+  -moz-animation: none;
+  -o-animation: none;
+  animation: none;
+}
+
 body {
   position: relative;
   font-family: sans-serif;

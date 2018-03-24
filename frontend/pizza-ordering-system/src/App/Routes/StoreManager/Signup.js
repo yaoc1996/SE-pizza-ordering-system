@@ -10,41 +10,37 @@ import {
   FFLabel,
   FFInput,
   FormButton,
-  FloatLButton,
   FloatRButton,
-  ClickableLabel,
 } from 'styled';
 
-import postLogin from 'lib/postLogin';
+import postSMSignup from 'lib/postSMSignup';
 
-const Login = props => {
+const Signup = props => {
   const {
-    redirectDest,
-    redirect,
-    setAppState,
     history,
   } = props;
 
-  const goTo = dest => () => {
+  const goTo = (dest) => () => {
     history.push(dest);
   }
 
-  const onLogin = e => {
+  const onSignup = e => {
     e.preventDefault();
     
+    const firstname = e.target.firstname.value;
+    const lastname = e.target.lastname.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    postLogin({
+    postSMSignup({
+      firstname,
+      lastname,
       email,
       password,
     })
       .then(json => {
         if (json && json.success) {
-          setAppState({
-            user: json.user,
-          })
-          redirect();
+
         }
         console.log(json);
       })
@@ -52,16 +48,30 @@ const Login = props => {
 
   return (
     <Fragment>
-      <FloatLButton
-        onClick={goTo('/home')} >Home</FloatLButton>
       <FloatRButton
-        onClick={goTo('/signup')} >Go To Sign Up</FloatRButton>
+        onClick={goTo('/storemanager/login')}>Login as a Store Manager</FloatRButton>
       <HVCenteredBox>
-        <PageHeading>Log In</PageHeading>
-        <LogoLabel>OPDS</LogoLabel>
+        <PageHeading
+          style={{ color: '#F8BBD0' }} >Sign Up</PageHeading>
+        <LogoLabel>Become a Store Manager!</LogoLabel>
         <AppNameLabel>Online Pizza Delivery System</AppNameLabel>
         <Form
-          onSubmit={onLogin} >
+          onSubmit={onSignup} >
+          <FormField>
+            <FFLabel>Firstname:</FFLabel>
+            <FFInput
+              autoFocus
+              type='text'
+              name='firstname'
+              required />
+          </FormField>
+          <FormField>
+            <FFLabel>Lastname:</FFLabel>
+            <FFInput
+              type='text'
+              name='lastname'
+              required />
+          </FormField>
           <FormField>
             <FFLabel>Email:</FFLabel>
             <FFInput
@@ -76,16 +86,11 @@ const Login = props => {
               name='password'
               required />
           </FormField>
-          <FormButton>Login</FormButton>
+          <FormButton>Signup</FormButton>
         </Form>
-        {
-          redirectDest === '/store' &&
-          <ClickableLabel
-            onClick={redirect} >Continue without logging in...</ClickableLabel>
-        }
-        </HVCenteredBox>
+      </HVCenteredBox>
     </Fragment>
   )
 }
 
-export default Login;
+export default Signup;

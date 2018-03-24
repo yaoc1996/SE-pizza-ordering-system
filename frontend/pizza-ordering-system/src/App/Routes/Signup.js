@@ -11,6 +11,7 @@ import {
   FFInput,
   FormButton,
   FloatRButton,
+  FloatLButton,
 } from 'styled';
 
 import postSignup from 'lib/postSignup';
@@ -22,8 +23,8 @@ const Signup = props => {
     setAppState,
   } = props;
 
-  const goToLogin = () => {
-    history.push('/login');
+  const goTo = (dest) => () => {
+    history.push(dest);
   }
 
   const onSignup = e => {
@@ -53,8 +54,10 @@ const Signup = props => {
 
   return (
     <Fragment>
+      <FloatLButton
+        onClick={goTo('/home')} >Home</FloatLButton>
       <FloatRButton
-        onClick={goToLogin} >Go To Login</FloatRButton>
+        onClick={goTo('/login')} >Go To Login</FloatRButton>
       <HVCenteredBox>
         <PageHeading>Sign Up</PageHeading>
         <LogoLabel>OPDS</LogoLabel>

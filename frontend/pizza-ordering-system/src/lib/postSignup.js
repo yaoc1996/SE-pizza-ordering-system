@@ -1,6 +1,8 @@
+import { SIGNUP } from 'const.json';
+
 function postSignup(body) {
   return (
-    fetch('/user/create', {
+    fetch(SIGNUP, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

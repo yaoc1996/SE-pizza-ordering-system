@@ -70,8 +70,8 @@ const FFInput = styled.input`
   outline: none;  
 
   :focus {
-    border: 2px solid #0288D1;
-    height: 22px;
+    border: 3px solid #0288D1;
+    height: 20px;
   }
 `
 
@@ -105,6 +105,26 @@ const FloatRButton = FormButton.extend`
   }
 `
 
+const FloatLButton = FloatRButton.extend`
+  float: left;
+  margin: 6px 0 0 6px;
+`
+
+const ClickableLabel = styled.label`
+  display: block;
+  color: #90A4AE;
+  font-weight: 700;
+  
+  :hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  :active {
+    color: #455A64;
+  }
+`
+
 export {
   HVCenteredBox,
   PageHeading,
@@ -115,5 +135,7 @@ export {
   FFLabel,
   FFInput,
   FormButton,
+  FloatLButton,
   FloatRButton,
+  ClickableLabel,
 }

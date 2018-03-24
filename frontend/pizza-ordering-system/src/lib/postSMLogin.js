@@ -1,8 +1,8 @@
-import { LOGIN } from 'const.json';
+import { SMLOGIN } from 'const.json';
 
-function postLogin(body) {
+function postSMLogin(body) {
   return (
-    fetch(LOGIN, {
+    fetch(SMLOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -14,4 +14,4 @@ function postLogin(body) {
   )
 }
 
-export default postLogin;
+export default postSMLogin;

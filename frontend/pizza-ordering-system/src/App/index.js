@@ -4,6 +4,8 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 import Home from './Routes/Home';
 import Login from './Routes/Login';
 import Signup from './Routes/Signup';
+import SMLogin from './Routes/StoreManager/Login';
+import SMSignup from './Routes/StoreManager/Signup';
 
 import {
   AppView,
@@ -16,7 +18,7 @@ class App extends Component {
 
     this.state = {
       user: null,
-      redirectDest: '/',
+      redirectDest: '/home',
     }
 
     this.setAppState = this.setAppState.bind(this);
@@ -38,11 +40,12 @@ class App extends Component {
   render() {
     const {
       setAppState,
-      redirect
+      redirect,
     } = this;
 
     const {
       user,
+      redirectDest,
     } = this.state;
 
     return (
@@ -50,6 +53,7 @@ class App extends Component {
         <MainView>
 
           <Switch>
+
             <Route 
               exact
               path='/login'
@@ -57,8 +61,10 @@ class App extends Component {
                 <Login
                   setAppState={setAppState}
                   redirect={redirect}
+                  redirectDest={redirectDest}
                   { ...props } />
               } />
+
             <Route 
               exact
               path='/signup'
@@ -66,9 +72,23 @@ class App extends Component {
                 <Signup
                   setAppState={setAppState}
                   redirect={redirect}
+                  redirectDest={redirectDest}
                   { ...props } />
               } />
-            <Route path='/home' component={Home} />            
+
+            <Route 
+              exact
+              path='/storemanager/signup'
+              component={SMSignup} />
+
+            <Route 
+              exact
+              path='/storemanager/login'
+              component={SMLogin} />
+
+            <Route path='/home' component={Home} />       
+
+
           </Switch>
 
         </MainView>

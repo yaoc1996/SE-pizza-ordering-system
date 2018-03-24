@@ -1,17 +1,17 @@
-import { LOGIN } from 'const.json';
+import { SMSIGNUP } from 'const.json';
 
-function postLogin(body) {
+function postSMSignup(body) {
   return (
-    fetch(LOGIN, {
+    fetch(SMSIGNUP, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     })
       .then(res => res.json())
       .catch(e => console.log(e))
   )
 }
 
-export default postLogin;
+export default postSMSignup;
