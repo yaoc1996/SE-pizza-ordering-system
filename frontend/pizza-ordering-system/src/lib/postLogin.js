@@ -1,6 +1,8 @@
+import { LOGIN } from 'const.json';
+
 function postLogin(body) {
   return (
-    fetch('/user/login', {
+    fetch(LOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
