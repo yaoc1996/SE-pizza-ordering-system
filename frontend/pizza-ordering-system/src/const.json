@@ -1,0 +1,6 @@
+{
+  "LOGIN": "/user/login",
+  "SIGNUP": "/user/signup",
+  "SMLOGIN": "/storemanager/login",
+  "SMSIGNUP": "/storemanager/signup"
+}
