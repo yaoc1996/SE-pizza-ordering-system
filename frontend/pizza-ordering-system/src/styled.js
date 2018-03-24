@@ -70,8 +70,8 @@ const FFInput = styled.input`
   outline: none;  
 
   :focus {
-    border: 2px solid #0288D1;
-    height: 22px;
+    border: 3px solid #0288D1;
+    height: 20px;
   }
 `
 
