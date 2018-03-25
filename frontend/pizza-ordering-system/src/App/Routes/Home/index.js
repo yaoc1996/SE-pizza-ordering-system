@@ -31,11 +31,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        stores: fakeLocations,
-      })
-    }, 3000);
   }
 
   render() {
@@ -50,8 +45,16 @@ class Home extends Component {
       <HomeView>
         <HeaderView>
           <FloatRButton
+            color='#455A64'
+            background='#CFD8DC'
+            hover='#90A4AE'
+            active='white' 
             onClick={goTo('signup')} >Sign Up</FloatRButton>
           <FloatRButton
+            color='#455A64'
+            background='#CFD8DC'
+            hover='#90A4AE'
+            active='white' 
             onClick={goTo('login')} >Login</FloatRButton>
           <SearchBox
             id='search-box'
