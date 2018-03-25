@@ -20,11 +20,19 @@ function createApiSrc(url, params) {
 
 function loadGoogleMaps(url, params) {
   var ref = window.document.getElementsByTagName('script')[0];
-  var scriptTag = window.document.createElement('script');
-  scriptTag.src = createApiSrc(url, params);
-  scriptTag.async = true;
-  scriptTag.defer = true;
-  ref.parentNode.insertBefore(scriptTag, ref);
+  if (!window.document.getElementById('google-maps')) {
+    var scriptTag = window.document.createElement('script');
+  
+    scriptTag.id = 'google-maps';
+    scriptTag.src = createApiSrc(url, params);
+    scriptTag.async = true;
+    scriptTag.defer = true;
+    ref.parentNode.insertBefore(scriptTag, ref);
+
+    return true;
+  }
+
+  return false;
 }
 
 export default loadGoogleMaps;

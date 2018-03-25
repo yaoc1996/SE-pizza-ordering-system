@@ -1,7 +1,6 @@
 function initGoogleMaps(mapCenter) {
   const { google } = window;
   const mapDiv = document.getElementById('map');
-
   const map = new google.maps.Map(mapDiv, {
     zoom: 14,
     center: mapCenter,
