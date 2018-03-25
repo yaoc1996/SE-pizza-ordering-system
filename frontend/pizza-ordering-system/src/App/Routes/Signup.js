@@ -3,8 +3,7 @@ import React, { Fragment } from 'react';
 import {
   HVCenteredBox,
   PageHeading,
-  LogoLabel,
-  AppNameLabel,
+  Label,
   Form,
   FormField,
   FFLabel,
@@ -55,13 +54,23 @@ const Signup = props => {
   return (
     <Fragment>
       <FloatLButton
+        color='#455A64'
+        background='#CFD8DC'
+        hover='#90A4AE'
+        active='white' 
         onClick={goTo('/home')} >Home</FloatLButton>
       <FloatRButton
+        color='#455A64'
+        background='#CFD8DC'
+        hover='#90A4AE'
+        active='white' 
         onClick={goTo('/login')} >Go To Login</FloatRButton>
       <HVCenteredBox>
-        <PageHeading>Sign Up</PageHeading>
-        <LogoLabel>OPDS</LogoLabel>
-        <AppNameLabel>Online Pizza Delivery System</AppNameLabel>
+        <PageHeading>Signup</PageHeading>
+        <Label>OPDS</Label>
+        <Label
+          color='#ddd'
+          fontSize='12px' >Online Pizza Delivery System</Label>
         <Form
           onSubmit={onSignup} >
           <FormField>
@@ -92,7 +101,11 @@ const Signup = props => {
               name='password'
               required />
           </FormField>
-          <FormButton>Signup</FormButton>
+          <FormButton
+            color='white'
+            background='#64B5F6'
+            hover='#0277BD'
+            active='#333' >Signup</FormButton>
         </Form>
       </HVCenteredBox>
     </Fragment>

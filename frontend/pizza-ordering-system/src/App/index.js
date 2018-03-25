@@ -6,6 +6,7 @@ import Login from './Routes/Login';
 import Signup from './Routes/Signup';
 import SMLogin from './Routes/StoreManager/Login';
 import SMSignup from './Routes/StoreManager/Signup';
+import SMDash from './Routes/StoreManager/Dash';
 
 import {
   AppView,
@@ -85,6 +86,11 @@ class App extends Component {
               exact
               path='/storemanager/login'
               component={SMLogin} />
+
+            <Route 
+              exact
+              path='/storemanager/dash'
+              component={SMDash} />
 
             <Route path='/home' component={Home} />       
 

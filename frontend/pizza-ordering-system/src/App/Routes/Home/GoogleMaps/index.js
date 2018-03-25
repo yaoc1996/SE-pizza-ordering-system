@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import loadGoogleMaps from 'lib/loadGoogleMaps';
-import initGoogleMaps from 'lib/initGoogleMaps';
-import initSearchBox from 'lib/initSearchBox';
-import initStoreMarkers from 'lib/initStoreMarkers';
+import {
+  loadGoogleMaps,
+  initGoogleMaps,
+  initSearchBox,
+  initStoreMarkers,
+} from 'lib';
 
 import {
   Map,
@@ -41,7 +43,7 @@ class GoogleMaps extends Component {
 
   componentDidMount() {
     window.googleMapsApiCallback = this.googleMapsApiCallback;
-    loadGoogleMaps(url, params);
+    if (!loadGoogleMaps(url, params)) this.googleMapsApiCallback();
   }
   
   componentWillReceiveProps(props) {
@@ -62,18 +64,18 @@ class GoogleMaps extends Component {
   }
   
   googleMapsApiCallback() {
-    this.setState({ loadingMap: false });
-    
-    const { map, marker } = initGoogleMaps(midTownManhattanCoords);
-    this.map = map;
-    this.marker = marker;
-    this.searchBox = initSearchBox(
-      'search-box',
-      this.map, 
-      this.reAdjustMarker, 
-      this.reAdjustCenter,
-      this.setMapZoom,
-    );
+    this.setState({ loadingMap: false }, () => {
+      const { map, marker } = initGoogleMaps(midTownManhattanCoords);
+      this.map = map;
+      this.marker = marker;
+      this.searchBox = initSearchBox(
+        'search-box',
+        this.map, 
+        this.reAdjustMarker, 
+        this.reAdjustCenter,
+        this.setMapZoom,
+      );
+    });
   }
 
   reAdjustMarker(latLng) {

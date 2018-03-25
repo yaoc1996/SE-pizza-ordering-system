@@ -26,6 +26,10 @@ body {
   text-align: center;
 }
 
+li {
+  font-size: 12px;
+}
+
 .gm-style-iw {
   text-align: left;
 }

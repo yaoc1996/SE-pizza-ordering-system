@@ -13,19 +13,17 @@ const PageHeading = styled.h1`
   margin: 36px 0;
 `
 
-const LogoLabel = styled.label`
-  color: #333;
-  font-size: 18px;
-  font-weight: 700;
-  margin: 12px 0;
-`
-
-const AppNameLabel = styled.label`
+const Label = styled.label.attrs({
+  style: ({ fontSize, color }) => ({
+    fontSize: fontSize || 18,
+    color: color || '#333'
+  })
+})`
   display: block;
-  color: #ddd;
-  font-size: 12px;
+  height: 14px;
   font-weight: 700;
-  margin: 12px 0;  
+  margin: 12px 18px;
+  vertical-align: top;
 `
 
 const Form = styled.form`
@@ -76,33 +74,32 @@ const FFInput = styled.input`
 `
 
 const FormButton = styled.button`
-  padding: 12px 24px;
-  color: #0277BD;
-  background: #E3F2FD;
+  padding: 0px 12px;
+  height: 36px;
   border: 0;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 700;
   outline: none;
+  ${({ color, background, hover, active, fontSize, width, height }) => `
+    font-size: ${fontSize || '12px'};
+    height: ${height || '36px'};
+    color: ${color};
+    background: ${background};
 
-  :hover {
-    background: #64B5F6;
-  }
+    :hover {
+      background: ${hover};
+    }
 
-  :active {
-    color: white;
-  }
+    :active {
+      color: ${active}
+    }
+  `}
 `
 
 const FloatRButton = FormButton.extend`
   float: right;
-  color: #455A64;
-  background: #CFD8DC;
   margin: 6px 6px 0 0;
-
-  :hover {
-    background: #90A4AE;
-  }
 `
 
 const FloatLButton = FloatRButton.extend`
@@ -111,25 +108,83 @@ const FloatLButton = FloatRButton.extend`
 `
 
 const ClickableLabel = styled.label`
-  display: block;
-  color: #90A4AE;
-  font-weight: 700;
+  color: #1976D2;
+  font-weight: 600;
+  font-size: 12;
   
   :hover {
-    text-decoration: underline;
     cursor: pointer;
+    color: #42A5F5;
   }
 
   :active {
-    color: #455A64;
+    color: #0D47A1;
   }
+`
+
+const DashHeader = styled.div`
+  display: flex;
+  width: 100%;
+  height: 72px;
+  text-align: left;
+`
+
+const InlineCell = styled.div.attrs({
+  style: ({ width, height, top, left, right, bottom, background }) => {
+    const hOffset = 0 + left || 0 + right || 0;
+    const vOffset = 0 + top || 0 + bottom || 0;
+    width = width || '100%';
+    height = height || 'auto';
+
+    return {
+      width: `calc(${width} - ${hOffset}px)`,
+      height: `calc(${height} - ${vOffset}px)`,
+      borderTop: top && '1px solid #dfdfdf',
+      borderLeft: left && '1px solid #dfdfdf',
+      borderRight: right && '1px solid #dfdfdf',
+      borderBottom: bottom && '1px solid #dfdfdf',
+      background: background || 'transparent',
+    }
+  }
+})`
+  display: inline-table;
+  position: relative;
+  text-align: left;
+  vertical-align: top;
+  overflow-y: auto;
+  overflow-x: hidden;
+`
+
+const DropDownIcon = styled.i.attrs({
+  className: 'material-icons',
+})`
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 32px;
+  width: 37px;
+  height: 37px;
+  line-height: 42px;
+  margin: auto;
+  color: #90A4AE;
+  font-weight: 700;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+`
+
+const RequestBox = styled.div`
+  width: calc(100% - 24px);
+  height: 100%;
+  padding: 6px 12px;
 `
 
 export {
   HVCenteredBox,
   PageHeading,
-  LogoLabel,
-  AppNameLabel,
+  Label,
   Form,
   FormField,
   FFLabel,
@@ -138,4 +193,8 @@ export {
   FloatLButton,
   FloatRButton,
   ClickableLabel,
+  DashHeader,
+  InlineCell,
+  DropDownIcon,
+  RequestBox,
 }
