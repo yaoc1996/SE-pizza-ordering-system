@@ -21,7 +21,7 @@ const Feedback = props => {
 
   return (
     <ListBox
-      background={positive ? '#E8F5E9' : '#FFEBEE'}
+      background='white'
       last={last} >
       <Label
         color='#455A64'
@@ -30,7 +30,7 @@ const Feedback = props => {
       <PaddingBox>
         <label
           style={{
-            color: '#666',
+            color: positive ? '#66BB6A' : '#EF5350',
           }} >{ children.msg }</label>
       </PaddingBox>
     </ListBox>
