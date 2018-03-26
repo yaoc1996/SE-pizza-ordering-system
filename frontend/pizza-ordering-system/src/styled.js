@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 const HVCenteredBox = styled.div`
+  z-index: 999;
   position: absolute;
   top: 50%;
   left: 50%;
+  background: white;  
   transform: translate(-50%, -50%);
 `
 
@@ -19,10 +21,8 @@ const Label = styled.label.attrs({
     color: color || '#333'
   })
 })`
-  display: block;
   height: 14px;
   font-weight: 700;
-  margin: 12px 18px;
   vertical-align: top;
 `
 
@@ -31,7 +31,6 @@ const Form = styled.form`
   min-width: 376px;
   max-width: 420px;
   margin: auto;
-  margin-bottom: 36px;
 `
 
 const FormField = styled.div`
@@ -41,7 +40,7 @@ const FormField = styled.div`
   
   :first-of-type {
     border-top: 1px solid #ddd;
-    margin-top: 72px;
+    margin-top: 36px;
   }
 
   :last-of-type {
@@ -78,7 +77,6 @@ const FormButton = styled.button`
   height: 36px;
   border: 0;
   border-radius: 6px;
-  font-size: 12px;
   font-weight: 700;
   outline: none;
   ${({ color, background, hover, active, fontSize, width, height }) => `
@@ -99,12 +97,11 @@ const FormButton = styled.button`
 
 const FloatRButton = FormButton.extend`
   float: right;
-  margin: 6px 6px 0 0;
+  margin: 6px;
 `
 
 const FloatLButton = FloatRButton.extend`
   float: left;
-  margin: 6px 0 0 6px;
 `
 
 const ClickableLabel = styled.label`
@@ -123,44 +120,36 @@ const ClickableLabel = styled.label`
 `
 
 const DashHeader = styled.div`
-  display: flex;
+  position: relative;
   width: 100%;
-  height: 72px;
   text-align: left;
 `
 
-const InlineCell = styled.div.attrs({
-  style: ({ width, height, top, left, right, bottom, background }) => {
-    const hOffset = 0 + left || 0 + right || 0;
-    const vOffset = 0 + top || 0 + bottom || 0;
-    width = width || '100%';
-    height = height || 'auto';
-
-    return {
-      width: `calc(${width} - ${hOffset}px)`,
-      height: `calc(${height} - ${vOffset}px)`,
-      borderTop: top && '1px solid #dfdfdf',
-      borderLeft: left && '1px solid #dfdfdf',
-      borderRight: right && '1px solid #dfdfdf',
-      borderBottom: bottom && '1px solid #dfdfdf',
-      background: background || 'transparent',
-    }
-  }
+const InlineBlock = styled.div.attrs({
+  style: ({ width, height, background }) => ({
+    width: width || '100%',
+    height: height || 'auto',
+    background: background || 'transparent',
+  })
 })`
-  display: inline-table;
+  display: inline-block;
   position: relative;
+  margin: 0;
   text-align: left;
   vertical-align: top;
   overflow-y: auto;
   overflow-x: hidden;
 `
 
-const DropDownIcon = styled.i.attrs({
-  className: 'material-icons',
+const Block = InlineBlock.extend`
+  display: block;
+  overflow: hidden;
+`
+
+const MaterialIcon = styled.i.attrs({
+  className: 'material-icons no-select',
 })`
-  position: absolute;
-  top: 0;
-  right: 0;
+  display: inline-block;
   font-size: 32px;
   width: 37px;
   height: 37px;
@@ -175,10 +164,71 @@ const DropDownIcon = styled.i.attrs({
   }
 `
 
-const RequestBox = styled.div`
+const ListBox = styled.div`
+  position: relative;
   width: calc(100% - 24px);
-  height: 100%;
   padding: 6px 12px;
+  border-bottom: ${({ last }) => 
+    !last && '1px solid rgba(0, 0, 0, 0.05)'
+  };
+`
+
+const PaddingBox = styled.div`
+  display: inline-block;
+  width: auto;
+  padding: 6px 12px;
+  vertical-align: top;
+`
+
+const MarginBox = styled.div`
+  display: inline-block;
+  width: auto;
+  margin: 12px 24px;
+  vertical-align: top;  
+`
+
+const HR = styled.div`
+  z-index: 9999;
+  display: block;
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0;
+  vertical-align: top;
+`
+
+const VR = styled.div`
+  z-index: 9999;
+  display: inline-block;
+  height: 100%;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0;
+  vertical-align: top;
+`
+
+const Input = styled.input.attrs({
+  style: ({ width, height, color, border }) => ({
+    width: width || 'calc(100% - 38px)',
+    height: height || '24px',
+    color: color || '#333',
+  })
+})`
+  margin: 6px;
+  background: white;
+  color: #455A64;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  :focus {
+    border: 1px solid ${({ color }) => color || '#333'};
+  }
+
+  ::placeholder {
+    color: #bbb;
+    font-weight: 500;
+  }
 `
 
 export {
@@ -194,7 +244,13 @@ export {
   FloatRButton,
   ClickableLabel,
   DashHeader,
-  InlineCell,
-  DropDownIcon,
-  RequestBox,
+  InlineBlock,
+  Block,
+  MaterialIcon,
+  ListBox,
+  PaddingBox,
+  MarginBox,
+  HR,
+  VR,
+  Input,
 }

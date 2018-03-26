@@ -57,6 +57,7 @@ const Signup = props => {
         <PageHeading
           style={{ color: '#F8BBD0' }} >Signup</PageHeading>
         <Label>Become a Store Manager!</Label>
+        <br /><br />
         <Label
           color='#ddd'
           fontSize='12px' >Online Pizza Delivery System</Label>
