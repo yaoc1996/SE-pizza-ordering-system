@@ -66,6 +66,7 @@ const Login = props => {
       <HVCenteredBox>
         <PageHeading>Login</PageHeading>
         <Label>OPDS</Label>
+        <br /><br />
         <Label
           fontSize='12px'
           color='#ddd' >Online Pizza Delivery System</Label>

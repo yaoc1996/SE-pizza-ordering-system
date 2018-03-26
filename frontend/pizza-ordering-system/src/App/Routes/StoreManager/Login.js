@@ -53,6 +53,7 @@ const Login = props => {
         <PageHeading
           style={{ color: '#F8BBD0' }} >Login</PageHeading>
         <Label>Welcome Back</Label>
+        <br /><br />
         <Label
           color='#ddd'
           fontSize='12px' >Online Pizza Delivery System</Label>
