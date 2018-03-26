@@ -1,6 +1,6 @@
 var modules = {};
 
-const req = require.context('components', false, /\.js/);
+const req = require.context('/', false, /\.js/);
 
 req
   .keys()
@@ -11,7 +11,7 @@ req
   .map(item => {
     const module = req(item);
     modules[item.replace(/\.\/|\.js/g, '')] = module.default || module;
-    return;
+    return module;
   })
 
 module.exports = modules;

@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from 'react';
 
 import {
-  InlineCell,
-  DropDownIcon,
+  InlineBlock,
+  Block,
+  MarginBox,
+  MaterialIcon,
   Label,
+  HR,
 } from 'styled';
 
 class DropDown extends Component {
@@ -31,27 +34,34 @@ class DropDown extends Component {
       color,
       fontSize,
       children,
-      bottom,
     } = this.props;
 
     return (
       <Fragment>
-        <InlineCell
-          background='white'
-          bottom >
-          <DropDownIcon
-            onClick={toggle} 
-            fontSize={fontSize} >
+        <HR />
+        <Block
+          onClick={toggle}           
+          background='white'>
+          <MaterialIcon
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+            }}>
             { collapsed ? 'arrow_drop_up' : 'arrow_drop_down' }
-          </DropDownIcon>
-          <Label
-            fontSize={fontSize} >{ name }</Label>
-        </InlineCell>
+          </MaterialIcon>
+          <MarginBox>
+            <Label
+              fontSize={fontSize} >{ name }</Label>
+          </MarginBox>
+        </Block>
         {
           !collapsed && children &&
-          <InlineCell
-            bottom={bottom} >{ children }</InlineCell>
-        }   
+          <Fragment>
+            <HR />
+            { children }
+          </Fragment>
+        }
       </Fragment>
     )
   }
@@ -64,5 +74,4 @@ DropDown.defaultProps = {
   color: '#333',
   fontSize: 12,
   collapsed: false,
-  bottom: true,
 }

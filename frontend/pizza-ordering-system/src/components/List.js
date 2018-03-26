@@ -1,30 +1,100 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 
 import {
   Label,
 } from 'styled';
 
-const List = ({ list, color, fontSize, listStyleType, Component }) =>
-  <ul
-    style={{
-      listStyleType,
-      paddingLeft: listStyleType === 'none' ? 0 : 40,
-      margin: listStyleType === 'none' ? 0 : '12px 0',
-    }} >
-    {
-      _.map(list, (item, id) =>
-        <li key={id} >
-          <Component children={item} />
-        </li>
-      )
+class List extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      selected: null,
     }
-  </ul>
+
+    this.select = this.select.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.list !== this.props.list;
+  }
+
+  select(id) {
+    return () => {
+      const { selected } = this.state;
+      const { 
+        setSelect,
+        name,
+      } = this.props;
+
+      if (selected !== null) {
+        const prev = document.getElementById(`${name}-${selected}`)
+        prev.style.background = 'transparent';
+      }
+
+      const next = document.getElementById(`${name}-${id}`)      
+      next.style.background = '#E3F2FD';
+
+      this.setState({
+        selected: id,
+      })
+
+      setSelect(id);
+    }
+  }
+
+  render() {
+    console.log('rendering List');    
+    const { select } = this;
+    const {
+      name,
+      list,
+      color, 
+      fontSize, 
+      listStyleType, 
+      ListItem, 
+      inline,
+      setSelect,
+    } = this.props;
+
+    return (
+      <ul
+        style={{
+          listStyleType,
+          paddingLeft: listStyleType !== 'none' ? 40 : 0,
+          margin: listStyleType !== 'none' ? '12px 0' : 0,
+        }} >
+        {
+          _.map(list, (item, id) =>
+            <li
+              id={`${name}-${id}`}
+              onClick={select(id)}
+              key={id}
+              style={{
+                display: inline ? 'inline' : 'list-item',
+                background: 'transparent',
+              }} >
+              <ListItem 
+                last={id === list.length-1}
+                children={item} />
+            </li>
+          )
+        }
+      </ul>
+    )
+  }
+}
 
 List.defaultProps = {
+  name: '',
+  list: [],
   color: '#333',
-  fontSize: 12,
-  Component: Label,
+  fonSize: '12px',
+  listStyleType: 'initial',
+  ListItem: Label,
+  inline: false,
+  setSelect: () => null,
 }
 
 export default List;
