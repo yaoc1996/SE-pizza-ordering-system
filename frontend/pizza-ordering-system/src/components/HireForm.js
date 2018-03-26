@@ -13,6 +13,7 @@ import {
   Input,
   Block,
   MaterialIcon,
+  HVCenteredBox,
 } from 'styled';
 import List from './List';
 
@@ -56,17 +57,18 @@ class HireForm extends Component {
     } = this.props;
     
     return (
-      <MarginBox>
+      <HVCenteredBox style={{ borderRadius: 12 }} >
         <Form 
           onSubmit={onOffer}
           style={{ textAlign: 'left' }} >
-          <PaddingBox>
+          <MarginBox>
             <Label
               fontSize='14px'
               color='#455A64' >
               Search for { type[0].toUpperCase() + type.substr(1) }
             </Label>
-          </PaddingBox>
+          </MarginBox>
+          <HR />
           <br />
           <div 
             style={{ 
@@ -78,8 +80,7 @@ class HireForm extends Component {
           </div>
           <Input
             width='calc(100% - 96px)'
-            placeholder='Enter a name'
-            autoFocus />
+            placeholder='Enter a name' />
           <br /><br />
           
           <div
@@ -106,8 +107,7 @@ class HireForm extends Component {
           <Block>
             {
               selected !== null &&
-              <Fragment>
-                <HR />
+              <PaddingBox>
                 <FloatLButton
                   color='white'
                   hover='#388E3C'
@@ -121,11 +121,11 @@ class HireForm extends Component {
                   required
                   autoFocus />
                 / hour
-              </Fragment>
+              </PaddingBox>
             }
           </Block>
         </Form>
-      </MarginBox>
+      </HVCenteredBox>
     )
   }
 }

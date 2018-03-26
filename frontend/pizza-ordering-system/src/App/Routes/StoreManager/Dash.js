@@ -20,6 +20,7 @@ import {
   PendingOrder,
   EditStoreForm,
   HireForm,
+  Feedback,
 } from 'components';
 
 import {
@@ -37,6 +38,7 @@ class Dash extends Component {
       delivery: sampleDelivery,
       requests: sampleCooks,
       orders: sampleOrders,
+      feedback: sampleFeedback,
       isMobile: window.innerWidth < 480,
     }
 
@@ -106,6 +108,7 @@ class Dash extends Component {
       delivery,
       requests,
       orders,
+      feedback,
       isMobile,
     } = this.state;
 
@@ -252,9 +255,9 @@ class Dash extends Component {
                 menu.length > 0 &&
                 <List
                   name='feedback'
-                  list={menu}
+                  list={feedback}
                   listStyleType='none'
-                  ListItem={Label} />
+                  ListItem={Feedback} />
               }
             </DropDown>
 
@@ -339,3 +342,21 @@ const sampleStore = {
   address: '123 abc st',
   manager: 'John Connor',
 }
+
+const sampleFeedback = [
+  {
+    name: 'John',
+    msg: 'the pepperoni pizza was delicious!',
+    positive: true,
+  },
+  {
+    name: 'Kenny',
+    msg: 'the italian pizza was delicious!',
+    positive: true,
+  },
+  {
+    name: 'Alex',
+    msg: 'the pineapple pizza was disgusting...',
+    positive: false,
+  },
+]
