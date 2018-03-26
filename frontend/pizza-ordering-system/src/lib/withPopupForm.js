@@ -75,9 +75,7 @@ function withPopupForm(Wrapping) {
             selected &&
             <Fragment>
               <Mask onClick={setForm(null)}/>
-              <HVCenteredBox>
                 <Form />
-              </HVCenteredBox>
             </Fragment>
           }
           <Blurrable
@@ -104,5 +102,5 @@ const Mask = styled.div`
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
 `
