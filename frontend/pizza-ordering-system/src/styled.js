@@ -164,13 +164,15 @@ const MaterialIcon = styled.i.attrs({
   }
 `
 
-const ListBox = styled.div`
+const ListBox = styled.div.attrs({
+  style: ({ last, background }) => ({
+    borderBottom: !last && '1px solid rgba(0, 0, 0, 0.05',
+    background: background || 'transparent',
+  })
+})`
   position: relative;
   width: calc(100% - 24px);
   padding: 6px 12px;
-  border-bottom: ${({ last }) => 
-    !last && '1px solid rgba(0, 0, 0, 0.05)'
-  };
 `
 
 const PaddingBox = styled.div`
