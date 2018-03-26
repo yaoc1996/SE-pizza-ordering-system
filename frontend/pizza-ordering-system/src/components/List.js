@@ -28,19 +28,21 @@ class List extends Component {
         name,
       } = this.props;
 
-      if (selected !== null) {
-        const prev = document.getElementById(`${name}-${selected}`)
-        prev.style.background = 'transparent';
+      if (setSelect) {
+        if (selected !== null) {
+          const prev = document.getElementById(`${name}-${selected}`)
+          prev.style.background = 'transparent';
+        }
+  
+        const next = document.getElementById(`${name}-${id}`)      
+        next.style.background = '#E3F2FD';
+  
+        this.setState({
+          selected: id,
+        })
+  
+        setSelect(id);
       }
-
-      const next = document.getElementById(`${name}-${id}`)      
-      next.style.background = '#E3F2FD';
-
-      this.setState({
-        selected: id,
-      })
-
-      setSelect(id);
     }
   }
 
@@ -94,7 +96,6 @@ List.defaultProps = {
   listStyleType: 'initial',
   ListItem: Label,
   inline: false,
-  setSelect: () => null,
 }
 
 export default List;
