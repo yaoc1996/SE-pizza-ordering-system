@@ -8,10 +8,9 @@ req
     file.substr(file.length-3, 3) === '.js' 
     && file !== './index.js'
   )
-  .map(item => {
+  .forEach(item => {
     const module = req(item);
     modules[item.replace(/\.\/|\.js/g, '')] = module.default || module;
-    return module;
   })
 
 module.exports = modules;
