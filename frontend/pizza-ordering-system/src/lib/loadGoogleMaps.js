@@ -19,20 +19,26 @@ function createApiSrc(url, params) {
 }
 
 function loadGoogleMaps(url, params) {
-  var ref = window.document.getElementsByTagName('script')[0];
-  if (!window.document.getElementById('google-maps')) {
-    var scriptTag = window.document.createElement('script');
-  
-    scriptTag.id = 'google-maps';
-    scriptTag.src = createApiSrc(url, params);
-    scriptTag.async = true;
-    scriptTag.defer = true;
-    ref.parentNode.insertBefore(scriptTag, ref);
+  if (!document.getElementById('google-maps')) {
+    var ref = document.getElementsByTagName('script')[0];
+    var script = document.createElement('script');
 
-    return true;
+    Object.assign(script, {
+      src: createApiSrc(url, params),
+      id: 'google-maps',
+      async: true,
+      defer: true,
+    })
+
+    ref.parentNode.insertBefore(script, ref);
+
+    return new Promise(resolve => {
+      script.addEventListener('load', resolve);
+    })
+
+  } else {
+    return new Promise(resolve => resolve());
   }
-
-  return false;
 }
 
 export default loadGoogleMaps;
