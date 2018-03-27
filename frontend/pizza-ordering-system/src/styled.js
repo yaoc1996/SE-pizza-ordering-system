@@ -18,7 +18,7 @@ const PageHeading = styled.h1`
 const Label = styled.label.attrs({
   style: ({ fontSize, color }) => ({
     fontSize: fontSize || 18,
-    color: color || '#333'
+    color: color || '#333',
   })
 })`
   height: 14px;
@@ -151,8 +151,8 @@ const MaterialIcon = styled.i.attrs({
 })`
   display: inline-block;
   font-size: 32px;
-  width: 37px;
-  height: 37px;
+  width: 36px;
+  height: 36px;
   line-height: 42px;
   margin: auto;
   color: #90A4AE;
@@ -210,7 +210,7 @@ const VR = styled.div`
 const Input = styled.input.attrs({
   style: ({ width, height, color, border }) => ({
     width: width || 'calc(100% - 38px)',
-    height: height || '24px',
+    height: height || '30px',
     color: color || '#333',
   })
 })`
