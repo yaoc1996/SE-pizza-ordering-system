@@ -1,27 +1,25 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   HVCenteredBox,
   PageHeading,
   Label,
-  Form,
-  FormField,
-  FFLabel,
-  FFInput,
-  FormButton,
   FloatRButton,
 } from 'styled';
 
-import postSMSignup from 'lib/postSMSignup';
+import { 
+  postSMSignup
+} from 'lib';
+
+import {
+  SignupForm,
+} from 'components';
 
 const Signup = props => {
   const {
     history,
   } = props;
-
-  const goTo = (dest) => () => {
-    history.push(dest);
-  }
 
   const onSignup = e => {
     e.preventDefault();
@@ -47,57 +45,27 @@ const Signup = props => {
 
   return (
     <Fragment>
-      <FloatRButton
-        color='#455A64'
-        background='#CFD8DC'
-        hover='#90A4AE'
-        active='white' 
-        onClick={goTo('/storemanager/login')}>Log In as a Store Manager</FloatRButton>
+      <Link to='/storemanager/login'>
+        <FloatRButton
+          color='white'
+          background='#EC407A'
+          hover='#F48FB1'
+          active='#333' >Login</FloatRButton>
+      </Link>
       <HVCenteredBox>
         <PageHeading
-          style={{ color: '#F8BBD0' }} >Signup</PageHeading>
+          color='#EC407A' >Signup</PageHeading>
         <Label>Become a Store Manager!</Label>
         <br /><br />
         <Label
           color='#ddd'
           fontSize='12px' >Online Pizza Delivery System</Label>
-        <Form
-          onSubmit={onSignup} >
-          <FormField>
-            <FFLabel>Firstname:</FFLabel>
-            <FFInput
-              autoFocus
-              type='text'
-              name='firstname'
-              required />
-          </FormField>
-          <FormField>
-            <FFLabel>Lastname:</FFLabel>
-            <FFInput
-              type='text'
-              name='lastname'
-              required />
-          </FormField>
-          <FormField>
-            <FFLabel>Email:</FFLabel>
-            <FFInput
-              type='text'
-              name='email'
-              required />
-          </FormField>
-          <FormField>
-            <FFLabel>Password:</FFLabel>
-            <FFInput
-              type='password'
-              name='password'
-              required />
-          </FormField>
-          <FormButton
-            color='white'
-            background='#64B5F6'
-            hover='#0277BD'
-            active='#333' >Signup</FormButton>
-        </Form>
+        <SignupForm
+          onSubmit={onSignup}
+          color='white'
+          background='#EC407A'
+          hover='#F48FB1'
+          active='#333' />
       </HVCenteredBox>
     </Fragment>
   )

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   Input,
@@ -163,20 +164,20 @@ class Home extends Component {
           </div>
           <PaddingBox
             style={{ float: 'right' }}>
-            <FloatRButton
-              height='30px'
-              color='#455A64'
-              background='#CFD8DC'
-              hover='#90A4AE'
-              active='white'
-              onClick={goTo('signup')} >Sign Up</FloatRButton>
-            <FloatRButton
-              height='30px'
-              color='#455A64'
-              background='#CFD8DC'
-              hover='#90A4AE'
-              active='white' 
-              onClick={goTo('login')} >Login</FloatRButton>
+            <Link to='/login'>
+              <FloatRButton
+                color='white'
+                background='#303F9F'
+                hover='#5C6BC0'
+                active='#333' >Login</FloatRButton>
+            </Link>
+            <Link to='/signup'>
+              <FloatRButton
+                color='white'
+                background='#303F9F'
+                hover='#5C6BC0'
+                active='#333' >Signup</FloatRButton>
+            </Link>
           </PaddingBox>
         </DashHeader>
         <Block

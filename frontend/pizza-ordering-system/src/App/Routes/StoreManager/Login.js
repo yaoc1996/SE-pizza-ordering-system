@@ -1,28 +1,26 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   HVCenteredBox,
   PageHeading,
   Label,
-  Form,
-  FormField,
-  FFLabel,
-  FFInput,
-  FormButton,
   FloatRButton,
 } from 'styled';
 
-import postSMLogin from 'lib/postSMLogin';
+import { 
+  postSMLogin,
+} from 'lib';
+
+import {
+  LoginForm,
+} from 'components';
 
 const Login = props => {
   const {
     history,
   } = props;
-
-  const goTo = dest => () => {
-    history.push(dest);
-  }
-
+  
   const onLogin = e => {
     e.preventDefault();
     
@@ -43,43 +41,28 @@ const Login = props => {
 
   return (
     <Fragment>
-      <FloatRButton
-        color='#455A64'
-        background='#CFD8DC'
-        hover='#90A4AE'
-        active='white' 
-        onClick={goTo('/storemanager/signup')}>Sign Up to be a Store Manager</FloatRButton>
+      <Link to='/storemanager/signup'>
+        <FloatRButton
+          color='white'
+          background='#EC407A'
+          hover='#F48FB1'
+          active='#333' >Signup</FloatRButton>
+      </Link>
       <HVCenteredBox>
         <PageHeading
-          style={{ color: '#F8BBD0' }} >Login</PageHeading>
-        <Label>Welcome Back</Label>
+          color='#EC407A' >Login</PageHeading>
+        <Label>Management Portal</Label>
         <br /><br />
         <Label
           color='#ddd'
           fontSize='12px' >Online Pizza Delivery System</Label>
-        <Form
-          onSubmit={onLogin} >
-          <FormField>
-            <FFLabel>Email:</FFLabel>
-            <FFInput
-              type='text'
-              name='email'
-              required />
-          </FormField>
-          <FormField>
-            <FFLabel>Password:</FFLabel>
-            <FFInput
-              type='password'
-              name='password'
-              required />
-          </FormField>
-          <FormButton
-            color='white'
-            background='#64B5F6'
-            hover='#0277BD'
-            active='#333' >Login</FormButton>
-        </Form>
-        </HVCenteredBox>
+        <LoginForm
+          onSubmit={onLogin}
+          color='white'
+          background='#EC407A'
+          hover='#F48FB1'
+          active='#333' />
+      </HVCenteredBox>
     </Fragment>
   )
 }

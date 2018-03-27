@@ -6,6 +6,7 @@ import Login from './Routes/Login';
 import Signup from './Routes/Signup';
 import SMLogin from './Routes/StoreManager/Login';
 import SMSignup from './Routes/StoreManager/Signup';
+import SMSetup from './Routes/StoreManager/Setup';
 import SMDash from './Routes/StoreManager/Dash';
 
 class App extends Component {
@@ -21,8 +22,17 @@ class App extends Component {
     this.redirect = this.redirect.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    this.time = Date.now();
+    const {
+      history,
+    } = this.props;
 
+    console.log(history.location);
+  }
+
+  componentDidMount() {
+    console.log(Date.now() - this.time);
   }
 
   setAppState(state) {
@@ -80,13 +90,18 @@ class App extends Component {
 
             <Route 
               exact
+              path='/storemanager/login'
+              component={SMLogin} />
+
+            <Route 
+              exact
               path='/storemanager/signup'
               component={SMSignup} />
 
             <Route 
               exact
-              path='/storemanager/login'
-              component={SMLogin} />
+              path='/storemanager/setup'
+              component={SMSetup} />
 
             <Route 
               exact
