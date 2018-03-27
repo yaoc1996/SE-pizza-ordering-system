@@ -6,6 +6,7 @@ import {
   PageHeading,
   Label,
   FloatRButton,
+  Select,
 } from 'styled';
 
 import { 
@@ -45,7 +46,7 @@ const Signup = props => {
 
   return (
     <Fragment>
-      <Link to='/storemanager/login'>
+      <Link to='/management/login'>
         <FloatRButton
           color='white'
           background='#EC407A'
@@ -55,7 +56,7 @@ const Signup = props => {
       <HVCenteredBox>
         <PageHeading
           color='#EC407A' >Signup</PageHeading>
-        <Label>Become a Store Manager!</Label>
+        <Label>Become a Part of the Management!</Label>
         <br /><br />
         <Label
           color='#ddd'
@@ -65,7 +66,15 @@ const Signup = props => {
           color='white'
           background='#EC407A'
           hover='#F48FB1'
-          active='#333' />
+          active='#333'
+          Injection={props =>
+            <Select
+              name='type' >
+              <option value='manager'>Manager</option>
+              <option value='cook'>Cook</option>
+              <option value='delivery'>Delivery</option>
+            </Select>
+          } />
       </HVCenteredBox>
     </Fragment>
   )

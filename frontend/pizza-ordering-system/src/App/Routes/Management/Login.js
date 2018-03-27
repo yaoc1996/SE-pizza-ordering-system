@@ -41,7 +41,7 @@ const Login = props => {
 
   return (
     <Fragment>
-      <Link to='/storemanager/signup'>
+      <Link to='/management/signup'>
         <FloatRButton
           color='white'
           background='#EC407A'

@@ -4,10 +4,10 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 import Home from './Routes/Home';
 import Login from './Routes/Login';
 import Signup from './Routes/Signup';
-import SMLogin from './Routes/StoreManager/Login';
-import SMSignup from './Routes/StoreManager/Signup';
-import SMSetup from './Routes/StoreManager/Setup';
-import SMDash from './Routes/StoreManager/Dash';
+import SMLogin from './Routes/Management/Login';
+import SMSignup from './Routes/Management/Signup';
+import SMSetup from './Routes/Management/StoreManager/Setup';
+import SMDash from './Routes/Management/StoreManager/Dash';
 
 class App extends Component {
   constructor() {
@@ -90,22 +90,22 @@ class App extends Component {
 
             <Route 
               exact
-              path='/storemanager/login'
+              path='/management/login'
               component={SMLogin} />
 
             <Route 
               exact
-              path='/storemanager/signup'
+              path='/management/signup'
               component={SMSignup} />
 
             <Route 
               exact
-              path='/storemanager/setup'
+              path='/management/storemanager/setup'
               component={SMSetup} />
 
             <Route 
               exact
-              path='/storemanager/dash'
+              path='/management/storemanager/dash'
               component={SMDash} />
 
             <Route path='/home' component={Home} />       

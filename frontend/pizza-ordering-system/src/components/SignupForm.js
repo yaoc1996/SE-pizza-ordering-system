@@ -8,7 +8,7 @@ import {
   FormButton,
 } from 'styled';
 
-const SignupForm = ({ onSignup, color, background, hover, active }) =>
+const SignupForm = ({ onSignup, color, background, hover, active, Injection }) =>
   <Form
     onSubmit={onSignup} >
     <FormField>
@@ -40,11 +40,18 @@ const SignupForm = ({ onSignup, color, background, hover, active }) =>
         name='password'
         required />
     </FormField>
+    <FormField>
+      <Injection />
+    </FormField>
     <FormButton
       color={color}
       background={background}
       hover={hover}
       active={active}  >Sign Up</FormButton>
   </Form>
+
+  SignupForm.defaultProps = {
+    Injection: props => null,
+  }
 
   export default SignupForm;

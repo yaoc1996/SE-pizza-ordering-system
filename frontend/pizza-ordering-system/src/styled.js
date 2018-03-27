@@ -252,6 +252,17 @@ const Input = styled.input.attrs({
   }
 `
 
+const Select = styled.select`
+  background: white;
+  padding: 6px 12px;
+  outline: none;
+
+  :focus {
+    border: 3px solid #aaa;
+    padding: 4px 10px;
+  }
+`
+
 export {
   HVCenteredBox,
   PageHeading,
@@ -275,4 +286,5 @@ export {
   HR,
   VR,
   Input,
+  Select,
 }
