@@ -8,11 +8,6 @@ import SMLogin from './Routes/StoreManager/Login';
 import SMSignup from './Routes/StoreManager/Signup';
 import SMDash from './Routes/StoreManager/Dash';
 
-import {
-  AppView,
-  MainView,
-} from './styled';
-
 class App extends Component {
   constructor() {
     super();
@@ -45,13 +40,19 @@ class App extends Component {
     } = this;
 
     const {
-      user,
       redirectDest,
     } = this.state;
 
     return (
-      <AppView>
-        <MainView>
+      <div
+        style={{
+          position: 'relative',
+          minWidth: 400,
+          width: '100vw',
+          height: '100vh',
+          fontSize: 12,  
+          overflow: 'hidden',
+        }} >
 
           <Switch>
 
@@ -97,8 +98,7 @@ class App extends Component {
 
           </Switch>
 
-        </MainView>
-      </AppView>
+      </div>
     );
   }
 }

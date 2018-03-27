@@ -52,12 +52,9 @@ class List extends Component {
     const {
       name,
       list,
-      color, 
-      fontSize, 
       listStyleType, 
       ListItem, 
       inline,
-      setSelect,
     } = this.props;
 
     return (
