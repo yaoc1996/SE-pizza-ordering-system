@@ -9,29 +9,25 @@ import {
 } from 'styled';
 
 import { 
-  postSMSignup
+  postSMLogin,
 } from 'lib';
 
 import {
-  SignupForm,
+  LoginForm,
 } from 'components';
 
-const Signup = props => {
+const Login = props => {
   const {
     history,
   } = props;
-
-  const onSignup = e => {
+  
+  const onLogin = e => {
     e.preventDefault();
     
-    const firstname = e.target.firstname.value;
-    const lastname = e.target.lastname.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    postSMSignup({
-      firstname,
-      lastname,
+    postSMLogin({
       email,
       password,
     })
@@ -45,23 +41,23 @@ const Signup = props => {
 
   return (
     <Fragment>
-      <Link to='/storemanager/login'>
+      <Link to='/management/signup'>
         <FloatRButton
           color='white'
           background='#EC407A'
           hover='#F48FB1'
-          active='#333' >Login</FloatRButton>
+          active='#333' >Signup</FloatRButton>
       </Link>
       <HVCenteredBox>
         <PageHeading
-          color='#EC407A' >Signup</PageHeading>
-        <Label>Become a Store Manager!</Label>
+          color='#EC407A' >Login</PageHeading>
+        <Label>Management Portal</Label>
         <br /><br />
         <Label
           color='#ddd'
           fontSize='12px' >Online Pizza Delivery System</Label>
-        <SignupForm
-          onSubmit={onSignup}
+        <LoginForm
+          onSubmit={onLogin}
           color='white'
           background='#EC407A'
           hover='#F48FB1'
@@ -71,4 +67,4 @@ const Signup = props => {
   )
 }
 
-export default Signup;
+export default Login;

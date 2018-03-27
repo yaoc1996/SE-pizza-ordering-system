@@ -60,12 +60,12 @@ class Home extends Component {
     } = this;
 
     this.map = initMap();
-    this.marker = initMarker();
     this.searchBox = initSearchBox();
   }
 
   initMap() {
-    const map = new window.google.maps.Map(
+    const { google } = window;
+    const map = new google.maps.Map(
       document.getElementById('map'), 
       {
         zoom: 14,
@@ -88,6 +88,15 @@ class Home extends Component {
       }
     );
 
+    google.maps.event.addListener(map, 'click', e => {
+      if (!this.marker) {
+        this.marker = this.initMarker();
+      }
+
+      this.marker.setPosition(e.latLng);
+      // fetch 3 new stores here
+    })
+
     return map;
   }
 
@@ -99,11 +108,6 @@ class Home extends Component {
       position: midTownManhattanCoords,
       animation: google.maps.Animation.DROP,
     });
-  
-    google.maps.event.addListener(map, 'click', e => {
-      marker.setPosition(e.latLng);
-      // fetch 3 new stores here
-    })
 
     return marker;
   }
