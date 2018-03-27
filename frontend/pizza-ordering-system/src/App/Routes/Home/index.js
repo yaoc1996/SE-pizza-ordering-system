@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 
-import GoogleMaps from './GoogleMaps';
-
 import {
-  HomeView,
-  HeaderView,
-  MapView,
-  SearchBox,
-} from './styled';
-
-import {
+  Input,
   FloatRButton,
+  Block,
+  DashHeader,
+  PaddingBox,
+  MaterialIcon,
 } from 'styled';
+
+import {
+  loadGoogleMaps,
+} from 'lib';
+
+const midTownManhattanCoords = {
+  lat: 40.7549,
+  lng: -73.9840,
+}
 
 class Home extends Component {
   constructor() {
@@ -22,6 +27,10 @@ class Home extends Component {
     }
 
     this.goTo = this.goTo.bind(this);
+    this.googleMapsApiCallback = this.googleMapsApiCallback.bind(this);
+    this.initMap = this.initMap.bind(this);
+    this.initMarker = this.initMarker.bind(this);
+    this.initSearchBox = this.initSearchBox.bind(this);
   }
 
   goTo(dest) {
@@ -31,6 +40,99 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    const url = 'https://maps.googleapis.com/maps/api/js?';
+    const params = {
+      key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+      v: '3.exp',
+      libraries: 'places',
+    }
+
+    loadGoogleMaps(url, params)
+      .then(this.googleMapsApiCallback);
+  }
+
+  googleMapsApiCallback() {
+    const {
+      initMap,
+      initMarker,
+      initSearchBox,
+    } = this;
+
+    this.map = initMap();
+    this.marker = initMarker();
+    this.searchBox = initSearchBox();
+  }
+
+  initMap() {
+    const map = new window.google.maps.Map(
+      document.getElementById('map'), 
+      {
+        zoom: 14,
+        center: midTownManhattanCoords,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        streetViewControl: false,
+        styles: [
+          {
+            featureType: 'poi',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }],
+          },
+          {
+            featureType: 'transit',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }],
+          }
+        ]
+      }
+    );
+
+    return map;
+  }
+
+  initMarker() {
+    const { google } = window;
+    const { map } = this;
+    const marker = new google.maps.Marker({
+      map: map,
+      position: midTownManhattanCoords,
+      animation: google.maps.Animation.DROP,
+    });
+  
+    google.maps.event.addListener(map, 'click', e => {
+      marker.setPosition(e.latLng);
+      // fetch 3 new stores here
+    })
+
+    return marker;
+  }
+
+  initSearchBox() {
+    const { google } = window;
+    const { 
+      map,
+      marker,
+    } = this;
+    const searchBox = new google.maps.places.SearchBox(
+      document.getElementById('search-box'),
+    );
+
+    map.addListener('bounds_changed', () => {
+      searchBox.setBounds(map.getBounds());
+    })
+
+    searchBox.addListener('places_changed', () => {
+      const places = searchBox.getPlaces();
+
+      if (places.length === 0) return;
+      
+      const { location } = places[0].geometry
+      marker.setPosition(location);
+      map.panTo(location);      
+      map.setZoom(14);      
+    })
+
+    return searchBox;
   }
 
   render() {
@@ -42,30 +144,48 @@ class Home extends Component {
     const { stores } = this.state;
 
     return (
-      <HomeView>
-        <HeaderView>
-          <FloatRButton
-            color='#455A64'
-            background='#CFD8DC'
-            hover='#90A4AE'
-            active='white' 
-            onClick={goTo('signup')} >Sign Up</FloatRButton>
-          <FloatRButton
-            color='#455A64'
-            background='#CFD8DC'
-            hover='#90A4AE'
-            active='white' 
-            onClick={goTo('login')} >Login</FloatRButton>
-          <SearchBox
-            id='search-box'
-            placeholder='Enter an address...'
-            onKeyUp={onSearch} />
-        </HeaderView>
-        <MapView>
-          <GoogleMaps
-            stores={stores} />
-        </MapView>
-      </HomeView>
+      <Block
+        height='100%' >
+        <DashHeader>
+          <PaddingBox>
+            <MaterialIcon>search</MaterialIcon>
+          </PaddingBox>
+          <div 
+            style={{ 
+              display: 'inline-block', 
+              maxWidth: 400, 
+              width: 'calc(100% - 246px)' 
+            }} >
+            <Input
+              id='search-box'
+              placeholder='Enter an address'
+              onKeyUp={onSearch} />
+          </div>
+          <PaddingBox
+            style={{ float: 'right' }}>
+            <FloatRButton
+              height='30px'
+              color='#455A64'
+              background='#CFD8DC'
+              hover='#90A4AE'
+              active='white'
+              onClick={goTo('signup')} >Sign Up</FloatRButton>
+            <FloatRButton
+              height='30px'
+              color='#455A64'
+              background='#CFD8DC'
+              hover='#90A4AE'
+              active='white' 
+              onClick={goTo('login')} >Login</FloatRButton>
+          </PaddingBox>
+        </DashHeader>
+        <Block
+          height='calc(100% - 54px)' >
+          <div 
+            id='map'
+            style={{ width: '100%', height: '100%' }} />
+        </Block>
+      </Block>
     )
   }
 }
