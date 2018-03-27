@@ -9,8 +9,11 @@ const HVCenteredBox = styled.div`
   transform: translate(-50%, -50%);
 `
 
-const PageHeading = styled.h1`
-  color: #ccc;
+const PageHeading = styled.h1.attrs({
+  style: ({ color }) => ({
+    color: color || '#ccc',
+  })
+})`
   font-size: 72px;
   margin: 36px 0;
 `
@@ -29,7 +32,7 @@ const Label = styled.label.attrs({
 const Form = styled.form`
   width: 80vw;
   min-width: 376px;
-  max-width: 420px;
+  max-width: 424px;
   margin: auto;
 `
 
@@ -51,9 +54,9 @@ const FormField = styled.div`
 
 const FFLabel = styled.label`
   display: inline-block;
-  width: 72px;
+  width: 144px;
   margin: 0 6px;
-  margin-left: -72px;  
+  margin-left: -144px;  
   color: #777;
   font-weight: 700;
   text-align: right;
@@ -67,12 +70,27 @@ const FFInput = styled.input`
   outline: none;  
 
   :focus {
-    border: 3px solid #0288D1;
+    border: 3px solid #aaa;
     height: 20px;
   }
 `
 
+const FFTextarea = styled.textarea`
+  width: 192px;
+  height: 96px;
+  border: 1px solid #ccc;
+  padding: 4px 6px;
+  outline: none;
+  resize: none;
+
+  :focus {
+    border: 3px solid #aaa;
+    height: 92px;
+  }
+`
+
 const FormButton = styled.button`
+  position: relative;
   padding: 0px 12px;
   height: 36px;
   border: 0;
@@ -87,6 +105,7 @@ const FormButton = styled.button`
 
     :hover {
       background: ${hover};
+      cursor: pointer;
     }
 
     :active {
@@ -224,7 +243,7 @@ const Input = styled.input.attrs({
   border: 1px solid rgba(0, 0, 0, 0.1);
 
   :focus {
-    border: 1px solid ${({ color }) => color || '#333'};
+    border: 1px solid ${({ color }) => color || '#aaa'};
   }
 
   ::placeholder {
@@ -241,6 +260,7 @@ export {
   FormField,
   FFLabel,
   FFInput,
+  FFTextarea,
   FormButton,
   FloatLButton,
   FloatRButton,

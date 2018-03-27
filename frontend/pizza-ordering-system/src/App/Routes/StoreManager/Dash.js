@@ -153,7 +153,7 @@ class Dash extends Component {
             background='transparent' >Hire Delivery Workers</FloatLButton>
         </DashHeader>
         <InlineBlock
-          background='#f7f7f7'        
+          background='#f7f7f7'
           height='calc(100vh - 120px)' >
           <InlineBlock
             width={ isMobile ? '100%' : '239px' }

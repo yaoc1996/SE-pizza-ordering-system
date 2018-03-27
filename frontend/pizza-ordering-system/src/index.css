@@ -37,6 +37,11 @@ li {
   font-size: 12px;
 }
 
+a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
 .gm-style-iw {
   text-align: left;
 }
