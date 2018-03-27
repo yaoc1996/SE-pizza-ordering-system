@@ -1,12 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 
-import {
-  HVCenteredBox,
-} from 'styled';
-
-import Login from '../App/Routes/Login';
-
 function withPopupForm(Wrapping) {
   return class extends Component {
     constructor() {
@@ -58,7 +52,6 @@ function withPopupForm(Wrapping) {
 
     render() {
       const {
-        addForm,
         setForm,
         LOC,
       } = this;
@@ -100,7 +93,7 @@ const Blurrable = styled.div.attrs({
 const Mask = styled.div`
   z-index: 99;
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
 `

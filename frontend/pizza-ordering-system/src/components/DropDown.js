@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
 import {
-  InlineBlock,
   Block,
   MarginBox,
   MaterialIcon,
@@ -44,14 +43,13 @@ class DropDown extends Component {
           background='white'>
           <MaterialIcon
             style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
+              float: 'right',
             }}>
             { collapsed ? 'arrow_drop_up' : 'arrow_drop_down' }
           </MaterialIcon>
           <MarginBox>
             <Label
+              color={color}
               fontSize={fontSize} >{ name }</Label>
           </MarginBox>
         </Block>

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { 
   ClickableLabel,
-  InlineBlock,
   ListBox,
   FloatRButton,
 } from 'styled';

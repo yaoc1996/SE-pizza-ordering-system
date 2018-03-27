@@ -1,14 +1,11 @@
 import React, { Fragment, Component } from 'react';
-import styled from 'styled-components';
 
 import {
   Label,
   DashHeader,
   FloatRButton,
   FloatLButton,
-  Block,
   InlineBlock,
-  MaterialIcon,
   PaddingBox,
   VR,
 } from 'styled';
@@ -50,7 +47,6 @@ class Dash extends Component {
   componentDidMount() {
     const {
       addForm,
-      setForm,
     } = this.props;
 
     window.addEventListener('resize', this.checkIsMobile);
@@ -156,7 +152,7 @@ class Dash extends Component {
             active='#1E88E5'
             background='transparent' >Hire Delivery Workers</FloatLButton>
         </DashHeader>
-        <Block
+        <InlineBlock
           background='#f7f7f7'        
           height='calc(100vh - 120px)' >
           <InlineBlock
@@ -262,24 +258,13 @@ class Dash extends Component {
             </DropDown>
 
           </InlineBlock>
-        </Block>
+        </InlineBlock>
       </Fragment>
     )
   }
 }
 
 export default withPopupForm(Dash);
-
-const Controls = styled.div`
-  display: inline-block;
-  position: relative;
-  bottom: 0;
-  right: 0;
-  width: calc(100% - 220px);
-  min-width: 400px;
-  padding-bottom: 6px;
-  vertical-align: bottom;
-`
 
 const sampleMenu = [
   'pineapple pizza',
