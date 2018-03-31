@@ -85,8 +85,8 @@ export default withPopupForm;
 
 const Blurrable = styled.div.attrs({
   style: ({ blur }) => ({
-    filter: blur ? 'blur(6px)' : 'none',
-    WebkitFilter: blur ? 'blur(6px)' : 'none',
+    filter: blur ? 'blur(3px)' : 'none',
+    WebkitFilter: blur ? 'blur(3px)' : 'none',
   })
 })``
 
