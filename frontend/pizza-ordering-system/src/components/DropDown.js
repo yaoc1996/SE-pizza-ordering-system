@@ -29,7 +29,7 @@ class DropDown extends Component {
     const { toggle } = this;
     const { collapsed } = this.state;
     const {
-      name,
+      title,
       color,
       fontSize,
       children,
@@ -50,7 +50,7 @@ class DropDown extends Component {
           <MarginBox>
             <Label
               color={color}
-              fontSize={fontSize} >{ name }</Label>
+              fontSize={fontSize} >{ title }</Label>
           </MarginBox>
         </Block>
         {
@@ -68,7 +68,7 @@ class DropDown extends Component {
 export default DropDown;
 
 DropDown.defaultProps = {
-  name: 'DropDown',
+  title: 'DropDown',
   color: '#333',
   fontSize: 12,
   collapsed: false,
