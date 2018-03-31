@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import {
   Input,
@@ -89,9 +90,7 @@ class Home extends Component {
     );
 
     google.maps.event.addListener(map, 'click', e => {
-      if (!this.marker) {
-        this.marker = this.initMarker();
-      }
+      if (!this.marker) this.marker = this.initMarker();
 
       this.marker.setPosition(e.latLng);
       // fetch 3 new stores here
@@ -114,10 +113,7 @@ class Home extends Component {
 
   initSearchBox() {
     const { google } = window;
-    const { 
-      map,
-      marker,
-    } = this;
+    const { map } = this;
     const searchBox = new google.maps.places.SearchBox(
       document.getElementById('search-box'),
     );
@@ -127,12 +123,13 @@ class Home extends Component {
     })
 
     searchBox.addListener('places_changed', () => {
-      const places = searchBox.getPlaces();
+      if (!this.marker) this.marker = this.initMarker();      
 
+      const places = searchBox.getPlaces();
       if (places.length === 0) return;
       
       const { location } = places[0].geometry
-      marker.setPosition(location);
+      this.marker.setPosition(location);
       map.panTo(location);      
       map.setZoom(14);      
     })
@@ -152,24 +149,20 @@ class Home extends Component {
       <Block
         height='100%' >
         <DashHeader>
-          <PaddingBox>
-            <MaterialIcon>search</MaterialIcon>
-          </PaddingBox>
-          <div 
-            style={{ 
-              display: 'inline-block', 
-              maxWidth: 400, 
-              width: 'calc(100% - 246px)' 
-            }} >
+          <SearchBox>
             <Input
               id='search-box'
               placeholder='Enter an address'
               onKeyUp={onSearch} />
-          </div>
+          </SearchBox>
+          <SearchButton>
+            <MaterialIcon>search</MaterialIcon>
+          </SearchButton>
           <PaddingBox
             style={{ float: 'right' }}>
             <Link to='/login'>
               <FloatRButton
+                height='32px'
                 color='white'
                 background='#303F9F'
                 hover='#5C6BC0'
@@ -177,6 +170,7 @@ class Home extends Component {
             </Link>
             <Link to='/signup'>
               <FloatRButton
+                height='32px'
                 color='white'
                 background='#303F9F'
                 hover='#5C6BC0'
@@ -185,7 +179,7 @@ class Home extends Component {
           </PaddingBox>
         </DashHeader>
         <Block
-          height='calc(100% - 54px)' >
+          height='calc(100% - 56px)' >
           <div 
             id='map'
             style={{ width: '100%', height: '100%' }} />
@@ -196,6 +190,28 @@ class Home extends Component {
 }
 
 export default Home;
+
+const SearchBox = styled.div`
+  display: inline-block;
+  max-width: 400px;
+  width: calc(100% - 246px);
+`
+
+const SearchButton = styled.button`
+  width: 64px;
+  height: 44px;
+  margin: 6px 6px 6px -6px;
+  padding: 2px 4px 6px 4px;
+  line-height: 44px;
+  vertical-align: top;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 0;
+  background: #f3f3f3;
+
+  :hover {
+    background: #e3e3e3;
+  }
+`
 
 const fakeLocations = [
   {
