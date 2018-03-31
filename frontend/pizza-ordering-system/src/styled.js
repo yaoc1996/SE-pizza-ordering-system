@@ -139,7 +139,6 @@ const ClickableLabel = styled.label`
 `
 
 const DashHeader = styled.div`
-  position: relative;
   width: 100%;
   text-align: left;
 `
