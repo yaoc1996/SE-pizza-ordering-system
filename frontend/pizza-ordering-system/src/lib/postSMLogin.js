@@ -1,8 +1,8 @@
-import { SMLOGIN } from 'const.json';
+import { DOMAIN, SMLOGIN } from 'const.json';
 
 function postSMLogin(body) {
   return (
-    fetch(SMLOGIN, {
+    fetch(DOMAIN+SMLOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
