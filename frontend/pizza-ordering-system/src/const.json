@@ -1,4 +1,5 @@
 {
+  "DOMAIN": "",
   "LOGIN": "/user/login",
   "SIGNUP": "/user/signup",
   "SMLOGIN": "/storemanager/login",
