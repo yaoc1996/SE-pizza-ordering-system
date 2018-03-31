@@ -8,6 +8,7 @@ import {
   InlineBlock,
   PaddingBox,
   VR,
+  HR,
 } from 'styled';
 
 import {
@@ -21,7 +22,7 @@ import {
 } from 'components';
 
 import {
-  withPopupForm,
+  withModal,
 } from 'lib';
 
 class Dash extends Component {
@@ -38,6 +39,7 @@ class Dash extends Component {
       feedback: sampleFeedback,
       isMobile: window.innerWidth < 480,
     }
+    console.log(this);
 
     this.logout = this.logout.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -115,10 +117,10 @@ class Dash extends Component {
     return (
       <Fragment>
         <FloatRButton
-          color='#455A64'
-          background='#CFD8DC'
-          hover='#90A4AE'
-          active='white' 
+          color='white'
+          background='#EC407A'
+          hover='#F48FB1'
+          active='#333' 
           onClick={logout} >Log Out</FloatRButton>
         <DashHeader>
           <PaddingBox>
@@ -160,7 +162,7 @@ class Dash extends Component {
             height={ isMobile ? 'auto' : '100%' } >
 
             <DropDown
-              name='Menu' >
+              title='Menu' >
               {
                 menu.length > 0 &&
                 <List
@@ -178,7 +180,7 @@ class Dash extends Component {
             </DropDown>
 
             <DropDown
-              name='Cooks' >
+              title='Cooks' >
               {
                 cooks.length > 0 &&
                 <List
@@ -196,7 +198,7 @@ class Dash extends Component {
             </DropDown>
 
             <DropDown
-              name='Delivery' >
+              title='Delivery' >
               {
                 delivery.length > 0 &&
                 <List
@@ -212,7 +214,7 @@ class Dash extends Component {
                   } />
               }
             </DropDown>
-
+            <HR />
           </InlineBlock>
 
           { !isMobile && <VR /> }
@@ -222,7 +224,7 @@ class Dash extends Component {
             width={ isMobile ? '100%' : 'calc(100% - 240px)' } >
             
             <DropDown
-              name='Pending Requests' >
+              title='Pending Requests' >
               {
                 requests.length > 0 &&
                 <List
@@ -234,7 +236,7 @@ class Dash extends Component {
             </DropDown>
 
             <DropDown
-              name='Pending Orders' >
+              title='Pending Orders' >
               {
                 orders.length > 0 &&
                 <List
@@ -246,7 +248,7 @@ class Dash extends Component {
             </DropDown>
 
             <DropDown
-              name='Customer Feedback' >
+              title='Customer Feedback' >
               {
                 menu.length > 0 &&
                 <List
@@ -256,7 +258,8 @@ class Dash extends Component {
                   ListItem={Feedback} />
               }
             </DropDown>
-
+            
+            <HR />
           </InlineBlock>
         </InlineBlock>
       </Fragment>
@@ -264,7 +267,7 @@ class Dash extends Component {
   }
 }
 
-export default withPopupForm(Dash);
+export default withModal(Dash);
 
 const sampleMenu = [
   'pineapple pizza',
