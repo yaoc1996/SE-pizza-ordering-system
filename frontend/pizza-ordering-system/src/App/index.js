@@ -8,6 +8,7 @@ import SMLogin from './Routes/Management/Login';
 import SMSignup from './Routes/Management/Signup';
 import SMSetup from './Routes/Management/StoreManager/Setup';
 import SMDash from './Routes/Management/StoreManager/Dash';
+import CKDash from './Routes/Management/Cook/Dash';
 
 class App extends Component {
   constructor() {
@@ -107,6 +108,11 @@ class App extends Component {
               exact
               path='/management/storemanager/dash'
               component={SMDash} />
+
+            <Route
+              exact
+              path='/management/cook/dash'
+              component={CKDash} />
 
             <Route path='/home' component={Home} />       
 
