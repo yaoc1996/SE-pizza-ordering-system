@@ -1,4 +1,4 @@
-import { DOMAIN, LOGIN } from 'const.json';
+import { DOMAIN, LOGIN } from 'macro.json';
 
 function postLogin(body) {
   return (

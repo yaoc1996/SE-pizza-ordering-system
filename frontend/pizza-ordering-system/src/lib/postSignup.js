@@ -1,4 +1,4 @@
-import { DOMAIN, SIGNUP } from 'const.json';
+import { DOMAIN, SIGNUP } from 'macro.json';
 
 function postSignup(body) {
   return (

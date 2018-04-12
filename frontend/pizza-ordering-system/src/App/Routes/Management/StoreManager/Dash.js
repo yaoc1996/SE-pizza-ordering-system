@@ -1,15 +1,4 @@
-import React, { Fragment, Component } from 'react';
-
-import {
-  Label,
-  DashHeader,
-  FloatRButton,
-  FloatLButton,
-  InlineBlock,
-  PaddingBox,
-  VR,
-  HR,
-} from 'styled';
+import React, { Component } from 'react';
 
 import {
   List,
@@ -41,7 +30,7 @@ class Dash extends Component {
     }
     console.log(this);
 
-    this.logout = this.logout.bind(this);
+    this.onLogout = this.onLogout.bind(this);
     this.toggle = this.toggle.bind(this);
     this.checkIsMobile = this.checkIsMobile.bind(this);
   }
@@ -53,17 +42,8 @@ class Dash extends Component {
 
     window.addEventListener('resize', this.checkIsMobile);
 
-    addForm('edit_store', EditStoreForm)
-    addForm('hire_cooks', props => 
-      <HireForm
-        type='cooks'
-        { ...props } />
-    )
-    addForm('hire_delivery', props => 
-      <HireForm
-        type='delivery workers'
-        { ...props } />
-    )
+    addForm(EDIT_STORE_FORM_NAME, EditStoreForm)
+    addForm(HIRE_FORM_NAME, HireForm)
   }
 
   componentWillUnmount() {
@@ -88,15 +68,13 @@ class Dash extends Component {
     }
   }
 
-  logout() {
+  onLogout() {
 
   }
 
   render() {
-    console.log('rendering Dash');
-    
     const {
-      logout,
+      onLogout,
     } = this;
 
     const {
@@ -115,169 +93,121 @@ class Dash extends Component {
     } = this.props;
 
     return (
-      <Fragment>
-        <FloatRButton
-          color='white'
-          background='#EC407A'
-          hover='#F48FB1'
-          active='#333' 
-          onClick={logout} >Log Out</FloatRButton>
-        <DashHeader>
-          <PaddingBox>
-            <Label
-              color='#111'
-              fontSize={24} >{ store.name }</Label>
-          </PaddingBox>
+      <div className='fill' >
+        <div  className='align-left' 
+              style={{ height: 120 }} >
+          <button className='btn-md btn-pink float-right margin-sm'
+            onClick={onLogout} >
+            Logout
+          </button>
+          <div className='margin-md fit'>
+            <label className='font-xl font-bold'>{ store.name }</label>
+          </div>
           <br />
-          <PaddingBox>
-            <Label
-              color='#bbb'
-              fontSize={12} >{ store.address }</Label>
-          </PaddingBox>
-          <br /><br />
-          <FloatLButton
-            onClick={setForm('edit_store')}
-            color='#455A64'
-            hover='#eee'
-            active='#1E88E5'
-            background='transparent' >Edit Store</FloatLButton>            
-          <FloatLButton
-            onClick={setForm('hire_cooks')}
-            color='#455A64'
-            hover='#eee'
-            active='#1E88E5'
-            background='transparent' >Hire Cooks</FloatLButton>  
-          <FloatLButton
-            onClick={setForm('hire_delivery')}
-            color='#455A64'
-            hover='#eee'
-            active='#1E88E5'
-            background='transparent' >Hire Delivery Workers</FloatLButton>
-        </DashHeader>
-        <InlineBlock
-          background='#f7f7f7'
-          height='calc(100vh - 120px)' >
-          <InlineBlock
-            width={ isMobile ? '100%' : '239px' }
-            height={ isMobile ? 'auto' : '100%' } >
+          <div className='margin-md fit'>
+            <label className='sm-font'>{ store.address }</label>
+          </div>
+          <br />
+          <div className='align-right'>
+            <button className='btn-md btn-transparent margin-sm'
+                    onClick={setForm(EDIT_STORE_FORM_NAME)} >
+              Edit Store
+            </button>
+            <button className='btn-md btn-transparent margin-sm'
+                    onClick={setForm(HIRE_FORM_NAME)} >
+              Hire Workers
+            </button>
+          </div>
+          <div className='line-h' />
+        </div>
 
-            <DropDown
-              title='Menu' >
-              {
-                menu.length > 0 &&
-                <List
-                  name='menu'
-                  list={menu}
-                  ListItem={props => 
-                    <PaddingBox>
-                      <Label
-                        fontSize={12}
-                        color='#C2185B'                      
-                        { ...props } />
-                    </PaddingBox>
-                  } />
-              }
+
+        <div className='block-inline fade-in scrollable'
+             style={{ height: 'calc(100vh - 120px)' }} >
+
+          <div className='block-inline scrollable'
+               style={{
+                 width: isMobile ? '100%' : 239,
+                 height: isMobile ? 'auto' : '100%',
+               }} >
+
+            <DropDown title='Menu' >
+              <List id='menu-list'
+                    items={menu}
+                    bullet
+                    Li={props => 
+                      <label className='padding-sm align-left fit font-darkpink'>
+                        { props.children }
+                      </label>
+                } />
             </DropDown>
 
-            <DropDown
-              title='Cooks' >
-              {
-                cooks.length > 0 &&
-                <List
-                  name='cooks'
-                  list={cooks}
-                  ListItem={props => 
-                    <PaddingBox>
-                      <Label
-                        fontSize={12}
-                        color='#1976D2'                      
-                        { ...props } />
-                    </PaddingBox>
-                  } />
-              }
+            <DropDown title='Cooks' >
+              <List id='cooks'
+                    items={cooks}
+                    Li={props => 
+                      <label className='padding-sm align-left fit font-darkblue'>
+                        { props.children }
+                      </label>
+                } />
             </DropDown>
 
-            <DropDown
-              title='Delivery' >
-              {
-                delivery.length > 0 &&
-                <List
-                  name='delivery'
-                  list={delivery}
-                  ListItem={props => 
-                    <PaddingBox>
-                      <Label
-                        fontSize={12}
-                        color='#1976D2'                      
-                        { ...props } />
-                    </PaddingBox>
-                  } />
-              }
+            <DropDown title='Delivery' >
+              <List id='delivery'
+                    items={delivery}
+                    Li={props => 
+                      <label className='padding-sm align-left fit font-darkblue'>
+                        { props.children }
+                      </label>
+                } />
             </DropDown>
-            <HR />
-          </InlineBlock>
+          </div>
 
-          { !isMobile && <VR /> }
+          { !isMobile && <div className='line-v' /> }
 
-          <InlineBlock
-            height={ isMobile ? 'auto' : '100%' }            
-            width={ isMobile ? '100%' : 'calc(100% - 240px)' } >
+          <div className='block-inline scrollable'
+               style={{
+                 height: isMobile ? 'auto' : '100%',         
+                 width: isMobile ? '100%' : 'calc(100% - 240px)',
+                }} >
             
-            <DropDown
-              title='Pending Requests' >
-              {
-                requests.length > 0 &&
-                <List
-                  name='requests'
-                  list={requests}
-                  listStyleType='none'
-                  ListItem={PendingRequest} />
-              }
+            <DropDown title='Pending Requests' >
+              <List id='requests'
+                    items={requests}
+                    Li={PendingRequest} />
             </DropDown>
 
-            <DropDown
-              title='Pending Orders' >
+            <DropDown title='Pending Orders' >
               {
                 orders.length > 0 &&
-                <List
-                  name='orders'
-                  list={orders}
-                  listStyleType='none'
-                  ListItem={PendingOrder} />
+                <List id='orders'
+                      items={orders}
+                      Li={PendingOrder} />
               }
             </DropDown>
 
-            <DropDown
-              title='Customer Feedback' >
+            <DropDown title='Customer Feedback' >
               {
                 menu.length > 0 &&
-                <List
-                  name='feedback'
-                  list={feedback}
-                  listStyleType='none'
-                  ListItem={Feedback} />
+                <List id='feedback'
+                      items={feedback}
+                      Li={Feedback} />
               }
             </DropDown>
             
-            <HR />
-          </InlineBlock>
-        </InlineBlock>
-      </Fragment>
+          </div>
+        </div>
+      </div>
     )
   }
 }
 
 export default withModal(Dash);
 
+const EDIT_STORE_FORM_NAME = 'edit_store';
+const HIRE_FORM_NAME = 'hire';
+
 const sampleMenu = [
-  'pineapple pizza',
-  'sausage pizza',
-  'italian pizza',
-  'plain pizza',
-  'pineapple pizza',
-  'sausage pizza',
-  'italian pizza',
-  'plain pizza',
   'pineapple pizza',
   'sausage pizza',
   'italian pizza',
@@ -285,6 +215,15 @@ const sampleMenu = [
 ]
 
 const sampleCooks = [
+  'Alex',
+  'Kenny',
+  'Josh',
+  'Alex',
+  'Kenny',
+  'Josh',
+  'Alex',
+  'Kenny',
+  'Josh',
   'Alex',
   'Kenny',
   'Josh',

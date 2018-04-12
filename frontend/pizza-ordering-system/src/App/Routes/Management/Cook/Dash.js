@@ -1,15 +1,4 @@
-import React, { Component, Fragment } from 'react';
-
-import {
-  DashHeader,
-  FloatRButton,
-  InlineBlock,
-  Block,
-} from 'styled';
-
-import {
-  DropDown,
-} from 'components';
+import React, { Component } from 'react';
 
 class Dash extends Component {
   constructor() {
@@ -28,28 +17,9 @@ class Dash extends Component {
 
   render() {
     return (
-      <Fragment>
-        <DashHeader
-          onClick={this.abc}>
-          Dash Header
-          <FloatRButton
-            abc={this.state.abc}
-            color='white'
-            background='#EC407A'
-            hover='#F48FB1'
-            active='#333' >Log Out</FloatRButton>
-        </DashHeader>
-        
-        <InlineBlock
-          height='100%' >
+      <div>
 
-          <DropDown
-            title='Job Offers' >
-
-
-          </DropDown>
-        </InlineBlock>
-      </Fragment>
+      </div>
     )
   }
 }

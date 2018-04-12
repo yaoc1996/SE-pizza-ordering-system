@@ -1,42 +1,23 @@
 import React from 'react';
 
-import { 
-  ClickableLabel,
-  ListBox,
-  FloatRButton,
-} from 'styled';
-
 const PendingRequest = ({ last, children }) => {
   return (
-    <ListBox
-      last={last} >
-      <ClickableLabel>{ children }</ClickableLabel>
-      <label
-        style={{
-          color: '#666',
-        }} > wants to register with your store!</label>
-
-      <div
-        style={{
-          position: 'relative',
-          height: 30,
-        }} >
-        <FloatRButton
-          fontSize='10px'
-          color='#555'
-          background='#eee'
-          hover='#bbb'
-          active='white'
-          height='24px' >Reject</FloatRButton>
-        <FloatRButton
-          fontSize='10px'        
-          color='white'
-          background='#1E88E5'
-          hover='#1565C0'
-          active='#333'
-          height='24px' >Approve</FloatRButton>
+    <div className='padding-sm' >
+      <label className='clickable font-darkblue' >
+        { children }
+      </label>
+      <label className='font-grey' > wants to register with your store!</label>
+      <br />
+      <div className='align-right padding-xs' >
+        <button className='btn-sm btn-blue font-xs margin-sm' >
+          Approve
+        </button>
+        <button className='btn-sm btn-grey font-xs margin-sm' >
+          Reject
+        </button>
       </div>
-    </ListBox>
+      <div className='line-h' />
+    </div>
   )
 }
 

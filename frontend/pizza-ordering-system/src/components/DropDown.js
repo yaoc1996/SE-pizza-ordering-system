@@ -1,12 +1,4 @@
-import React, { Component, Fragment } from 'react';
-
-import {
-  Block,
-  MarginBox,
-  MaterialIcon,
-  Label,
-  HR,
-} from 'styled';
+import React, { Component } from 'react';
 
 class DropDown extends Component {
   constructor({ collapsed }) {
@@ -30,37 +22,25 @@ class DropDown extends Component {
     const { collapsed } = this.state;
     const {
       title,
-      color,
-      fontSize,
       children,
+      labelCN,
     } = this.props;
 
     return (
-      <Fragment>
-        <HR />
-        <Block
-          onClick={toggle}           
-          background='white'>
-          <MaterialIcon
-            style={{
-              float: 'right',
-            }}>
-            { collapsed ? 'arrow_drop_up' : 'arrow_drop_down' }
-          </MaterialIcon>
-          <MarginBox>
-            <Label
-              color={color}
-              fontSize={fontSize} >{ title }</Label>
-          </MarginBox>
-        </Block>
-        {
-          !collapsed && children &&
-          <Fragment>
-            <HR />
-            { children }
-          </Fragment>
-        }
-      </Fragment>
+      <div className='block' >
+        <div className='block align-left clickable'
+             style={{ backgroundColor: '#eee'}}
+             onClick={toggle} >
+          <i className='material-icons float-right no-selection' 
+             style={{ transform: collapsed ? null : 'rotate(-180deg)' }} >
+            arrow_drop_up
+          </i>
+          <label className={'margin-lg fit font-bold ' + labelCN}>
+            { title }
+          </label>
+        </div>
+        { !collapsed && children }
+      </div>
     )
   }
 }
@@ -69,7 +49,6 @@ export default DropDown;
 
 DropDown.defaultProps = {
   title: 'DropDown',
-  color: '#333',
-  fontSize: 12,
   collapsed: false,
+  labelCN: '',
 }
