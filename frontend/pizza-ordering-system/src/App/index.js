@@ -8,6 +8,7 @@ import SMLogin from './Routes/Management/Login';
 import SMSignup from './Routes/Management/Signup';
 import SMSetup from './Routes/Management/StoreManager/Setup';
 import SMDash from './Routes/Management/StoreManager/Dash';
+import CKDash from './Routes/Management/Cook/Dash';
 
 class App extends Component {
   constructor() {
@@ -58,58 +59,55 @@ class App extends Component {
         style={{
           position: 'relative',
           minWidth: 400,
+          minHeight: 720,
           width: '100vw',
           height: '100vh',
-          fontSize: 12,  
           overflow: 'hidden',
         }} >
 
           <Switch>
 
-            <Route 
-              exact
-              path='/login'
-              render={props => 
-                <Login
-                  setAppState={setAppState}
-                  redirect={redirect}
-                  redirectDest={redirectDest}
-                  { ...props } />
-              } />
+            <Route  exact
+                    path='/login'
+                    render={props => 
+                      <Login  setAppState={setAppState}
+                              redirect={redirect}
+                              redirectDest={redirectDest}
+                              { ...props } />
+                    } />
 
-            <Route 
-              exact
-              path='/signup'
-              render={props => 
-                <Signup
-                  setAppState={setAppState}
-                  redirect={redirect}
-                  redirectDest={redirectDest}
-                  { ...props } />
-              } />
+            <Route  exact
+                    path='/signup'
+                    render={props => 
+                      <Signup
+                        setAppState={setAppState}
+                        redirect={redirect}
+                        redirectDest={redirectDest}
+                        { ...props } />
+                    } />
 
-            <Route 
-              exact
-              path='/management/login'
-              component={SMLogin} />
+            <Route  exact
+                    path='/management/login'
+                    component={SMLogin} />
 
-            <Route 
-              exact
-              path='/management/signup'
-              component={SMSignup} />
+            <Route  exact
+                    path='/management/signup'
+                    component={SMSignup} />
 
-            <Route 
-              exact
-              path='/management/storemanager/setup'
-              component={SMSetup} />
+            <Route  exact
+                    path='/management/storemanager/setup'
+                    component={SMSetup} />
 
-            <Route 
-              exact
-              path='/management/storemanager/dash'
-              component={SMDash} />
+            <Route  exact
+                    path='/management/storemanager/dash'
+                    component={SMDash} />
 
-            <Route path='/home' component={Home} />       
+            <Route  exact
+                    path='/management/cook/dash'
+                    component={CKDash} />
 
+            <Route  path='/home' 
+                    component={Home} />       
 
           </Switch>
 

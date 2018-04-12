@@ -1,25 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import {
-  HVCenteredBox,
-  PageHeading,
-  Label,
-  FloatRButton,
-  Select,
-} from 'styled';
 
 import { 
   postSMSignup
 } from 'lib';
 
-import {
-  SignupForm,
-} from 'components';
-
 const Signup = props => {
   const {
-    history,
   } = props;
 
   const onSignup = e => {
@@ -45,38 +32,60 @@ const Signup = props => {
   }
 
   return (
-    <Fragment>
+    <div className='fill' >
       <Link to='/management/login'>
-        <FloatRButton
-          color='white'
-          background='#EC407A'
-          hover='#F48FB1'
-          active='#333' >Login</FloatRButton>
+        <button className='btn-md btn-pink margin-sm float-right' >
+          Login
+        </button>
       </Link>
-      <HVCenteredBox>
-        <PageHeading
-          color='#EC407A' >Signup</PageHeading>
-        <Label>Become a Part of the Management!</Label>
+      <div className='centered-hv fade-in' >
+        <label className='font-txl font-bold font-lightgrey' >Signup</label>
         <br /><br />
-        <Label
-          color='#ddd'
-          fontSize='12px' >Online Pizza Delivery System</Label>
-        <SignupForm
-          onSubmit={onSignup}
-          color='white'
-          background='#EC407A'
-          hover='#F48FB1'
-          active='#333'
-          Injection={props =>
-            <Select
-              name='type' >
+        <label className='font-lg font-bold' >Management Portal</label>
+        <br /><br />
+        <label className='font-xs font-bold font-lightgrey' >
+          Become a part of the management
+        </label>
+        <br /><br /><br />
+        <form className='form'
+              onSubmit={onSignup} >
+          <div className='form-field' >
+            <label>Firstname:</label>
+            <input  type='text'
+                    name='firstname'
+                    autoFocus
+                    required />
+          </div>
+          <div className='form-field' >
+            <label>Lastname:</label>
+            <input  type='text'
+                    name='lastname'
+                    required />
+          </div>
+          <div className='form-field' >
+            <label>Email:</label>
+            <input  type='text'
+                    name='email'
+                    required />
+          </div>
+          <div className='form-field' >
+            <label>Password:</label>
+            <input  type='password'
+                    name='password'
+                    required />
+          </div>
+          <div className='form-field' >
+            <select name='type' >
               <option value='manager'>Manager</option>
               <option value='cook'>Cook</option>
               <option value='delivery'>Delivery</option>
-            </Select>
-          } />
-      </HVCenteredBox>
-    </Fragment>
+            </select>
+          </div>
+          <br /><br /><br />
+          <button className='btn-md btn-pink margin-sm'>Signup</button>
+        </form>
+      </div>
+    </div>
   )
 }
 

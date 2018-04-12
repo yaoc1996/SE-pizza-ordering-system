@@ -1,18 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import {
-  HVCenteredBox,
-  PageHeading,
-  Label,
-  FloatLButton,
-  FloatRButton,
-  ClickableLabel,
-} from 'styled';
-
-import {
-  LoginForm,
-} from 'components';
 
 import {
   postLogin,
@@ -23,7 +10,6 @@ const Login = props => {
     redirectDest,
     redirect,
     setAppState,
-    history,
   } = props;
 
   const onLogin = e => {
@@ -48,42 +34,52 @@ const Login = props => {
   }
 
   return (
-    <Fragment>
+    <div className='fill' >
       <Link to='/home'>
-        <FloatLButton
-          color='white'
-          background='#303F9F'
-          hover='#5C6BC0'
-          active='#333' >Home</FloatLButton>
+        <button className='btn-md btn-blue margin-sm float-right' >
+          Home
+        </button>
       </Link>
       <Link to='/signup'>
-        <FloatRButton
-          color='white'
-          background='#303F9F'
-          hover='#5C6BC0'
-          active='#333' >Signup</FloatRButton>
+        <button className='btn-md btn-blue margin-sm float-right' >
+          Signup
+        </button>
       </Link>
-      <HVCenteredBox>
-        <PageHeading
-          color='#303F9F' >Login</PageHeading>
-        <Label>OPDS</Label>
+      <div className='centered-hv fade-in' >
+        <label className='font-txl font-bold font-lightgrey' >Login</label>
         <br /><br />
-        <Label
-          fontSize='12px'
-          color='#ddd' >Online Pizza Delivery System</Label>
-        <LoginForm
-          color='white'
-          background='#303F9F'
-          hover='#5C6BC0'
-          active='#333'
-          onLogin={onLogin} />
+        <label className='font-lg font-bold' >OPDS</label>
+        <br /><br />
+        <label className='font-xs font-bold font-lightgrey' >
+          Online Pizza Delivery System
+        </label>
+        <br /><br /><br />
+        <form className='form'
+              onSubmit={onLogin} >
+          <div className='form-field' >
+            <label>Email:</label>
+            <input  type='text'
+                    name='email'
+                    autoFocus
+                    required />
+          </div>
+          <div className='form-field' >
+            <label>Password:</label>
+            <input  type='password'
+                    name='password'
+                    required />
+          </div>
+          <br /><br /><br />       
+          <button className='btn-md btn-darkblue margin-sm'>Login</button>
+        </form>
+        <br /><br />
         {
           redirectDest === '/store' &&
-          <ClickableLabel
-            onClick={redirect} >Continue without logging in...</ClickableLabel>
+          <label className='clickable font-sm font-blue'
+            onClick={redirect} >Continue as guest</label>
         }
-        </HVCenteredBox>
-    </Fragment>
+      </div>
+    </div>
   )
 }
 

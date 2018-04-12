@@ -33,11 +33,15 @@ function loadGoogleMaps(url, params) {
     ref.parentNode.insertBefore(script, ref);
 
     return new Promise(resolve => {
-      script.addEventListener('load', resolve);
+      const start = Date.now();
+      script.addEventListener('load', () => {
+        console.log(`Google Maps Loading Time: ${Date.now() - start}ms`);
+        resolve(window.google)
+      });
     })
 
   } else {
-    return new Promise(resolve => resolve());
+    return new Promise(resolve => resolve(window.google));
   }
 }
 

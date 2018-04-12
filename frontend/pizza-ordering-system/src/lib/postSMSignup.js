@@ -1,8 +1,8 @@
-import { SMSIGNUP } from 'const.json';
+import { DOMAIN, SMSIGNUP } from 'macro.json';
 
 function postSMSignup(body) {
   return (
-    fetch(SMSIGNUP, {
+    fetch(DOMAIN+SMSIGNUP, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

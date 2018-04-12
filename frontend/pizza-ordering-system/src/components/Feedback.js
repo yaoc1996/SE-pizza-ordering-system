@@ -1,14 +1,7 @@
 import React from 'react';
 
-import {
-  ListBox,
-  Label,
-  PaddingBox,
-} from 'styled';
-
 const Feedback = props => {
   const {
-    last,
     children,
   } = props;
 
@@ -19,20 +12,15 @@ const Feedback = props => {
   } = children;
 
   return (
-    <ListBox
-      background='white'
-      last={last} >
-      <Label
-        color='#455A64'
-        fontSize='12px' >{ name } said:</Label>
+    <div className='padding-sm'>
+      <label>{ name } said:</label>
       <br />
-      <PaddingBox>
-        <label
-          style={{
-            color: positive ? '#66BB6A' : '#EF5350',
-          }} >{ msg }</label>
-      </PaddingBox>
-    </ListBox>
+      <label className={ 'padding-sm fit ' + (positive ? 'font-green' : 'font-red') }>
+        { msg }
+      </label>
+      <br />
+      <div className='line-h' />
+    </div>
   )
 }
 

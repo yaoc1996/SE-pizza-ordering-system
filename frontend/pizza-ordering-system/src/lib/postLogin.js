@@ -1,8 +1,8 @@
-import { LOGIN } from 'const.json';
+import { DOMAIN, LOGIN } from 'macro.json';
 
 function postLogin(body) {
   return (
-    fetch(LOGIN, {
+    fetch(DOMAIN+LOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

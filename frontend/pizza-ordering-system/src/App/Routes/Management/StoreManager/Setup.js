@@ -1,38 +1,43 @@
-import React, { Fragment } from 'react';
-
-import {
-  HVCenteredBox,
-  PageHeading,
-  Label,
-  FloatRButton,
-} from 'styled';
-
-import {
-  SetupForm,
-} from 'components';
+import React from 'react';
 
 const Setup = props => {
   const onSetup = () => {
 
   }
   return (
-    <Fragment>
-      <HVCenteredBox>
-        <PageHeading
-          color='#EC407A' >New Store</PageHeading>
-        <Label>Enter Your Store</Label>
-        <br /><br />
-        <Label
-          color='#ddd'
-          fontSize='12px' >Online Pizza Delivery System</Label>
-        <SetupForm
-          onSubmit={onSetup}
-          color='white'
-          background='#EC407A'
-          hover='#F48FB1'
-          active='#333' />
-      </HVCenteredBox>
-    </Fragment>
+    <div className='centered-hv fade-in' >
+      <label className='font-txl font-bold font-lightgrey' >Setup</label>
+      <br /><br />
+      <label className='font-lg font-bold' >New Store</label>
+      <br /><br />
+      <label className='font-xs font-bold font-lightgrey' >
+        Online Pizza Delivery System
+      </label>
+      <br /><br /><br />
+      <form className='form'
+            onSubmit={onSetup} >
+        <div className='form-field'>
+          <label>Store Name:</label>
+          <input  type='text'
+                  name='name'
+                  autoFocus
+                  required />
+        </div>
+        <div className='form-field'>
+          <label>Address:</label>
+          <input  type='text'
+                  name='address'
+                  required />
+        </div>
+        <div className='form-field'>
+          <label className='align-top' >Description:</label>
+          <textarea type='text'
+                    name='description' />
+        </div>
+        <br /><br /><br />        
+        <button className='btn-pink btn-md' >Submit</button>
+      </form>
+    </div>
   )
 }
 

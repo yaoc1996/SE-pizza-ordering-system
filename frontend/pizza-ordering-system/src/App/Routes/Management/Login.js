@@ -1,24 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import {
-  HVCenteredBox,
-  PageHeading,
-  Label,
-  FloatRButton,
-} from 'styled';
 
 import { 
   postSMLogin,
 } from 'lib';
 
-import {
-  LoginForm,
-} from 'components';
-
 const Login = props => {
   const {
-    history,
   } = props;
   
   const onLogin = e => {
@@ -40,30 +28,41 @@ const Login = props => {
   }
 
   return (
-    <Fragment>
+    <div className='fill' >
       <Link to='/management/signup'>
-        <FloatRButton
-          color='white'
-          background='#EC407A'
-          hover='#F48FB1'
-          active='#333' >Signup</FloatRButton>
+        <button className='btn-md btn-pink margin-sm float-right' >
+          Signup
+        </button>
       </Link>
-      <HVCenteredBox>
-        <PageHeading
-          color='#EC407A' >Login</PageHeading>
-        <Label>Management Portal</Label>
+      <div className='centered-hv fade-in' >
+        <label className='font-txl font-bold font-lightgrey' >Login</label>
         <br /><br />
-        <Label
-          color='#ddd'
-          fontSize='12px' >Online Pizza Delivery System</Label>
-        <LoginForm
-          onSubmit={onLogin}
-          color='white'
-          background='#EC407A'
-          hover='#F48FB1'
-          active='#333' />
-      </HVCenteredBox>
-    </Fragment>
+        <label className='font-lg font-bold' >Management Portal</label>
+        <br /><br />
+        <label className='font-xs font-bold font-lightgrey' >
+          Online Pizza Delivery System
+        </label>
+        <br /><br /><br />
+        <form className='form'
+              onSubmit={onLogin} >
+          <div className='form-field' >
+            <label>Email:</label>
+            <input  type='text'
+                    name='email'
+                    autoFocus
+                    required />
+          </div>
+          <div className='form-field' >
+            <label>Password:</label>
+            <input  type='password'
+                    name='password'
+                    required />
+          </div>
+          <br /><br /><br />       
+          <button className='btn-md btn-pink margin-sm'>Login</button>
+        </form>
+      </div>
+    </div>
   )
 }
 

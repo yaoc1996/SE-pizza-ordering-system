@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
 
-function withPopupForm(Wrapping) {
+function withPopupForm(LOC) {
   return class extends Component {
     constructor() {
       super();
@@ -21,7 +20,7 @@ function withPopupForm(Wrapping) {
       } = this;
 
       this.LOC =          
-        <Wrapping 
+        <LOC 
           addForm={addForm}
           setForm={setForm}
           { ...this.props } />
@@ -63,37 +62,32 @@ function withPopupForm(Wrapping) {
       const Form = this.state.forms[selected];
 
       return (
-        <Fragment>
+        <div className='fade-in fill'>
           { 
             selected &&
             <Fragment>
-              <Mask onClick={setForm(null)}/>
-                <Form />
+              <div  style={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      zIndex: 99,
+                      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    }}
+                    onClick={setForm(null)} />
+              <Form />
             </Fragment>
           }
-          <Blurrable
-            blur={selected} >
+          <div  className='fill'
+                style={{
+                  filter: selected ? 'blur(4px)' : 'none',
+                  WebkitFilter: selected ? 'blur(4px)' : 'none',
+                }} >
             { LOC }
-          </Blurrable>
-        </Fragment>
+          </div>
+        </div>
       )
     }
   }
 }
 
 export default withPopupForm;
-
-const Blurrable = styled.div.attrs({
-  style: ({ blur }) => ({
-    filter: blur ? 'blur(6px)' : 'none',
-    WebkitFilter: blur ? 'blur(6px)' : 'none',
-  })
-})``
-
-const Mask = styled.div`
-  z-index: 99;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-`

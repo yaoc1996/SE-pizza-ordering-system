@@ -1,17 +1,5 @@
 import React, { Component } from 'react';
 
-import {
-  Form,
-  Label,
-  FloatLButton,
-  MarginBox,
-  PaddingBox,
-  HR,
-  Input,
-  Block,
-  MaterialIcon,
-  HVCenteredBox,
-} from 'styled';
 import List from './List';
 
 class HireForm extends Component {
@@ -48,81 +36,66 @@ class HireForm extends Component {
       searches,
       selected,
     } = this.state;
-
-    const {
-      type,
-    } = this.props;
     
     return (
-      <HVCenteredBox style={{ borderRadius: 12 }} >
-        <Form 
-          onSubmit={onOffer}
-          style={{ textAlign: 'left' }} >
-          <MarginBox>
-            <Label
-              fontSize='14px'
-              color='#455A64' >
-              Search for { type[0].toUpperCase() + type.substr(1) }
-            </Label>
-          </MarginBox>
-          <HR />
+      <div className='centered-hv bg-white edge-rounded padding-md' >
+        <form className='align-left form'
+              onSubmit={onOffer} >
           <br />
-          <div 
-            style={{ 
-              margin: 6,
-              verticalAlign: 'top',
-              display: 'inline-block',
-            }}>
-            <MaterialIcon>search</MaterialIcon>
-          </div>
-          <Input
-            width='calc(100% - 96px)'
-            placeholder='Enter a name' />
+
+          <label className='font-bold font-md' >
+            Hire
+          </label>
+
           <br /><br />
+
+          <div className='line-h' />
+          <div className='margin-sm fit align-middle'>
+            <i className='material-icons' >search</i>
+          </div>
           
-          <div
-            style={{
-              marginLeft: 54,
-              border: searches.length > 0 && '1px solid rgba(0, 0, 0, 0.1)',
-              width: 'calc(100% - 72px)',
-            }} >
+          <div className='fit margin-sm align-middle'>
+            <select className='input-md' >
+              <option value='cook'>Cook</option>
+              <option value='delivery'>Delivery</option>
+            </select>
+          </div>
+
+          <input  className='input-md margin-lg align-middle'
+                  style={{ width: 'calc(100% - 180px)' }}
+                  placeholder='Enter a name' />
+
+          <div>
             <List
-              name='search-results'
-              className='no-animation'
+              id='search-results'
+              selectedClassName='bg-lightblue'
+              selected={selected}
               setSelect={setSelect}
-              listStyleType='none'
-              list={searches}
-              ListItem={props => 
-                <MarginBox>
-                  <Label
-                    color='#1976D2'
-                    fontSize='12px' >{ props.children }</Label>
-                </MarginBox>
+              items={searches}
+              Li={props => 
+                <label className='padding-md fill align-right' >
+                  { props.children }
+                </label>
               } />
           </div>
           <br />
-          <Block>
+          <div className='block' >
             {
               selected !== null &&
-              <PaddingBox>
-                <FloatLButton
-                  color='white'
-                  hover='#388E3C'
-                  active='#333'
-                  background='#4CAF50'>Offer</FloatLButton>
-                &nbsp;&nbsp;$
-                <Input
-                  type='number'
-                  placeholder='Amount'
-                  width='84px'
-                  required
-                  autoFocus />
+              <div>
+                <button className='btn-md btn-green align-middle'>Offer</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$
+                <input  className='input-md margin-sm'
+                        type='number'
+                        placeholder='Amount'
+                        required
+                        autoFocus />
                 / hour
-              </PaddingBox>
+              </div>
             }
-          </Block>
-        </Form>
-      </HVCenteredBox>
+          </div>
+        </form>
+      </div>
     )
   }
 }
