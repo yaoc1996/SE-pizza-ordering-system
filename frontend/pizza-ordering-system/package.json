@@ -15,7 +15,12 @@
     "start": "NODE_PATH=src/ react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    
+    "sass": "node-sass --include-path scss src/css/scss/index.scss src/css/index.css --watch"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001",
+  "devDependencies": {
+    "node-sass": "^4.8.3"
+  }
 }
