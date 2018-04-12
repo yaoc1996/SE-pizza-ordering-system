@@ -1,0 +1,82 @@
+.material-icons {
+  display: inline-block;
+  margin: 0;
+  height: 100%;
+  line-height: 100%;
+  color: #90A4AE;
+  font-size: 36px;
+}
+
+.font {
+  &-xs {
+    font-size: 10px;
+  }
+
+  &-sm {
+    font-size: 12px;
+  }
+
+  &-md {
+    font-size: 14px;
+  }
+  
+  &-lg {
+    font-size: 18px;
+  }
+  
+  &-xl {
+    font-size: 24px;
+  }
+  
+  &-dxl {
+    font-size: 36px;
+  }
+  
+  &-txl {
+    font-size: 72px;
+  }
+
+  &-qxl {
+    font-size: 108px;
+  }
+
+  &-bold  {
+    font-weight: bold;
+  }
+  
+  &-normal {
+    font-weight: normal;
+  }
+  
+  &-light {
+    font-weight: lighter
+  }
+
+  &-darkpink {
+    color: #AD1457;
+  }
+
+  &-blue {
+    color: #1E88E5;
+  }
+  
+  &-darkblue {
+    color: #0D47A1;
+  }
+  
+  &-grey {
+    color: #666;
+  }
+
+  &-lightgrey {
+    color: #ccc;
+  }
+
+  &-green {
+    color: #66BB6A;
+  }
+
+  &-red {
+    color: #EF5350;
+  }
+}

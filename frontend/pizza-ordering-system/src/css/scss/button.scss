@@ -1,0 +1,100 @@
+.btn {
+  padding: 0 12px;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  font-weight: 700;
+
+  &-xs {
+    @extend .btn;
+    height: 16px;
+  }
+
+  &-sm {
+    @extend .btn;
+    height: 24px;
+  }
+
+  &-md {
+    @extend .btn;
+    height: 32px;
+  }
+
+  &-lg {
+    @extend .btn;
+    height: 40px;
+  }
+
+  &:active {
+    color: #333;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &-pink {
+    background-color: #EC407A;
+
+    &:hover {
+      background-color: #F48FB1;
+    }
+  }
+
+  &-blue {
+    background-color: #1E88E5;
+
+    &:hover {
+      background-color: #42A5F5;
+    }
+  }
+
+  &-darkblue {
+    background-color: #303F9F;
+
+    &:hover {
+      background-color: #5C6BC0;
+    }
+  }
+
+  &-green {
+    background-color: #4CAF50;
+
+    &:hover {
+      background-color: #81C784;
+    }
+  }
+
+  &-transparent {
+    color: #455A64;
+    background-color: transparent;
+    
+    &:hover {
+      background-color: #eee;
+    }
+
+    &:active {
+      color: #aaa;
+    }
+  }
+
+  &-grey {
+    color: #555;
+    background-color: #eee;
+
+    &:hover {
+      background-color: #bbb;
+    }
+
+    &:active {
+      color: white;
+    }
+  }
+}
+
+.clickable {
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

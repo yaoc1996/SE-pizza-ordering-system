@@ -1,0 +1,196 @@
+.centered {
+  &-hv {
+    z-index: 999;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &-hor {
+    z-index: 999;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+
+  &-ver {
+    z-index: 999;
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+  }
+}
+
+.block {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: auto;
+
+  &-inline {
+    @extend .block;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.flex {
+  display: flex;
+  
+  &-row {
+    @extend .flex;
+    flex-direction: row;
+  }
+
+  &-col {
+    @extend .flex;
+    flex-direction: column;
+  }
+
+  &-item {
+    flex: 0 1 auto;
+  }
+
+  &-item-fill {
+    flex-grow: 1 1 auto;
+  }
+}
+
+.line {
+  &-h {
+    display: block;
+    width: 100%;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0;
+  }
+
+  &-v {
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0;
+    vertical-align: top;
+  }
+}
+
+.fit {
+  display: inline-block;
+  position: relative;
+  width: auto;
+  height: auto;
+}
+
+.fill {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.padding {
+  &-0 {
+    padding: 0;
+  }
+
+  &-xs {
+    padding: 3px 6px;
+  }
+
+  &-sm {
+    padding: 6px 12px;
+  }
+  
+  &-md {
+    padding: 9px 18px;
+  }
+  
+  &-lg {
+    padding: 12px 24px;
+  }
+}
+
+.margin {
+  &-0 {
+    margin: 0;
+  }
+
+  &-xs {
+    margin: 3px;
+  }
+
+  &-sm {
+    margin: 6px;
+  }
+  
+  &-md {
+    margin: 9px;
+  }
+  
+  &-lg {
+    margin: 12px;
+  }
+}
+
+.float {
+  &-right {
+    float: right;
+  }
+  
+  &-left {
+    float: left;
+  }
+}
+
+.align {
+  &-left {
+    text-align: left;
+  }
+  
+  &-center {
+    text-align: center;
+  }
+  
+  &-right {
+    text-align: right;
+  }
+
+  &-middle {
+    vertical-align: middle;
+  }
+
+  &-top {
+    vertical-align: top;
+  }
+
+  &-bottom {
+    vertical-align: bottom;
+  }
+}
+
+.bg {
+  &-white {
+    background-color: white;
+  }
+
+  &-lightblue {
+    background-color: #BBDEFB;
+  }
+}
+
+.edge {
+  &-rounded {
+    border-radius: 12px;
+  }
+
+  &-straight {
+    border-radius: 0;
+  }
+}
