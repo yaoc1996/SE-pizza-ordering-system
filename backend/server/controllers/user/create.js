@@ -1,6 +1,8 @@
+const express = require('express');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 
-module.exports = ({ express, models, secretOrKey }) => ({
+module.exports = ({ models, passport }) => ({
   router() {
     const router = express.Router();
 
@@ -14,12 +16,14 @@ module.exports = ({ express, models, secretOrKey }) => ({
       username,
       email,
       password,
+      type,
     } = req.body;
 
     models.User.create({
       username,
       email,
       password,
+      type,
     })
       .then(user => {
         const { username } = user;
@@ -27,7 +31,7 @@ module.exports = ({ express, models, secretOrKey }) => ({
         const payload = { username };
         const token = jwt.sign(
           payload,
-          secretOrKey,
+          passport.secretOrKey,
           { expiresIn: '10h' },
         );
 
@@ -35,6 +39,7 @@ module.exports = ({ express, models, secretOrKey }) => ({
           success: true,
           message: 'user created',
           token,
+          user: _.pick(user, ['username', 'email', 'type']),
         })
       })
       .catch(e => {
@@ -43,7 +48,7 @@ module.exports = ({ express, models, secretOrKey }) => ({
             ? e.errors[0].message
             : 'error encountered during user create';
 
-        console.log(e);
+        console.log(message);
         res.json({
           success: false,
           message,
