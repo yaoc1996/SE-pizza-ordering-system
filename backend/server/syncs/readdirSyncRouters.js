@@ -6,6 +6,10 @@ function readdirSyncRouters(params) {
   const router = express.Router();
   const { dirname } = params;
 
+  if (!dirname || dirname[0] !== '/') {
+    throw "readdirSync with relative path is not allowed";
+  }
+
   fs
     .readdirSync(dirname)
     .forEach(file => {

@@ -5,6 +5,10 @@ const path = require('path');
 module.exports = ({ dirname, config }) => {
   const db = {};
 
+  if (!dirname || dirname[0] !== '/') {
+    throw "readdirSync with relative path is not allowed";
+  }
+
   const sequelize = 
     (config.use_env_variable)
       ? new Sequelize(process.env[config.use_env_variable])
