@@ -2,8 +2,9 @@ const express = require('express');
 const fs = require('fs');
 const _ = require('lodash');
 
-function readdirSyncRouters({ dirname, models, passport, secretOrKey }) {
+function readdirSyncRouters(params) {
   const router = express.Router();
+  const { dirname } = params;
 
   fs
     .readdirSync(dirname)
@@ -16,18 +17,11 @@ function readdirSyncRouters({ dirname, models, passport, secretOrKey }) {
 
         var subRouter = 
           stats.isDirectory()
-            ? readdirSyncRouters({
-                dirname: `${dirname}/${file}`, 
-                models,
-                passport,
-                secretOrKey,
-              })
-            : require(`${dirname}/${file}`)({
-                express, 
-                models,
-                passport,
-                secretOrKey,
-            }).router()
+            ? readdirSyncRouters(_.assign(
+                params, 
+                { dirname: `${dirname}/${file}` }
+              ))
+            : require(`${dirname}/${file}`)(_.omit(params, ['dirname'])).router()
 
         router.use(`/${route}`, subRouter);
       })
