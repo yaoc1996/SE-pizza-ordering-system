@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         notEmpty: true,
+        isEmail: true,
       },
     },
     password: {
@@ -28,8 +29,33 @@ module.exports = (sequelize, DataTypes) => {
     },
     passwordHash: {
       type: DataTypes.STRING,
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isIn: [['customer', 'manager', 'cook', 'delivery']],
+      }
     }
   })
+
+  User.associate = models => {
+    User.hasMany(models.Rating, {
+      as: 'sentRatings',
+      foreignKey: 'sourceUsername',
+    })
+    User.hasMany(models.Rating, {
+      as: 'receivedRatings',
+      foreignKey: 'targetUsername',
+    })
+    User.hasMany(models.Order, {
+      foreignKey: 'customerUsername'
+    });
+    User.belongsTo(models.Store, {
+      as: 'workPlace',
+    })
+  }
 
   User.beforeCreate(user => {
     return new sequelize.Promise(resolve => {
