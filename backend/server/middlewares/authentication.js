@@ -16,7 +16,7 @@ module.exports = ({ secretOrKey, models }) => {
     })
       .then(user => {
         if (!user) {
-          next(null, false);
+          next(null, null);
         } else {
           next(null, user);
         }
@@ -24,6 +24,7 @@ module.exports = ({ secretOrKey, models }) => {
   })
 
   passport.use(strategy);
+  passport.secretOrKey = secretOrKey;  
 
   return passport;
 }
