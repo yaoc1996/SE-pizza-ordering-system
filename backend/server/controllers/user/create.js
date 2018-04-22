@@ -2,15 +2,14 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 
-module.exports = ({ models, passport }) => ({
-  router() {
+module.exports = {
+  Router() {
     const router = express.Router();
 
     router.post('/', this.createUser);
 
     return router;
   },
-
   createUser(req, res) {
     const {
       username,
@@ -55,4 +54,4 @@ module.exports = ({ models, passport }) => ({
         });
       })
   }
-})
+}

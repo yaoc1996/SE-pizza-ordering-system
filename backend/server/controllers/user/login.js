@@ -2,9 +2,10 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const passport = require('middlewares/authentication');
 
-module.exports = ({ models, passport }) => ({
-  router() {
+module.exports = {
+  Router() {
     const router = express.Router();
 
     router.post('/', this.login);
@@ -64,4 +65,4 @@ module.exports = ({ models, passport }) => ({
         })
       })
   }
-})
+}
