@@ -43,15 +43,33 @@ class Dash extends Component {
           <div className='font-txl margin-lg padding-lg'>
             Menu
             <div className='line-h' />
-            <List 
-              bullet
-              items={samplePizzas}
-              Li={({children}) => 
-                <div>
-                  <label>{children.name}</label>
-                  <label> {children.price}</label>
+        
+            <div class="ui cards">
+
+            {
+              samplePizzas.map(pizza =>
+                <div className = "card">
+                  <div className = "content">
+                    <div className = "header" contenteditable="true" > {pizza.name} </div>
+                    <div className = "description"> 
+                      {pizza.description}
+                      <br></br>
+                      ${pizza.price}
+                    </div>
+                    
+                    <div clasName = "extra content">
+                      <div className = "ui two buttons">
+                        <div className = "ui basic green button">Edit</div>
+                        <div className = "ui basic red button">Delete</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              } />
+
+              )
+            }
+            </div>
+
             <div className='fill align-right'>
               Name: <input />
               <br />
@@ -76,15 +94,15 @@ const sampleStore = {
 }
 
 const samplePizzas = [{
-  name: 'pepperoni',
-  price: 6,
+  name: 'Honalulu Hawaiian',
+  description: '12 inch Pizza with Ham and Pineapple',
+  price: 9,
 }, {
-  name: 'pepperoni',
-  price: 6,
+  name: 'Meat Lovers',
+  description: '12 inch Pizza with Sausage, Ham, Bacon, and Pepperoni',
+  price: 9,
 }, {
-  name: 'pepperoni',
-  price: 6,
-}, {
-  name: 'pepperoni',
-  price: 6,
+  name: 'Buffalo Chicken',
+  description: '12 inch Pizza with Chicken and Buffalo Sauce',
+  price: 9,
 }]
