@@ -30,7 +30,7 @@ class Dash extends Component {
     const { store } = this.state;
 
     return (
-      <div className='fill' >
+      <div className='fill bg-grey' >
         <div  className='align-right'>
           <button className='btn-md btn-pink margin-sm'
                   onClick={onLogout} >
@@ -43,23 +43,60 @@ class Dash extends Component {
           <div className='font-txl margin-lg padding-lg'>
             Menu
             <div className='line-h' />
-            <List 
-              bullet
-              items={samplePizzas}
-              Li={({children}) => 
-                <div>
-                  <label>{children.name}</label>
-                  <label> {children.price}</label>
+        
+            <div class="ui cards">
+
+            {
+              samplePizzas.map(pizza =>
+                <div className = "card">
+                  <div className = "content">
+                    <div className = "header"> {pizza.name} </div>
+                    <div className = "description"> 
+                      {pizza.description}
+                      <br></br>
+                      ${pizza.price}
+                    </div>
+                    
+                    <div clasName = "extra content">
+                      <div className = "ui two buttons">
+                        <div className = "ui basic green button">Edit</div>
+                        <div className = "ui basic red button">Delete</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              } />
-            <div className='fill align-right'>
-              Name: <input />
-              <br />
-              Price: <input />
-              <br />
-              <button>Edit Item</button>
-              <button>Add Item</button>
+
+              )
+            }
             </div>
+            <br />
+            <h1> Add Item to Menu </h1>
+            <div className="ui card">
+              <div className = "content">
+                <div className = "header"> 
+                  <div className = "description">
+
+                    <div class="ui input">
+                      <input type="text" placeholder="Name" />
+                    </div>
+                    <br />
+                    <div class="ui input">
+                      <input type="text" placeholder="Description" />
+                    </div>
+                    <br />
+                    <div class="ui input">
+                     <input type="text" placeholder="Price" />
+                    </div>
+                  </div>
+
+                  <div className="ui bottom attached button">
+                    <i className="add icon"></i>
+                    Add Item
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -76,15 +113,15 @@ const sampleStore = {
 }
 
 const samplePizzas = [{
-  name: 'pepperoni',
-  price: 6,
+  name: 'Honalulu Hawaiian',
+  description: '12 inch Pizza with Ham and Pineapple',
+  price: 9,
 }, {
-  name: 'pepperoni',
-  price: 6,
+  name: 'Meat Lovers',
+  description: '12 inch Pizza with Sausage, Ham, Bacon, and Pepperoni',
+  price: 9,
 }, {
-  name: 'pepperoni',
-  price: 6,
-}, {
-  name: 'pepperoni',
-  price: 6,
+  name: 'Buffalo Chicken',
+  description: '12 inch Pizza with Chicken and Buffalo Sauce',
+  price: 9,
 }]
