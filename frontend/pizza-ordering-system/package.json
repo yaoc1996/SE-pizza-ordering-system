@@ -5,7 +5,7 @@
   "dependencies": {
     "google-maps-react": "^1.1.2",
     "lodash": "^4.17.5",
-    "react": "^16.2.0",
+    "react": "16.0.0-alpha.12",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",
@@ -25,6 +25,7 @@
   },
   "proxy": "http://localhost:3001",
   "devDependencies": {
-    "node-sass": "^4.8.3"
+    "node-sass": "^4.8.3",
+    "react-edit-inline": "^1.0.8"
   }
 }
