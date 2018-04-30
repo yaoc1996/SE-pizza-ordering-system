@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Crust = sequelize.define('crust', {
+  const Dough = sequelize.define('dough', {
     typeName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -10,5 +10,5 @@ module.exports = (sequelize, DataTypes) => {
     },
   })
 
-  return Crust;
+  return Dough;
 }

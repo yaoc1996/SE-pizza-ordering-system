@@ -51,8 +51,8 @@ module.exports = (sequelize, DataTypes) => {
       as: 'offeredToppings',
       foreignKey: 'vendorStoreId',
     })
-    Store.hasMany(models.Crust, {
-      as: 'offeredCrusts',
+    Store.hasMany(models.Dough, {
+      as: 'offeredDough',
       foreignKey: 'vendorStoreId',
     })
   }
