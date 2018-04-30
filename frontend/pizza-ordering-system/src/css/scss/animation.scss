@@ -7,9 +7,25 @@
   }
 }
 
+@keyframes scale-out {
+  from {
+    transform: translate(-50%, -50%) scale(0, 0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1, 1);
+  }
+}
+
 .fade-in {
   -webkit-animation: fade-in .66s ease;
   -moz-animation: fade-in .66s ease;
   -o-animation: fade-in .66s ease;
   animation: fade-in .66s ease;
+}
+
+.scale-out {
+  -webkit-animation: scale-out .15s ease;
+  -moz-animation: scale-out .15s ease;
+  -o-animation: scale-out .15s ease;
+  animation: scale-out .15s ease;
 }

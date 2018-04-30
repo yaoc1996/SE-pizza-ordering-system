@@ -2,7 +2,7 @@ import React from 'react';
 
 const PendingRequest = ({ last, children }) => {
   return (
-    <div className='padding-sm' >
+    <div className='margin-md' >
       <label className='clickable font-darkblue' >
         { children }
       </label>

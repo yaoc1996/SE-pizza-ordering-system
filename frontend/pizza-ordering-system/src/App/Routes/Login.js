@@ -75,8 +75,8 @@ const Login = props => {
         <br /><br />
         {
           redirectDest === '/store' &&
-          <label className='clickable font-sm font-blue'
-            onClick={redirect} >Continue as guest</label>
+          <label  className='clickable font-sm font-blue'
+                  onClick={redirect} >Continue as guest</label>
         }
       </div>
     </div>

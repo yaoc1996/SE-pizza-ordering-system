@@ -94,10 +94,9 @@ class Dash extends Component {
 
     return (
       <div className='fill' >
-        <div  className='align-left' 
-              style={{ height: 120 }} >
+        <div  className='align-left'>
           <button className='btn-md btn-pink float-right margin-sm'
-            onClick={onLogout} >
+                  onClick={onLogout} >
             Logout
           </button>
           <div className='margin-md fit'>
@@ -118,9 +117,9 @@ class Dash extends Component {
               Hire Workers
             </button>
           </div>
-          <div className='line-h' />
         </div>
 
+        <div className='line-h' />
 
         <div className='block-inline fade-in scrollable'
              style={{ height: 'calc(100vh - 120px)' }} >

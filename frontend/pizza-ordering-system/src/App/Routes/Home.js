@@ -19,7 +19,6 @@ class Home extends Component {
     }
 
     this.goTo = this.goTo.bind(this);
-    this.googleMapsApiCallback = this.googleMapsApiCallback.bind(this);
     this.initMap = this.initMap.bind(this);
     this.initMarker = this.initMarker.bind(this);
     this.initSearchBox = this.initSearchBox.bind(this);
@@ -40,19 +39,19 @@ class Home extends Component {
     }
 
     loadGoogleMaps(url, params)
-      .then(this.googleMapsApiCallback);
-  }
-
-  googleMapsApiCallback(google) {
-    if (google) {
-      const {
-        initMap,
-        initSearchBox,
-      } = this;
-  
-      this.map = initMap(google);
-      this.searchBox = initSearchBox(google);
-    }
+      .then(google => {
+        if (google) {
+          const {
+            initMap,
+            initSearchBox,
+          } = this;
+      
+          this.map = initMap(google);
+          this.searchBox = initSearchBox(google);
+        } else {
+          window.alert('failed to load google maps');
+        }
+      });
   }
 
   initMap(google) {
@@ -83,14 +82,13 @@ class Home extends Component {
       if (!this.marker) this.marker = this.initMarker(google);
 
       this.marker.setPosition(e.latLng);
-      // fetch 3 new stores here
+      this.loadNearbyStores(google, e.latLng, 5);
     })
 
     return map;
   }
 
   initMarker(google) {
-    console.log(google);
     const { map } = this;
     const marker = new google.maps.Marker({
       map: map,
@@ -126,6 +124,20 @@ class Home extends Component {
     return searchBox;
   }
 
+  loadNearbyStores(google, location, n) {
+    const placesService = new google.maps.places.PlacesService(this.map);
+    console.log(placesService);
+    placesService.nearbySearch({
+      location,
+      radius: 5000,
+      types: [ "restaurant" ],
+      limit: 3,
+    }, cb => {
+      this.restaurantMarkers = []
+      
+    })
+  }
+
   render() {
     const {
       onSearch,
@@ -154,7 +166,7 @@ class Home extends Component {
           <Link to='/signup'>
             <button className='float-right btn-md margin-sm btn-blue'>
               Signup
-            </button>            
+            </button> 
           </Link>
         </div>
 
