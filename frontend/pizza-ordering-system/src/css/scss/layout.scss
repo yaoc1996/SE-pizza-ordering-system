@@ -64,6 +64,10 @@
     height: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     margin: 0;
+
+    &-thick {
+      border-top: 3px solid #777;
+    }
   }
 
   &-v {
@@ -180,6 +184,10 @@
     background-color: white;
   }
 
+  &-grey {
+    background-color: #f3f3f3;
+  }
+
   &-lightblue {
     background-color: #BBDEFB;
   }
@@ -193,4 +201,8 @@
   &-straight {
     border-radius: 0;
   }
+}
+
+.box-shadow {
+  box-shadow: 3px 3px 2px 0px #ddd;
 }

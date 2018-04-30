@@ -38,7 +38,7 @@ class HireForm extends Component {
     } = this.state;
     
     return (
-      <div className='centered-hv bg-white edge-rounded padding-md' >
+      <div className='centered-hv bg-white edge-rounded padding-md scale-out' >
         <form className='align-left form'
               onSubmit={onOffer} >
           <br />
@@ -66,17 +66,16 @@ class HireForm extends Component {
                   placeholder='Enter a name' />
 
           <div>
-            <List
-              id='search-results'
-              selectedClassName='bg-lightblue'
-              selected={selected}
-              setSelect={setSelect}
-              items={searches}
-              Li={props => 
-                <label className='padding-md fill align-right' >
-                  { props.children }
-                </label>
-              } />
+            <List id='search-results'
+                  selectedClassName='bg-lightblue'
+                  selected={selected}
+                  setSelect={setSelect}
+                  items={searches}
+                  Li={props => 
+                    <label className='padding-md fill align-right' >
+                      { props.children }
+                    </label>
+                  } />
           </div>
           <br />
           <div className='block' >

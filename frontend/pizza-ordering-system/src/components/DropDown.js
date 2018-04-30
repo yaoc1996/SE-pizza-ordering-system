@@ -31,11 +31,12 @@ class DropDown extends Component {
         <div className='block align-left clickable'
              style={{ backgroundColor: '#eee'}}
              onClick={toggle} >
+          <div className='line-h' />
           <i className='material-icons float-right no-selection' 
              style={{ transform: collapsed ? null : 'rotate(-180deg)' }} >
             arrow_drop_up
           </i>
-          <label className={'margin-lg fit font-bold ' + labelCN}>
+          <label className={'margin-lg fit font-bold clickable ' + labelCN}>
             { title }
           </label>
         </div>
