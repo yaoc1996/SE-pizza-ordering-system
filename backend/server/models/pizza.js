@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   Pizza.associate = models => {
     Pizza.hasMany(models.Rating);
     Pizza.hasMany(models.Topping);
-    Pizza.hasOne(models.Crust)
+    Pizza.hasOne(models.Dough)
   }
 
   return Pizza;
