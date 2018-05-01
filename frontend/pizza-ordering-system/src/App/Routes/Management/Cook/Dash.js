@@ -44,7 +44,7 @@ class Dash extends Component {
             Menu
             <div className='line-h' />
         
-            <div class="ui cards">
+            <div className="ui cards">
 
             {
               samplePizzas.map(pizza =>
@@ -57,7 +57,7 @@ class Dash extends Component {
                       ${pizza.price}
                     </div>
                     
-                    <div clasName = "extra content">
+                    <div className = "extra content">
                       <div className = "ui two buttons">
                         <div className = "ui basic green button">Edit</div>
                         <div className = "ui basic red button">Delete</div>
@@ -80,11 +80,11 @@ class Dash extends Component {
                       <input type="text" placeholder="Name" />
                     </div>
                     <br />
-                    <div class="ui input">
+                    <div className="ui input">
                       <input type="text" placeholder="Description" />
                     </div>
                     <br />
-                    <div class="ui input">
+                    <div className="ui input">
                      <input type="text" placeholder="Price" />
                     </div>
                   </div>
@@ -96,7 +96,6 @@ class Dash extends Component {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
