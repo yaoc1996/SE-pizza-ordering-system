@@ -10,6 +10,7 @@ import SMSetup from './Routes/Management/StoreManager/Setup';
 import SMDash from './Routes/Management/StoreManager/Dash';
 import CKDash from './Routes/Management/Cook/Dash';
 import SSID from './Routes/Management/Store/StoreID';
+import SCheckout from './Routes/Management/Store/Checkout';
 
 class App extends Component {
   constructor() {
@@ -110,9 +111,14 @@ class App extends Component {
             <Route  path='/home' 
                     component={Home} />    
 
+            
             <Route  exact
                     path='/management/store/storeid'
                     component={SSID} />
+
+            <Route  exact
+                    path='/management/store/checkout'
+                    component={SCheckout} />
 
           </Switch>
 
