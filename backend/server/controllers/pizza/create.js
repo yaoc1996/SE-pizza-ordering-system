@@ -21,11 +21,14 @@ module.exports = {
       pizza,
     })
       .then(pizza => {
-        pizza.getTopping()
-        pizza.getCrust()
-      })
-      .then(toppings => {
-
+        toppings.forEach(topping => {
+          pizza.createTopping({
+            typeName: topping.typeName
+          })
+        })
+        pizza.createDough({
+          typeName: dough.typeName,
+        })
       })
     }
 }

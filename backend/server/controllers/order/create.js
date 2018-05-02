@@ -12,26 +12,49 @@ module.exports = {
   
     createOrder(req, res) {
       const {
-      subtotal,
-      tax,
-      total,
-      tip,
-    } = req.body;
-      
-    models.User.findOne({
-      where: { email },
-    })
-    .then(user =>{
-      if(!user){
-        res.statu(400).json({success: false, msg: 'Please create your own pizza'})
-      } else {
-        models.order.create({
-          where: {
-            
-          }
-        })
-      }
+        customerUsername,
+        vendorId,
+        subtotal,
+        tax,
+        total,
+        tip,
+        pizzas,
+      } = req.body;
 
-    });
-  }
+      models.Order.create({
+        subtotal,
+        tax, 
+        total,
+        tip,
+      })
+        .then(order => {
+          Promise.all([
+            models.User.findOne({
+              where: {
+                username: customerUsername,
+              }
+            }),
+            models.Store.findOne({
+              where: {
+                id: vendorId,
+              }
+            }),
+          ])
+            .then(([customer, vendor]) => {
+              Promise.all(pizzas.map(pizza => 
+                models.Pizza.findOne({
+                  where: {
+                    id: pizza.id,
+                  }
+                })
+              ))
+                .then(pizzas => {
+                  order.setVendor(vendor)
+                  order.setCustomer(customer)
+                  order.addPizzas(pizzas)
+                })
+            })
+        })
+    }
 }
+
