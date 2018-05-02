@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('models');
+const models = require('models');
 
 module.exports = {
     Router() {
@@ -14,7 +14,7 @@ module.exports = {
       if (!req.body.value || !req.body.reason){
         res.status(400).json({sucess: false, msg: 'Not enough ratings'});
       } else {
-        db.user.find({
+        models.user.find({
           where: {
 
           }

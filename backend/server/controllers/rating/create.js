@@ -39,7 +39,11 @@ module.exports = {
               rating.setTarget(target)
             })
         })
+<<<<<<< 0bb1286a3ecb0959ff18e709dce1f2aebb9c91c3
     }
 
   
 }
+=======
+    }
+>>>>>>> controllers'
