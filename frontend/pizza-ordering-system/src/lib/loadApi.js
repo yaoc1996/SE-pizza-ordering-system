@@ -15,17 +15,17 @@ function createApiSrc(url, params) {
     )(p);
   }
 
-  return `${url}${createQueryString(params)}`;
+  return `${url}?${createQueryString(params)}`;
 }
 
-function loadGoogleMaps(url, params) {
-  if (!document.getElementById('google-maps')) {
+function loadApi(tag, url, params) {
+  if (!document.getElementById(tag)) {
     var ref = document.getElementsByTagName('script')[0];
     var script = document.createElement('script');
 
     Object.assign(script, {
       src: createApiSrc(url, params),
-      id: 'google-maps',
+      id: tag,
       async: true,
       defer: true,
     })
@@ -36,13 +36,13 @@ function loadGoogleMaps(url, params) {
       const start = Date.now();
       script.addEventListener('load', () => {
         console.log(`Google Maps Loading Time: ${Date.now() - start}ms`);
-        resolve(window.google)
+        resolve(window)
       });
     })
 
   } else {
-    return new Promise(resolve => resolve(window.google));
+    return new Promise(resolve => resolve(window));
   }
 }
 
-export default loadGoogleMaps;
+export default loadApi;

@@ -11,6 +11,7 @@ import SMDash from './Routes/Management/StoreManager/Dash';
 import CKDash from './Routes/Management/Cook/Dash';
 import SSID from './Routes/Management/Store/StoreID';
 import SCheckout from './Routes/Management/Store/Checkout';
+import Delivery from './Routes/Management/Delivery';
 
 class App extends Component {
   constructor() {
@@ -107,6 +108,10 @@ class App extends Component {
             <Route  exact
                     path='/management/cook/dash'
                     component={CKDash} />
+
+            <Route  exact
+                    path='/management/delivery'
+                    component={Delivery} />
 
             <Route  path='/home' 
                     component={Home} />    

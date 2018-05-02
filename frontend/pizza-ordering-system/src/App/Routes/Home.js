@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-  loadGoogleMaps,
+  loadApi,
 } from 'lib';
 
 const midTownManhattanCoords = {
@@ -38,8 +38,8 @@ class Home extends Component {
       libraries: 'places',
     }
 
-    loadGoogleMaps(url, params)
-      .then(google => {
+    loadApi('google-maps', url, params)
+      .then(({google}) => {
         if (google) {
           const {
             initMap,
@@ -118,7 +118,7 @@ class Home extends Component {
       const { location } = places[0].geometry
       this.marker.setPosition(location);
       map.panTo(location);      
-      map.setZoom(14);      
+      map.setZoom(14);
     })
 
     return searchBox;
