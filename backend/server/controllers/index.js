@@ -40,4 +40,6 @@ router.get('/', (req, res) => {
   res.send('Welcome to the online pizza delivery system API.')
 })
 
+router.use('/user', require('./users'));
+
 module.exports = router;

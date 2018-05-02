@@ -13,21 +13,19 @@ module.exports = {
     createPizza(req, res) {
       const {
         pizza,
-        crust,
-        topping,
+        dough,
+        toppings,
       } = req.body;
 
     models.Pizza.create({
       pizza,
-      crust,
-      toppings,
     })
-      
       .then(pizza => {
         pizza.getTopping()
         pizza.getCrust()
+      })
       .then(toppings => {
 
-      }
+      })
     }
-  }
+}
