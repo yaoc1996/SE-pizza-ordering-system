@@ -4,7 +4,7 @@ const path = require('path');
 const _ = require('lodash');
 
 const basename = path.basename(module.filename);
-
+//test 
 function readdirSyncRouters(dirname) {
   const router = express.Router();
   fs
