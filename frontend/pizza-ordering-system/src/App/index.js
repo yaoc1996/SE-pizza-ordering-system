@@ -9,12 +9,9 @@ import SMSignup from './Routes/Management/Signup';
 import SMSetup from './Routes/Management/StoreManager/Setup';
 import SMDash from './Routes/Management/StoreManager/Dash';
 import CKDash from './Routes/Management/Cook/Dash';
-<<<<<<< HEAD
 import SSID from './Routes/Management/Store/StoreID';
 import SCheckout from './Routes/Management/Store/Checkout';
-=======
 import Delivery from './Routes/Management/Delivery';
->>>>>>> added delivery person homepage
 
 class App extends Component {
   constructor() {
