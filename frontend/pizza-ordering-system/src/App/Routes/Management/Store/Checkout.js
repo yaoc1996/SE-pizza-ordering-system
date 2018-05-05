@@ -11,23 +11,12 @@ class Checkout extends Component{
 
 	render(){
 		return (
+			<div>
 
+				<h3> Your Order </h3>
+				<div className='line-h' />
 
-		<div className='fill bg-grey' >
-	        <div  className='align-right'>
-	          <button className='btn-md btn-pink margin-sm' >
-	            Logout
-	          </button>
-	          <div className='line-h' />
-	        </div>
-
-	        <div className='align-left margin-lg padding-lg'>
-	          <div className='font-txl margin-lg padding-lg'>
-	            <div className='line-h' />
-	          </div>
-	        </div>
-			<h1> Your Order </h1>
-			<div className = "centered-hv">
+			
 				<div className="ui middle aligned divided list">
 				{
 					sampleOrder.map(order =>
@@ -53,7 +42,7 @@ class Checkout extends Component{
 				<button className="ui button">
 				  Place Order
 				</button>
-			</div>
+			
 		</div>
 		)
 	}

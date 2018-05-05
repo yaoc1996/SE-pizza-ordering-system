@@ -148,6 +148,7 @@ class Home extends Component {
     return (
       <div className='fill' >
         <div className='block align-left' >
+          <img className = 'logo' src="pizzalogosmall.png" alt="Pizza Logo" />
           <div className='home-search-area' >
             <input  className='input-fill'
                     id='search-box'
@@ -159,12 +160,12 @@ class Home extends Component {
           </button>
 
           <Link to='/login'>
-            <button className='float-right btn-md margin-sm btn-blue'>
+            <button className='float-right btn-lg margin-sm btn-red'>
               Login
             </button>
           </Link>
           <Link to='/signup'>
-            <button className='float-right btn-md margin-sm btn-blue'>
+            <button className='float-right btn-lg margin-sm btn-red'>
               Signup
             </button> 
           </Link>

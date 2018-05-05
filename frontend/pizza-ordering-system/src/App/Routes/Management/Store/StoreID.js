@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Checkout from './Checkout';
 
 
 import{
@@ -29,97 +30,111 @@ class StoreID extends Component{
 		const { storeID } = this.state;
 
 		return (
-		<div className='fill bg-grey' >
-        	<div  className='align-right'>
-          		<button className='btn-md btn-pink margin-sm'>
-            		Logout
-          		</button>
-          		<div className='line-h' />
-        	</div>
+		<div className = 'fill bg-grey'>
+			<div className = 'align-right'>
+				<button className = 'btn-md btn-pink margin-sm'>
+					Logout 
+				</button>
+			</div>
+			<div className="ui right aligned grid">
+			  <div className="left floated aligned two column row">
+			    <div className="column">
+			      <div className="ui segment">
+			      	<div className='align-left margin-lg padding-lg'>
+          				<div className='font-txl margin-lg padding-lg'>
+	          				Menu
+	          				<br />
+	          				<h1> Most Popular </h1>
+	          				<div className="ui cards">
+		             		{
+		             			samplePizzas.map(pizza => 
+									  <div className="card" >
+									    <div className="content">
+									      <div className="header">{pizza.name}</div>
+									      <div className="description">
+									        {pizza.description}
+									        <br></br>
+									        ${pizza.price} 
+									      </div>
+									    </div>
+									    <div className="ui bottom attached button">
+									      <i className="add icon"></i>
+									      Add to Cart
+									    </div>
+									  </div>
 
-        	<div className='align-left margin-lg padding-lg'>
-          		<div className='font-txl margin-lg padding-lg'>
-            		Menu
-             		<br></br>
+		             			)
+		             		} 
+             				</div>
+	             				<br></br>
+								<h1> Create Your Own </h1>
 
-             		<h1> Most Popular </h1>
 
-             		<div className="ui cards">
-             		{
-             			samplePizzas.map(pizza => 
-							  <div className="card" >
-							    <div className="content">
-							      <div className="header">{pizza.name}</div>
-							      <div className="description">
-							        {pizza.description}
-							        <br></br>
-							        ${pizza.price} 
-							      </div>
-							    </div>
-							    <div className="ui bottom attached button">
-							      <i className="add icon"></i>
-							      Add to Cart
-							    </div>
-							  </div>
+								<div className="card">
+								  <div className="card-body">
+								  	<br></br>
+								    <h6 className="card-text">
+								    	Select one type of dough, one chef, and unlimited toppings
+								    </h6>
+								    <div className="row">
+										  <div className="col-sm-4">
+										  	{
+						             			chooseDough.map(dough =>
+						             				<label className="container">{dough.name}
+													  <input type="radio" name="radio" />
+													  <span className="checkmark"></span>
+													</label>
+						             			)
+						             		}
+										  </div>
 
-             			)
-             		} 
-             		</div>
+										  <div className="col-sm-4">
+										  	{
+										  		chooseChef.map(chef =>
+										  			<label className="container">Chef {chef.name}
+										  				<input type="radio" name="radio" />
+										  				<span className="checkmark"></span>
+										  			</label>
+										  		)
+										  	}
+										  </div>
 
-				
-					<br></br>
-					<h1> Create Your Own </h1>
+										  <div className="col-sm-4">
+										  	{
+										  		chooseToppings.map(toppings =>
+										  			<label className="container"> {toppings.name}
+										  				<input type="checkbox" />
+										  				<span className="checkmark"></span>
+										  			</label>
+										  		)
+										  	}
+										  </div>
+										</div>
 
-					<div class="card">
-					  <div class="card-body">
-					  	<br></br>
-					    <h6 class="card-text">
-					    	Select one type of dough, one chef, and unlimited toppings
-					    </h6>
-					    <div class="row">
-							  <div class="col-sm-4">
-							  	{
-			             			chooseDough.map(dough =>
-			             				<label class="container">{dough.name}
-										  <input type="radio" name="radio" />
-										  <span class="checkmark"></span>
-										</label>
-			             			)
-			             		}
-							  </div>
+								    <div className="ui bottom attached button">
+								      <i className="add icon"></i>
+								      Add to Cart
+								    </div>
+								  </div>
+								</div>
 
-							  <div class="col-sm-4">
-							  	{
-							  		chooseChef.map(chef =>
-							  			<label class="container">Chef {chef.name}
-							  				<input type="radio" name="radio" />
-							  				<span class="checkmark"></span>
-							  			</label>
-							  		)
-							  	}
-							  </div>
+          					</div>
+          			</div>
+			      </div>
+			    </div>
+			    <div className="column">
+			      <div className="ui segment">
+			      	<Checkout />
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		</div>
 
-							  <div class="col-sm-4">
-							  	{
-							  		chooseToppings.map(toppings =>
-							  			<label class="container"> {toppings.name}
-							  				<input type="checkbox" />
-							  				<span class="checkmark"></span>
-							  			</label>
-							  		)
-							  	}
-							  </div>
-							</div>
 
-					    <div class="ui bottom attached button">
-					      <i class="add icon"></i>
-					      Add to Cart
-					    </div>
-					  </div>
-					</div>
-          		</div>
-        	</div>
-        </div>
+
+
+
 
 		)
 	}
