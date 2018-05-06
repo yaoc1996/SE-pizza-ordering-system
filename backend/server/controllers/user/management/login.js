@@ -25,10 +25,10 @@ module.exports = {
     })
       .then(user => {
         if (user) {
-          if (user.type != 'customer') {
+          if (user.type == 'customer') {
             res.json({
               success: false,
-              message: 'this portal is for customers only, use the management portal to login as manager, cook, or delivery worker',
+              message: 'this portal is for management users only, use the customer portal for logins',
             })
           } else {
             const {

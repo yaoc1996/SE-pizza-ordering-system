@@ -144,7 +144,7 @@ class Delivery extends Component {
   render() {
     return (
       <div className='fill align-center padding-lg'>
-        <label className='fit margin-lg'>Delivery</label>
+        <div className='align-left margin-lg'>Delivery</div>
         <br />
         <div  className='fit no-transition no-animation'
               style={{
@@ -164,18 +164,20 @@ class Delivery extends Component {
               }} >
             <label className='fit font-dxl'>Orders</label>
             {
-              sampleOrders.map(order => {
+              sampleOrders.map((order, id) => {
                 const initNavigation = this.initNavigation.bind(this, order.destination)
 
-                return <div className='padding-sm'>
-                  <div className='line-h' />
-                  
-                  <label>Order to: {order.destination}</label>
-                  <br />
-                  <div className='align-right'>
-                    <button onClick={initNavigation}>Start</button>
+                return (
+                  <div className='padding-sm' key={`destination-${id}`}>
+                    <div className='line-h' />
+                    
+                    <label>Order to: {order.destination}</label>
+                    <br />
+                    <div className='align-right'>
+                      <button onClick={initNavigation}>Start</button>
+                    </div>
                   </div>
-                </div>
+                )
               })
             }
         </div>

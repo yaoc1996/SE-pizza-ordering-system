@@ -1,17 +1,17 @@
-import { DOMAIN, SMSIGNUP } from 'macro.json';
+import { DOMAIN, MGMT_LOGIN } from 'macro.json';
 
-function postSMSignup(body) {
+function postMgmtLogin(body) {
   return (
-    fetch(DOMAIN+SMSIGNUP, {
+    fetch(DOMAIN+MGMT_LOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     })
       .then(res => res.json())
       .catch(e => console.log(e))
   )
 }
 
-export default postSMSignup;
+export default postMgmtLogin;

@@ -2,31 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { 
-  postSMLogin,
+  postMgmtLogin,
 } from 'lib';
 
 const Login = props => {
   const {
+    login,
   } = props;
   
-  const onLogin = e => {
-    e.preventDefault();
-    
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    postSMLogin({
-      email,
-      password,
-    })
-      .then(json => {
-        if (json && json.success) {
-
-        }
-        console.log(json);
-      })
-  }
-
   return (
     <div className='fill' >
       <Link to='/management/signup'>
@@ -44,7 +27,7 @@ const Login = props => {
         </label>
         <br /><br /><br />
         <form className='form'
-              onSubmit={onLogin} >
+              onSubmit={login} >
           <div className='form-field' >
             <label>Email:</label>
             <input  type='text'

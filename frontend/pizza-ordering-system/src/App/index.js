@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
-import Home from './Routes/Home';
+import Home from './Routes/Home'
 import Login from './Routes/Login';
 import Signup from './Routes/Signup';
-import SMLogin from './Routes/Management/Login';
-import SMSignup from './Routes/Management/Signup';
-import SMSetup from './Routes/Management/StoreManager/Setup';
-import SMDash from './Routes/Management/StoreManager/Dash';
-import CKDash from './Routes/Management/Cook/Dash';
+import MgmtLogin from './Routes/Management/Login';
+import MgmtSignup from './Routes/Management/Signup';
+import StoreSetup from './Routes/Management/StoreManager/Setup';
+import Manager from './Routes/Management/StoreManager/Dash';
+import Cook from './Routes/Management/Cook/Dash';
+import Delivery from './Routes/Management/Delivery';
 import SSID from './Routes/Management/Store/StoreID';
 import SCheckout from './Routes/Management/Store/Checkout';
-import Delivery from './Routes/Management/Delivery';
+
+import {
+  getAuth,
+  postLogin,
+  postSignup,
+  postMgmtLogin,
+} from 'lib';
 
 class App extends Component {
   constructor() {
@@ -20,10 +27,16 @@ class App extends Component {
     this.state = {
       user: null,
       redirectDest: '/home',
+      loading: true,
     }
 
     this.setAppState = this.setAppState.bind(this);
     this.redirect = this.redirect.bind(this);
+    this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
+    this.mgmtLogin = this.mgmtLogin.bind(this);
+    this.mgmtSignup = this.mgmtSignup.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentWillMount() {
@@ -33,10 +46,31 @@ class App extends Component {
     } = this.props;
 
     console.log(history.location);
-  }
 
+  }
+  
   componentDidMount() {
     console.log(Date.now() - this.time);
+    const token = localStorage.getItem('token')
+    if (token) {
+      getAuth(token)
+        .then(json => {
+          console.log(json)
+          if (json && json.success) {
+            this.setState({
+              user: json.user,
+            })
+          }
+  
+          this.setState({
+            loading: false,
+          })
+        })
+    } else {
+      this.setState({
+        loading: false,
+      })
+    }
   }
 
   setAppState(state) {
@@ -47,6 +81,131 @@ class App extends Component {
     this.props.history.push(this.state.redirectDest);
   }
 
+  login(e) {
+    e.preventDefault();
+    
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    postLogin({
+      email,
+      password,
+    })
+    .then(json => {
+      console.log(json)
+      if (json && json.success) {
+        localStorage.setItem('token', json.token);
+        this.setState({
+          user: json.user
+        })
+        this.redirect();
+      } else {
+        json && alert(json.message);
+        window.location.reload();
+      }
+    })
+  }
+
+  signup(e) {
+    e.preventDefault();
+
+    const firstname = e.target.firstname.value;
+    const lastname = e.target.lastname.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    postSignup({
+      firstname,
+      lastname,
+      email,
+      password,
+      type: 'customer',
+    })
+      .then(json => {
+        console.log(json);
+        if (json && json.success) {
+          localStorage.setItem('token', json.token);
+          this.setState({
+            user: json.user,
+          })
+
+          this.redirect();
+        } else {
+          json && alert(json.message);
+          window.location.reload();
+        }
+      })
+  }
+
+  mgmtLogin(e) {
+    e.preventDefault();
+    
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    postMgmtLogin({
+      email,
+      password,
+    })
+    .then(json => {
+      console.log(json)
+      if (json && json.success) {
+        localStorage.setItem('token', json.token);
+        this.setState({
+          user: json.user
+        })
+        
+        this.props.history.push('/management/'+json.user.type)
+      } else {
+        json && alert(json.message);
+        window.location.reload();
+      }
+    })
+  }
+
+  mgmtSignup(e) {
+    e.preventDefault();
+
+    const firstname = e.target.firstname.value;
+    const lastname = e.target.lastname.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const type = e.target.type.value;
+
+    postSignup({
+      firstname,
+      lastname,
+      email,
+      password,
+      type,
+    })
+      .then(json => {
+        console.log(json);
+        if (json && json.success) {
+          localStorage.setItem('token', json.token);
+          this.setState({
+            user: json.user,
+          })
+
+          this.props.history.push('/management/'+json.user.type)          
+        } else {
+          json && alert(json.message);          
+          window.location.reload();
+        }
+      })
+  }
+
+  logout() {
+    this.setState({
+      user: null,
+    })
+    localStorage.removeItem('token')
+    this.setState({
+      loading: true,
+    })
+    window.location.reload()
+  }
+
   render() {
     const {
       setAppState,
@@ -54,10 +213,13 @@ class App extends Component {
     } = this;
 
     const {
+      loading,
       redirectDest,
+      user,
     } = this.state;
 
     return (
+      !loading &&
       <div
         style={{
           position: 'relative',
@@ -73,50 +235,57 @@ class App extends Component {
             <Route  exact
                     path='/login'
                     render={props => 
-                      <Login  setAppState={setAppState}
-                              redirect={redirect}
+                      <Login  login={this.login}
                               redirectDest={redirectDest}
+                              redirect={redirect}
                               { ...props } />
                     } />
 
             <Route  exact
                     path='/signup'
                     render={props => 
-                      <Signup
-                        setAppState={setAppState}
-                        redirect={redirect}
-                        redirectDest={redirectDest}
-                        { ...props } />
+                      <Signup signup={this.signup}
+                              redirectDest={redirectDest}
+                              { ...props } />
                     } />
 
             <Route  exact
                     path='/management/login'
-                    component={SMLogin} />
+                    render={props => 
+                      <MgmtLogin  login={this.mgmtLogin}
+                                  { ...props } />
+                    } />
 
             <Route  exact
                     path='/management/signup'
-                    component={SMSignup} />
+                    render={props =>
+                      <MgmtSignup signup={this.mgmtSignup}
+                                  { ...props } />
+                    } />
 
             <Route  exact
                     path='/management/storemanager/setup'
-                    component={SMSetup} />
-
+                    component={StoreSetup} />
             <Route  exact
+
                     path='/management/storemanager/dash'
-                    component={SMDash} />
+                    component={Manager} />
 
             <Route  exact
                     path='/management/cook/dash'
-                    component={CKDash} />
+                    component={Cook} />
 
             <Route  exact
                     path='/management/delivery'
                     component={Delivery} />
 
             <Route  path='/home' 
-                    component={Home} />    
+                    render={props => 
+                      <Home logout={this.logout}
+                            user={user}
+                            { ...props } />
+                    } />    
 
-            
             <Route  exact
                     path='/management/store/storeid'
                     component={SSID} />
