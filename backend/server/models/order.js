@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   Order.associate = models => {
     Order.belongsTo(models.User, {
       as: 'customer',
-      foreignKey: 'customerUsername',
+      foreignKey: 'customerId',
     });
     Order.belongsTo(models.Store, {
       as: 'vendor',

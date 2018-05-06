@@ -7,31 +7,10 @@ import {
 
 const Login = props => {
   const {
+    login,
     redirectDest,
-    redirect,
-    setAppState,
+    redirect, 
   } = props;
-
-  const onLogin = e => {
-    e.preventDefault();
-    
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    postLogin({
-      email,
-      password,
-    })
-      .then(json => {
-        if (json && json.success) {
-          setAppState({
-            user: json.user,
-          })
-          redirect();
-        }
-        console.log(json);
-      })
-  }
 
   return (
     <div className='fill' >
@@ -55,7 +34,7 @@ const Login = props => {
         </label>
         <br /><br /><br />
         <form className='form'
-              onSubmit={onLogin} >
+              onSubmit={login} >
           <div className='form-field' >
             <label>Email:</label>
             <input  type='text'

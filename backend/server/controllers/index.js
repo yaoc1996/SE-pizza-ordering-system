@@ -9,11 +9,7 @@ function readdirSyncRouters(dirname) {
   const router = express.Router();
   fs
     .readdirSync(dirname)
-    .filter(file => 
-      (file[0] !== '.') 
-      && (file !== 'index.js') 
-      && (file.slice(-3) === '.js')
-    )
+    .filter(file => (file[0] !== '.') && ((file !== 'index.js') || (dirname !== __dirname)))
     .forEach(file => {
       fs.lstat(`${dirname}/${file}`, (err, stats) => {
         if (err) return console.log(err);

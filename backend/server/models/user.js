@@ -2,14 +2,20 @@ const bcrypt = require('bcrypt-nodejs');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
-    username: {
+    firstname: {
       type: DataTypes.STRING,
-      primaryKey: true,
       allowNull: false,
-      unique: true,
       validate: {
         notEmpty: true,
-        isAlphanumeric: true,
+        isAlpha: true,
+      },
+    },
+    lastname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isAlpha: true,
       },
     },
     email: {
@@ -43,14 +49,14 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = models => {
     User.hasMany(models.Rating, {
       as: 'sentRatings',
-      foreignKey: 'sourceUsername',
+      foreignKey: 'sourceId',
     })
     User.hasMany(models.Rating, {
       as: 'receivedRatings',
-      foreignKey: 'targetUsername',
+      foreignKey: 'targetId',
     })
     User.hasMany(models.Order, {
-      foreignKey: 'customerUsername'
+      foreignKey: 'customerId'
     });
     User.belongsTo(models.Store, {
       as: 'workPlace',

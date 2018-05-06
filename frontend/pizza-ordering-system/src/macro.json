@@ -1,7 +1,8 @@
 {
   "DOMAIN": "",
+  "AUTH": "/user/auth",
   "LOGIN": "/user/login",
-  "SIGNUP": "/user/signup",
-  "SMLOGIN": "/storemanager/login",
-  "SMSIGNUP": "/storemanager/signup"
+  "SIGNUP": "/user/create",
+  "MGMT_LOGIN": "/user/management/login",
+  "MGMT_SIGNUP": "/user/management/create"
 }

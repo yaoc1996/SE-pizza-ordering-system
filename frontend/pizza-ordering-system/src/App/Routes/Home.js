@@ -10,6 +10,8 @@ const midTownManhattanCoords = {
   lng: -73.9840,
 }
 
+const pizzaIcon = 'http://icons.iconarchive.com/icons/sonya/swarm/256/Pizza-icon.png';
+
 class Home extends Component {
   constructor() {
     super();
@@ -58,7 +60,7 @@ class Home extends Component {
     const map = new google.maps.Map(
       document.getElementById('map'), 
       {
-        zoom: 14,
+        zoom: 16,
         center: midTownManhattanCoords,
         mapTypeControl: false,
         fullscreenControl: false,
@@ -79,20 +81,21 @@ class Home extends Component {
     );
 
     google.maps.event.addListener(map, 'click', e => {
-      if (!this.marker) this.marker = this.initMarker(google);
+      if (!this.marker)
+        this.marker = this.initMarker(google, midTownManhattanCoords);
 
       this.marker.setPosition(e.latLng);
-      this.loadNearbyStores(google, e.latLng, 5);
+      this.loadNearbyStores(google, e.latLng, 3);
     })
 
     return map;
   }
 
-  initMarker(google) {
+  initMarker(google, location) {
     const { map } = this;
     const marker = new google.maps.Marker({
       map: map,
-      position: midTownManhattanCoords,
+      position: location,
       animation: google.maps.Animation.DROP,
     });
 
@@ -110,15 +113,16 @@ class Home extends Component {
     })
 
     searchBox.addListener('places_changed', () => {
-      if (!this.marker) this.marker = this.initMarker(google);      
-
       const places = searchBox.getPlaces();
       if (places.length === 0) return;
       
       const { location } = places[0].geometry
+      if (!this.marker) this.marker = this.initMarker(google, location);      
+
       this.marker.setPosition(location);
       map.panTo(location);      
-      map.setZoom(14);
+      map.setZoom(16);
+      this.loadNearbyStores(google, location, 3)
     })
 
     return searchBox;
@@ -126,15 +130,17 @@ class Home extends Component {
 
   loadNearbyStores(google, location, n) {
     const placesService = new google.maps.places.PlacesService(this.map);
-    console.log(placesService);
     placesService.nearbySearch({
       location,
-      radius: 5000,
       types: [ "restaurant" ],
-      limit: 3,
+      rankBy: google.maps.places.RankBy.DISTANCE,
     }, cb => {
-      this.restaurantMarkers = []
-      
+      if (this.restaurantMarkers)
+        this.restaurantMarkers.forEach(marker => marker.setMap(null))
+
+      this.restaurantMarkers = cb.slice(0, n).map(place =>
+        this.initMarker(google, place.geometry.location)
+      )
     })
   }
 
@@ -148,7 +154,41 @@ class Home extends Component {
     return (
       <div className='fill' >
         <div className='block align-left' >
+          <div>
           <img className = 'logo' src="pizzalogosmall.png" alt="Pizza Logo" />
+          {
+            !this.props.user
+              ? <div className='fit float-right'>
+                  <Link to='/login'>
+                    <button className='btn-md margin-sm btn-red'>
+                      Login
+                    </button>
+                  </Link>
+                  <Link to='/signup'>
+                    <button className='btn-md margin-sm btn-red'>
+                      Signup
+                    </button> 
+                  </Link>
+                </div>
+              : <div className='float-right fit font-md'>
+                  <div className='fit margin-sm'>
+                    <label className='fade-in'>
+                      Welcome! &nbsp;
+                      <label className='font-red'>
+                        {this.props.user.firstname} {this.props.user.lastname}
+                      </label>
+                      &nbsp;
+                    </label>
+                  </div>
+                  <br />
+                  <button onClick={this.props.logout} 
+                          className='float-right btn-md margin-sm btn-red'>
+                    Logout
+                  </button>
+                </div>
+          }
+          </div>
+          <br />
           <div className='home-search-area' >
             <input  className='input-fill'
                     id='search-box'
@@ -158,20 +198,11 @@ class Home extends Component {
           <button className='home-search-button' >
             <i className='material-icons'>search</i>
           </button>
-
-          <Link to='/login'>
-            <button className='float-right btn-lg margin-sm btn-red'>
-              Login
-            </button>
-          </Link>
-          <Link to='/signup'>
-            <button className='float-right btn-lg margin-sm btn-red'>
-              Signup
-            </button> 
-          </Link>
         </div>
 
-        <div style={{ height: 'calc(100% - 56px)' }} >
+        <br />
+
+        <div style={{ height: 'calc(100% - 156px)' }} >
           <div  className='no-animation no-transition fill'
                 id='map' />
         </div>
