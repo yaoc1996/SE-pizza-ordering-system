@@ -51,11 +51,15 @@ const Login = props => {
           <br /><br /><br />       
           <button className='btn-md btn-darkblue margin-sm'>Login</button>
         </form>
-        <br /><br />
+        <br />
         {
-          redirectDest === '/store' &&
-          <label  className='clickable font-sm font-blue'
-                  onClick={redirect} >Continue as guest</label>
+          redirectDest !== '/home' &&
+          <div>
+            <label>Or</label>
+            <br />  
+            <label  className='clickable font-sm font-blue'
+                    onClick={redirect} >Continue as guest</label>
+          </div>
         }
       </div>
     </div>

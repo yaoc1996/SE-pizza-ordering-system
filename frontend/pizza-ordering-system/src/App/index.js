@@ -6,12 +6,12 @@ import Login from './Routes/Login';
 import Signup from './Routes/Signup';
 import MgmtLogin from './Routes/Management/Login';
 import MgmtSignup from './Routes/Management/Signup';
-import StoreSetup from './Routes/Management/StoreManager/Setup';
-import Manager from './Routes/Management/StoreManager/Dash';
-import Cook from './Routes/Management/Cook/Dash';
+import StoreSetup from './Routes/Management/Manager/Setup';
+import Manager from './Routes/Management/Manager';
+import Cook from './Routes/Management/Cook';
 import Delivery from './Routes/Management/Delivery';
-import SSID from './Routes/Management/Store/StoreID';
-import SCheckout from './Routes/Management/Store/Checkout';
+import Store from './Routes/Store';
+import SCheckout from './Routes/Store/Checkout';
 
 import {
   getAuth,
@@ -44,9 +44,6 @@ class App extends Component {
     const {
       history,
     } = this.props;
-
-    console.log(history.location);
-
   }
   
   componentDidMount() {
@@ -92,7 +89,6 @@ class App extends Component {
       password,
     })
     .then(json => {
-      console.log(json)
       if (json && json.success) {
         localStorage.setItem('token', json.token);
         this.setState({
@@ -195,7 +191,7 @@ class App extends Component {
       })
   }
 
-  logout() {
+  logout(dest) {
     this.setState({
       user: null,
     })
@@ -203,6 +199,7 @@ class App extends Component {
     this.setState({
       loading: true,
     })
+    this.props.history.push(dest ? dest : '/home')
     window.location.reload()
   }
 
@@ -264,34 +261,47 @@ class App extends Component {
                     } />
 
             <Route  exact
-                    path='/management/storemanager/setup'
+                    path='/management/manager/setup'
                     component={StoreSetup} />
             <Route  exact
 
-                    path='/management/storemanager/dash'
-                    component={Manager} />
+                    path='/management/manager'
+                    render={props => 
+                      <Manager  logout={this.logout}
+                                { ...props } />
+                    } />
 
             <Route  exact
-                    path='/management/cook/dash'
-                    component={Cook} />
+                    path='/management/cook'
+                    render={props =>
+                      <Cook logout={this.logout}
+                            { ...props } />
+                    } />
 
             <Route  exact
                     path='/management/delivery'
-                    component={Delivery} />
+                    render={props => 
+                      <Delivery logout={this.logout}
+                                { ...props } />
+                    } />
 
             <Route  path='/home' 
                     render={props => 
                       <Home logout={this.logout}
+                            setAppState={this.setAppState}
                             user={user}
                             { ...props } />
                     } />    
 
-            <Route  exact
-                    path='/management/store/storeid'
-                    component={SSID} />
+            <Route  path='/store/:storeId'
+                    render={props => 
+                      <Store  logout={this.logout}
+                              user={user}
+                              { ...props } />
+                    }/>
 
             <Route  exact
-                    path='/management/store/checkout'
+                    path='/store/checkout'
                     component={SCheckout} />
 
           </Switch>

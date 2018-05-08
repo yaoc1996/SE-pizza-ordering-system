@@ -3,6 +3,21 @@
   "AUTH": "/user/auth",
   "LOGIN": "/user/login",
   "SIGNUP": "/user/create",
+  "USER_ORDER": "/user/order",
+  "RATING": "/user/rating",
   "MGMT_LOGIN": "/user/management/login",
-  "MGMT_SIGNUP": "/user/management/create"
+  "MANAGER_STORE": "/user/management/manager/store",
+  "MANAGER_TASK": "/user/management/manager/task",
+  "MANAGER_SALARY": "/user/management/manager/store/salary",
+  "COOK_STORE": "/user/management/cook/store",
+  "DELIVERY_STORE": "/user/management/delivery/store",
+  "DELIVERY_TASK": "/user/management/delivery/task",
+  "COOK_MENU": "/user/management/cook/menu",
+  "STORE": "/store",
+  "NEW_STORE": "/store/create",
+  "ORDER": "/store/order",
+  "NEARBY_STORES": "/store/nearby",
+  "STORE_CUSTOMER": "/store/customer",
+  "STORE_REGISTER": "/store/register",
+  "REQUEST": "/user/management/manager/store/request"
 }

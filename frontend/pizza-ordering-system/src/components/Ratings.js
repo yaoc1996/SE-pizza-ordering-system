@@ -11,45 +11,45 @@ class Ratings extends Component {
 	}
 
 	render(){
+		const { rating } = this.props;
 
 		return (
-			<div className="card text-center">
-			  <div className="card-header">
-			    <h3>We Need Your Feedback!</h3>
-			  </div>
-			  <div className="card-body">
+			<div className="card padding-sm"
+						style={{
+							maxWidth: 480,
+						}}>
+			  <form className="card-body"
+							onSubmit={this.props.submitRating}>
 			    <br />
-			    <h6> Rate your experience </h6>
-			    <form>
-			      <label className="radio-inline">
-			        <input type="radio" name="optradio" value='1' />1
-			      </label>
-			      <label className="radio-inline">
-			        <input type="radio" name="optradio" value='2' />2
-			      </label>
-			      <label className="radio-inline">
-			        <input type="radio" name="optradio" value='3' />3
-			      </label>
-			      <label className="radio-inline">
-			        <input type="radio" name="optradio" value='4' />4
-			      </label>
-			      <label className="radio-inline">
-			        <input type="radio" name="optradio" value='5'/>5
-			      </label>
-			    </form>
-			    <br />
-			    <br />
-			    <div className="ui form">
+			    <label className='fit font-md'>
+						Rate&nbsp;
+						<label className='font-blue font-md'>{rating.subject}</label>&nbsp;
+						{rating.store === '' ? '' : 'at '+rating.store}
+					</label>
+					<select className='padding-sm margin-md bg-white'
+									name='value' >
+						<option value='1'>1</option>
+						<option value='2'>2</option>
+						<option value='3'>3</option>
+						<option value='4'>4</option>
+						<option value='5'>5</option>
+					</select>
+					<div className="ui form">
 			      <div className="field">
-			        <h6> Reason for Rating </h6>
-			        <textarea rows = "2"></textarea>
+			        <div> Reason for Rating </div>
+							<textarea name='reason' 
+												style={{
+													width: '80%',
+												}}
+												rows = "2"></textarea>
 			      </div>
 			    </div>
-			    <br />
-			    <button classNameName='btn-md btn-pink margin-sm'>
-			            Send Feedback
+					<input className='hide' name='id' value={rating.id} readOnly/>
+										
+					<button className='btn-md btn-pink margin-sm'>
+			      Send Feedback
 			    </button>
-			  </div>
+			  </form>
 			</div>
 
 

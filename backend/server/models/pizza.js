@@ -3,7 +3,23 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       defaultValue: 'regular',
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isAlphanumeric: true,
+      }
     },
+    description: {
+      type: DataTypes.STRING,
+      defaultValue: '',
+    },
+    price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }
+    }
   })
 
   Pizza.associate = models => {

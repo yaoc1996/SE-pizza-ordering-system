@@ -39,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
       as: 'workers',
       foreignKey: 'workPlaceId',
     });
+    Store.belongsToMany(models.User, {
+      as: 'requests',
+      through: 'userRequests',
+    })
     Store.hasMany(models.Pizza, {
       as: 'menuItems',
       foreignKey: 'vendorStoreId',
@@ -55,33 +59,47 @@ module.exports = (sequelize, DataTypes) => {
       as: 'offeredDough',
       foreignKey: 'vendorStoreId',
     })
+    Store.hasMany(models.Rating)
+    Store.belongsToMany(models.User, {
+      as: 'registeredCustomers',
+      through: 'userStore',
+    })
+    Store.prototype.getManager = function() {
+      return this.getWorkers({
+        attributes: ['id', 'firstname', 'lastname', 'email'],
+        where: {
+          type: 'manager',
+        },
+        limit: 1,
+      })
+        .then(([manager]) => manager);
+    }
+  
+    Store.prototype.getCooks = function() {
+      return this.getWorkers({
+        attributes: ['id', 'firstname', 'lastname', 'email'],
+        where: {
+          type: 'cook',
+        },
+        include: [{
+          model: models.Salary,
+        }]
+      })
+    }
+  
+    Store.prototype.getDeliveryWorkers = function() {
+      return this.getWorkers({
+        attributes: ['id', 'firstname', 'lastname', 'email'],
+        where: {
+          type: 'delivery',
+        },
+        include: [{
+          model: models.Salary,
+        }]
+      })
+    }
   }
   
-  Store.prototype.getManager = function() {
-    return this.getWorkers({
-      where: {
-        type: 'manager',
-      },
-      limit: 1,
-    })
-      .then(([manager]) => manager);
-  }
-
-  Store.prototype.getCooks = function() {
-    return this.getWorkers({
-      where: {
-        type: 'cook',
-      }
-    })
-  }
-
-  Store.prototype.getDeliveryWorkers = function() {
-    return this.getWorkers({
-      where: {
-        type: 'delivery',
-      }
-    })
-  }
 
   return Store;
 }
