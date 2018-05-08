@@ -47,20 +47,27 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   User.associate = models => {
+    User.hasMany(models.Rating)
     User.hasMany(models.Rating, {
-      as: 'sentRatings',
-      foreignKey: 'sourceId',
-    })
-    User.hasMany(models.Rating, {
-      as: 'receivedRatings',
-      foreignKey: 'targetId',
+      as: 'sent',
+      foreignKey: 'senderId',
     })
     User.hasMany(models.Order, {
       foreignKey: 'customerId'
     });
+    User.hasMany(models.Order, {
+      as: 'deliveredOrder',
+      foreignKey: 'deliveryId',
+    })
     User.belongsTo(models.Store, {
       as: 'workPlace',
+      foreignKey: 'workPlaceId',
     })
+    User.belongsToMany(models.Store, {
+      as: 'requests',
+      through: 'userRequests',
+    })
+    User.hasOne(models.Salary);
   }
 
   User.beforeCreate(user => {

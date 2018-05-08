@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 
 import {
   loadApi,
+  getNearbyStores,
+  withModal,
+  getOrders,
+  postRating,
 } from 'lib';
+
+import {
+  Ratings,
+} from 'components'; 
 
 const midTownManhattanCoords = {
   lat: 40.7549,
@@ -18,12 +26,17 @@ class Home extends Component {
 
     this.state = {
       stores: [],
+      pendingOrders: [],
+      pendingRatings: [],
     }
 
     this.goTo = this.goTo.bind(this);
     this.initMap = this.initMap.bind(this);
     this.initMarker = this.initMarker.bind(this);
     this.initSearchBox = this.initSearchBox.bind(this);
+    this.onStoreEnter = this.onStoreEnter.bind(this);
+    this.getOrders = this.getOrders.bind(this);
+    this.submitRating = this.submitRating.bind(this); 
   }
 
   goTo(dest) {
@@ -33,15 +46,15 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const url = 'https://maps.googleapis.com/maps/api/js?';
+    const url = 'https://maps.googleapis.com/maps/api/js';
     const params = {
       key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
       v: '3.exp',
-      libraries: 'places',
+      libraries: ['places', 'loaders'],
     }
 
     loadApi('google-maps', url, params)
-      .then(({google}) => {
+      .then(({ google }) => {
         if (google) {
           const {
             initMap,
@@ -51,9 +64,93 @@ class Home extends Component {
           this.map = initMap(google);
           this.searchBox = initSearchBox(google);
         } else {
-          window.alert('failed to load google maps');
+          window.location.reload();
         }
       });
+
+    if (this.props.user) {
+      this.getOrders();
+    }
+    
+    this.props.addForm('orders', props => 
+    <div className='centered-hv bg-white padding-lg edge-rounded align-left'
+           style={{
+             maxHeight: '80%',
+             overflow: 'auto',
+            }} >
+        <label>Pending Orders</label>
+        <div className='line-h' />
+        {
+          this.state.pendingOrders.map((order, id) => 
+            <div key={id}>
+              <div className='padding-sm' >
+                Your order at {order.vendor.name} is currently being prepared.
+              </div>
+              <div className='line-h' />
+            </div>
+          )
+        }
+        <br /><br />
+        <label>Pending Ratings</label>
+        <div className='line-h' />
+        {
+          this.state.pendingRatings.map((rating) => 
+            <div key={`rating-${rating.id}`} > 
+              <Ratings rating={rating} submitRating={this.submitRating} />
+            </div>
+          )
+        }
+      </div>
+    )
+    
+  }
+  getOrders() {   
+    const token = localStorage.getItem('token');
+    if (token) {
+      getOrders(token)
+        .then(json => {
+          console.log(json)
+          this.setState({
+            pendingOrders: json.pendingOrders,
+            pendingRatings: json.pendingRatings,
+          })
+        })
+    }
+  }
+
+  submitRating(e) {
+    e.preventDefault();
+
+    const token = localStorage.getItem('token');
+    const id = parseInt(e.target.id.value);
+    const reason = e.target.reason.value;
+    const value = parseInt(e.target.value.value);
+
+    if (token) {
+      if (parseInt(value) < 3 && reason === '') {
+        alert('any rating < 3 must be give a reason')
+      } else {
+        postRating(token, {
+          id,
+          value,
+          reason,         
+        })
+          .then(json => {
+            if (json && json.success) {
+              this.setState(state => ({
+                pendingRatings: state.pendingRatings.filter(x => x.id != id)
+              }))
+              const r = document.getElementById(`rating-${id}`)
+              if (r) r.remove();
+            } else {
+              json && alert(json.message)
+            }
+          })
+      }
+        
+    } else {
+      window.location.reload()
+    }
   }
 
   initMap(google) {
@@ -128,20 +225,68 @@ class Home extends Component {
     return searchBox;
   }
 
-  loadNearbyStores(google, location, n) {
-    const placesService = new google.maps.places.PlacesService(this.map);
-    placesService.nearbySearch({
-      location,
-      types: [ "restaurant" ],
-      rankBy: google.maps.places.RankBy.DISTANCE,
-    }, cb => {
-      if (this.restaurantMarkers)
-        this.restaurantMarkers.forEach(marker => marker.setMap(null))
+  onStoreEnter(id) {
+    const destination = `/store/${id}`;
+    return () => {
+      if (this.props.user) {
+        this.props.history.push(destination)
+      } else {
+        this.props.setAppState({
+          redirectDest: destination,
+        })
+        this.props.history.push('/login')
+      }
+    }
+  }
 
-      this.restaurantMarkers = cb.slice(0, n).map(place =>
-        this.initMarker(google, place.geometry.location)
-      )
+  loadNearbyStores(google, location, limit) {
+    getNearbyStores({
+      lat: location.lat(),
+      lng: location.lng(),
+      limit,
     })
+      .then(json => {
+        if (json && json.success) {
+          if (this.storeMarkers)
+            this.storeMarkers.forEach(marker => marker.setMap(null))
+  
+          this.storeMarkers = json.stores.map(store => {
+            const marker = this.initMarker(google, {
+              lat: store.lat,
+              lng: store.lng,
+            })
+
+            const contentString = `
+              <div>
+                <h3>${store.name}</h3>
+                <p>${store.address}</p>
+                <button class='float-right' id='info-window'>Enter</button>
+              </div>
+            `
+
+            const infoWindow = new google.maps.InfoWindow({
+              content: contentString,
+            })
+
+            
+            marker.infoWindow = infoWindow;
+
+            const that = this;
+            
+            marker.addListener('click', function() {
+              if (this.storeMarkers) {
+                this.storeMarkers.forEach(marker => {
+                  marker.infoWindow.close()
+                })
+              }
+              infoWindow.open(this.map, marker);
+              document.getElementById('info-window').onclick = that.onStoreEnter(store.id);
+            })
+
+            return marker;
+          })
+        }
+      })
   }
 
   render() {
@@ -185,6 +330,10 @@ class Home extends Component {
                           className='float-right btn-md margin-sm btn-red'>
                     Logout
                   </button>
+                  <button className='float-right btn-md margin-sm btn-red'
+                          onClick={this.props.setForm('orders')} >
+                    Orders
+                  </button> 
                 </div>
           }
           </div>
@@ -211,7 +360,7 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withModal(Home);
 
 const fakeLocations = [
   {

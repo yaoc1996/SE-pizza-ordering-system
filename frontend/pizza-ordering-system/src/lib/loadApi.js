@@ -1,22 +1,4 @@
-import _ from 'lodash';
-
-function createApiSrc(url, params) {
-  const createQueryString = (p) => {
-    const createKeyValStrings = pairs => 
-      _.map(pairs, x => `${x[0]}=${x[1]}`);
-
-    const joinKeyValStrings = strings => 
-      _.join(strings, '&');
-  
-    return _.flow(
-      _.toPairs,
-      createKeyValStrings,
-      joinKeyValStrings,
-    )(p);
-  }
-
-  return `${url}?${createQueryString(params)}`;
-}
+import createQuery from './createQuery';
 
 function loadApi(tag, url, params) {
   if (!document.getElementById(tag)) {
@@ -24,7 +6,7 @@ function loadApi(tag, url, params) {
     var script = document.createElement('script');
 
     Object.assign(script, {
-      src: createApiSrc(url, params),
+      src: createQuery(url, params),
       id: tag,
       async: true,
       defer: true,

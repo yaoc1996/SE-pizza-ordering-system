@@ -1,30 +1,45 @@
 import React from 'react';
 import List from './List';
 
-const PendingOrder = ({ last, children }) => {
+const PendingOrder = ({ last, children, delivery, assignTask }) => {
   const {
-    firstname,
-    lastname,
-    pizzas,
+    items,
   } = children;
+
+  const name = 
+    children.customer 
+      ? `${children.customer.firstname} ${children.customer.lastname}`
+      : 'Visitor'
 
   return (
     <div className='padding-sm' >
-      <label className='font-blue' >{ firstname } { lastname }</label>
-      <label className='font-grey' > placed an order for</label>
+      <label className='font-blue' >{ name }</label>
+      <label className='font-grey' >&nbsp;placed an order for</label>
 
 
       <List bullet
-            items={pizzas}
+            items={items}
             Li={props => 
-              <label className='fit margin-xs' >{props.children + ' pizza'}</label>
+              <label className='fit' >{props.children.name}</label>
             } />
 
-      <div className='align-right ' >
+      <form className='align-right '
+            onSubmit={assignTask(children.id)} >
+        <select className='padding-sm bg-white' name='delivery'>
+          {
+            delivery.map(delivery => {
+              return (
+                <option value={delivery.id}>
+                  { delivery.firstname } {delivery.lastname}
+                </option>
+              )
+            })
+          }
+        </select>
         <button className='font-xs btn-sm btn-blue margin-sm' >
           Assign Delivery
         </button>
-      </div>
+      </form>
       
       <div className='line-h' />
     </div>

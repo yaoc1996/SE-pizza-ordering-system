@@ -25,14 +25,24 @@ module.exports = {
       lat,
     } = req.body;
 
-    models.Store.create({
-      name,
-      address,
-      lng,
-      lat,
-    })
-      .then(store => {
-        store.addWorker(req.user)
+    Promise.all([
+      models.Store.create({
+        name,
+        address,
+        lng,
+        lat,
+      }),
+      models.User.findOne({
+        where: {
+          id: req.user.id,
+        },
+      })
+    ])
+      .then(([store, manager]) => {
+        console.log(store)
+        store.addWorker(manager)
+        manager.setWorkPlace(store)
+        
 
         res.json({
           success: true,
