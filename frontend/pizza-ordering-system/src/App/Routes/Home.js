@@ -95,7 +95,7 @@ class Home extends Component {
         <div className='line-h' />
         {
           this.state.pendingRatings.map((rating) => 
-            <div key={`rating-${rating.id}`} > 
+            <div id={`rating-${rating.id}`} key={`rating-${rating.id}`} > 
               <Ratings rating={rating} submitRating={this.submitRating} />
             </div>
           )
@@ -141,6 +141,7 @@ class Home extends Component {
                 pendingRatings: state.pendingRatings.filter(x => x.id != id)
               }))
               const r = document.getElementById(`rating-${id}`)
+              console.log(r)
               if (r) r.remove();
             } else {
               json && alert(json.message)

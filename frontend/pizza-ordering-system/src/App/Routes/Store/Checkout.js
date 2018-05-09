@@ -11,7 +11,7 @@ class Checkout extends Component{
 
 	render(){
 		console.log(this.props.order)
-		const subtotal = this.props.order.reduce((x, y) => x+parseFloat(y.price), 0)
+		const subtotal = this.props.order.reduce((x, y) => x+parseFloat(y.price), 0) * this.props.discount
 		const tax = subtotal * 0.0875;
 		const total = subtotal + tax;
 
@@ -41,7 +41,7 @@ class Checkout extends Component{
 											{order.description}
 										</div>
 										<div className = "right floated content">
-											<h6> ${order.price} </h6>
+											<h6> ${(order.price * this.props.discount).toFixed(2)} </h6>
 										</div> 
 									</div>
 							)
@@ -54,18 +54,19 @@ class Checkout extends Component{
 				<div className='line-h' />
 				<br />
 				<label>Subtotal:</label>
-				<div className='float-right'>${subtotal.toPrecision(2)}</div>
+				<div className='float-right'>${subtotal.toFixed(2)}</div>
 				<br />
 				<label>Tax:</label>
-				<div className='float-right'>${tax.toPrecision(2)}</div>				
+				<div className='float-right'>${tax.toFixed(2)}</div>				
 				<br />				
 				<label>Total: </label>
-				<div className='float-right'>${total.toPrecision(2)}</div>				
+				<div className='float-right'>${total.toFixed(2)}</div>				
 				<br />				
 				</div>
 				<div className='line-h' />	
 				<br />			
 				<button className="ui button"
+								disabled={this.props.order.length === 0}
 								onClick={this.props.checkout} >
 				  Place Order
 				</button>

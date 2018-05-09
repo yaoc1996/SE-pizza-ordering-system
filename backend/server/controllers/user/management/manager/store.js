@@ -77,6 +77,7 @@ module.exports = {
             }),
           ])
             .then(([menu, cooks, delivery, requests, orders, ratings]) => {
+              console.log(cooks.length, delivery.length)
               res.json({
                 success: true,
                 message: 'successful get store',

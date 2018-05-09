@@ -24,7 +24,7 @@ class Ratings extends Component {
 			    <label className='fit font-md'>
 						Rate&nbsp;
 						<label className='font-blue font-md'>{rating.subject}</label>&nbsp;
-						{rating.store === '' ? '' : 'at '+rating.store}
+						{rating.store === rating.subject ? '' : ('at '+rating.store)}
 					</label>
 					<select className='padding-sm margin-md bg-white'
 									name='value' >

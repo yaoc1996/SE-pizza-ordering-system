@@ -22,9 +22,10 @@ class StoreID extends Component{
 		this.state = {
 			toggleCart: false,
 			store: null,
-			status: 'visitor',
+			status: 'Visitor',
 			loading: true,
 			order: [],
+			discount: 1,
 		}
 
 		this.toggleCart = this.toggleCart.bind(this);
@@ -58,7 +59,7 @@ class StoreID extends Component{
 		)
 
 		this.props.addForm('checkout', props => {
-			const subtotal = this.state.order.reduce((x, y) => x+parseFloat(y.price), 0)
+			const subtotal = this.state.order.reduce((x, y) => x+parseFloat(y.price), 0) * this.state.discount
 			const tax = subtotal * 0.0875;
 			const total = subtotal + tax;
 
@@ -70,13 +71,13 @@ class StoreID extends Component{
 						<div className='line-h' />
 						<br />
 						<label>Subtotal:</label>
-						<div className='float-right'>${subtotal.toPrecision(2)}</div>
+						<div className='float-right'>${subtotal.toFixed(2)}</div>
 						<br />
 						<label>Tax:</label>
-						<div className='float-right'>${tax.toPrecision(2)}</div>				
+						<div className='float-right'>${tax.toFixed(2)}</div>				
 						<br />				
 						<label>Total: </label>
-						<div className='float-right'>${total.toPrecision(2)}</div>				
+						<div className='float-right'>${total.toFixed(2)}</div>				
 						<br />				
 					</div>
 					<div className='line-h' />	
@@ -84,6 +85,7 @@ class StoreID extends Component{
 					<div className='align-left'>Address: </div>
 						<input className='input-fill'
 								name='destination'
+								autoFocus
 								required />
 					<br />
 					<br />
@@ -109,27 +111,63 @@ class StoreID extends Component{
 		if (token) {
 			getCheckRegistered(token, storeId)
 				.then(json => {
-					console.log(json)
+					console.log(json)	
 					if (json && json.success) {
-						if (!json.isRegistered) {
+						if (json.status === 'NotRegistered') {
 							this.props.setForm('request')();
+						} else {
+							if (json.statusUpdate) {
+								this.props.addForm('status-update', props => 
+									<div className='centered-hv bg-white padding-lg edge-rounded'>
+										<p className='font-bold font-md'>
+											{json.statusUpdate}
+										</p>
+									</div>
+								)
+								setTimeout(this.props.setForm('status-update'), 1000);
+							}
 						}
+						var discount = 1;
+						if (json.status == 'Customer') {
+							discount = 0.9;
+						}
+
+						if (json.status == 'VIP') {
+							discount = 0.8;
+						}
+						this.setState({
+							discount,
+							status: json.status === 'NotRegistered' ? 'Visitor' : json.status,
+						})
 					}
+					this.getStore()
 				})
-		}	
-		this.getStore()
+		}	else {
+			this.getStore();
+		}
 	}
 
 	getStore() {
-		getStore(this.props.match.params.storeId)
+		var userId = null;
+		if (this.props.user) userId = this.props.user.id;
+
+		getStore({
+			storeId: this.props.match.params.storeId,
+			userId,
+		})
 			.then(json => {
 				if (json && json.success) {
-					console.log(json)
-					this.setState({
-						store: json.store
-					})
+					if (json.store) {
+						this.setState({
+							store: json.store
+						})
+					} else {
+						alert('unable to find store')
+						this.props.history.push('/home');
+					}
 				} else {
 					json && alert(json.message);
+					this.props.history.push('/home');
 				}
 				this.setState({
 					loading: false,
@@ -278,10 +316,18 @@ class StoreID extends Component{
 							</div>
 						: <div className='float-right font-md'>
 								<div className='fit margin-sm'>
-									<label className='fade-in'>
+									<label className='fade-in margin-0 fit'>
 										Welcome! &nbsp;
-										<label className='font-red'>
+										<label className='font-blue'>
 											{this.props.user.firstname} {this.props.user.lastname}
+										</label>
+										&nbsp;
+									</label>
+									<br />
+									<label className='fade-in margin-0 fit'>
+										Current Status:&nbsp;
+										<label className='font-red'>
+											{this.state.status}
 										</label>
 										&nbsp;
 									</label>
@@ -313,7 +359,7 @@ class StoreID extends Component{
 									      <div className="description">
 									        {pizza.description}
 									        <br></br>
-									        ${pizza.price} 
+									        ${(pizza.price * this.state.discount).toFixed(2)} 
 									      </div>
 									    </div>
 									    <button className="ui bottom attached button"
@@ -407,7 +453,8 @@ class StoreID extends Component{
 						{
 							this.state.toggleCart
 								&& <div className="ui segment fade-in">
-											<Checkout order={this.state.order}
+											<Checkout discount={this.state.discount}
+																order={this.state.order}
 																checkout={this.props.setForm('checkout')}
 																removeFromCart={this.removeFromCart} />
 									</div>

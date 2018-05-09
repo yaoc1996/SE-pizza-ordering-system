@@ -50,46 +50,46 @@ class Delivery extends Component {
 
     loadApi('google-maps', gmapsUrl, gmapsParams)
       .then(({google}) => {
-        
-        const setLocation = location => {
-          this.setState({
-            location,
-          }, () => {
-            if (!this.map) {
-              this.map = this.initMap(google);
-              this.marker = this.initMarker(google);
-              this.directionsService = new google.maps.DirectionsService();
-              this.directionsDisplay = new google.maps.DirectionsRenderer();
-              this.directionsDisplay.setMap(this.map)
-            } else {
-              this.marker.setPosition(location)
-              this.map.panTo(location)
-            }
-          })  
-        }
-        
-        const lat = parseFloat(window.localStorage.getItem('lat'))
-        const lng = parseFloat(window.localStorage.getItem('lng'))
-        if (lat && lng) {
-          setLocation({
-            lat,
-            lng,
-          })
-        }
-        
-        navigator.geolocation.watchPosition(location => {
-          window.localStorage.setItem('lat', location.coords.latitude);
-          window.localStorage.setItem('lng', location.coords.longitude);
-          console.log("Retrieved location and cached", location);
-          if (location.lat && location.lng) {
+        if (google) {
+          const setLocation = location => {
+            this.setState({
+              location,
+            }, () => {
+              if (!this.map) {
+                this.map = this.initMap(google);
+                this.marker = this.initMarker(google);
+                this.directionsService = new google.maps.DirectionsService();
+                this.directionsDisplay = new google.maps.DirectionsRenderer();
+                this.directionsDisplay.setMap(this.map)
+              } else {
+                this.marker.setPosition(location)
+                this.map.panTo(location)
+              }
+            })  
+          }
+          
+          const lat = parseFloat(window.localStorage.getItem('lat'))
+          const lng = parseFloat(window.localStorage.getItem('lng'))
+          if (lat && lng) {
             setLocation({
-              lat: location.coords.latitude,
-              lng: location.coords.longitude,
+              lat,
+              lng,
             })
           }
-        })
+          
+          navigator.geolocation.watchPosition(location => {
+            window.localStorage.setItem('lat', location.coords.latitude);
+            window.localStorage.setItem('lng', location.coords.longitude);
+            console.log("Retrieved location and cached", location);
+            if (location.lat && location.lng) {
+              setLocation({
+                lat: location.coords.latitude,
+                lng: location.coords.longitude,
+              })
+            }
+          })
+        }
       })
-
     this.props.addForm('setup', props => 
       <div className='align-left centered-hv padding-lg edge-rounded bg-white'>
         <form onSubmit={this.postStore}>
@@ -125,7 +125,7 @@ class Delivery extends Component {
                 store: json.store,
                 orders: json.orders,
               })
-              this.props.closeForm();
+              this.props.closeForm()();
             } else {
               json && alert(json.message);
             }
@@ -144,14 +144,18 @@ class Delivery extends Component {
     if (token) {
       getDeliveryStore(token)
         .then(json => {
+          console.log(json) 
           if (json && json.success) {
-            if (json.store) {
+            if (json.statusUpdate) {
+              alert(json.statusUpdate)
+              window.location.reload();
+            } else if (json.store) {
               this.setState({
                 store: json.store,
                 orders: json.orders,
               })
             } else {
-              this.props.closeForm()();
+              this.props.setForm('setup')();
             }
           } else {
             alert('error while getting store information')

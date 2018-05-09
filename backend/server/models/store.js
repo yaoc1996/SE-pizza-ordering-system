@@ -43,6 +43,18 @@ module.exports = (sequelize, DataTypes) => {
       as: 'requests',
       through: 'userRequests',
     })
+    Store.belongsToMany(models.User, {
+      as: 'blacklist',
+      through: 'storeBlacklist',
+    })
+    Store.belongsToMany(models.User, {
+      as: 'registeredCustomers',
+      through: 'userStore',
+    })
+    Store.belongsToMany(models.User, {
+      as: 'vip',
+      through: 'storeVip',
+    })
     Store.hasMany(models.Pizza, {
       as: 'menuItems',
       foreignKey: 'vendorStoreId',
@@ -60,10 +72,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'vendorStoreId',
     })
     Store.hasMany(models.Rating)
-    Store.belongsToMany(models.User, {
-      as: 'registeredCustomers',
-      through: 'userStore',
-    })
     Store.prototype.getManager = function() {
       return this.getWorkers({
         attributes: ['id', 'firstname', 'lastname', 'email'],
