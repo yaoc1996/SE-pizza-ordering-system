@@ -5,8 +5,6 @@ import {
   DropDown,
   PendingRequest,
   PendingOrder,
-  EditStoreForm,
-  HireForm,
   Feedback,
 } from 'components';
 
@@ -163,7 +161,6 @@ class Manager extends Component {
             amount: salary
           })
             .then(json => {
-              console.log(json)
               if (json && json.success) {
                 this.getStore();
               } else {
@@ -189,10 +186,6 @@ class Manager extends Component {
       ratings,
       isMobile,
     } = this.state;
-
-    const {
-      setForm,
-    } = this.props;
 
     return (
       !loading &&
@@ -249,7 +242,6 @@ class Manager extends Component {
               <List id='cooks'
                     items={cooks}
                     Li={props => {
-                      console.log(props)
                       return (
                         <div>
                           <label className='margin-0 align-left align-middle fit font-darkblue'

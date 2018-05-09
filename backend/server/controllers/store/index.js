@@ -34,7 +34,7 @@ module.exports = {
         as: 'offeredDough',
       }, {
         model: models.Pizza,
-        as: 'menuItems',
+        as: 'menuItems', 
       }]
     })
       .then(store => {
@@ -44,12 +44,60 @@ module.exports = {
             message: 'Store isn\'t open yet',
           })
         } else {
-          res.json({
-            success: true,
-            message: 'successful get store',
-            store: store,
-          })
+          Promise.all([
+            Promise.all(store.menuItems.map(pizza => 
+              models.Pizza.findOne({
+                where: {
+                  id: pizza.id,
+                },
+                include: [{
+                  model: models.Rating
+                }]
+              }),
+            )),
+            models.Order.findAll({
+              where: {
+                customerId: req.query.userId,
+              },
+              include: [{
+                model: models.Pizza,
+                as: 'items',
+              }],
+              order: [['createdAt', 'DESC']],
+              limit: 3,
+            })
+          ])
+            .then(([pizzas, orders]) => {
+              var avgRatings = pizzas.map(pizza => {
+                const totalRating= pizza.ratings.reduce((x, y) => x + parseInt(y.value), 0);
+                const avgRating = totalRating / pizza.ratings.length;
+  
+                return [pizza, avgRating]
+              })
+  
+              avgRatings.sort((x, y) => x[1] > y[1])
+              var popular = null;
+              
+              if (avgRatings.length < 4) {
+                popular = avgRatings.map(x => x[0])
+              } else {
+                popular = avgRatings.slice(0, 3).map(x => x[0])
+              }
+  
+              var pastOrders = orders.reduce((x, y) => [...x, ...y.items], [])
+              if (pastOrders.length > 3) {
+                pastOrders = pastOrders.slice(0, 3)
+              }
+              res.json({
+                success: true,
+                message: 'successful get store',
+                store: store,
+                popular,
+                pastOrders,
+              })
+            })
         }
+
       })
       .catch(e => {
         console.log(e)
@@ -127,13 +175,19 @@ module.exports = {
                 store: store.name
               }
             }]
+          }),
+          store.getBlacklist({
+            where: {
+              id: req.user.id,
+            }
           })
         ])
-        .then(([requests, customers, vips]) => {
-          var statusUpdate = null;
+        .then(([requests, customers, vips, blacklist]) => {
           var status = 'NotRegistered';
-          console.log(requests.length, customers.length, vips.length)
-          if (requests.length > 0) {
+          var statusUpdate = null;
+          if (blacklist.length > 0) {
+            status = 'BlackListed'
+          } else if (requests.length > 0) {
             status = 'Visitor';
           } else if (customers.length > 0) {
             status = 'Customer';
@@ -145,10 +199,15 @@ module.exports = {
                 store.addVip(customers[0])
                 status = 'VIP'
                 statusUpdate = 'You have been promoted to VIP status'
-              } else if (avgRating < 2) {
+              } else if (avgRating < 2 && avgRating > 1) {
                 store.removeRegisteredCustomer(customers[0])
                 status = 'Visitor';
                 statusUpdate = 'You have been demoted to Visitor status'
+              } else if (avgRating === 1) {
+                store.addBlackList(customers[0])
+                store.removeRegisteredCustomer(customers[0])
+                status = 'BlackListed'
+                statusUpdate = 'You have been blacklisted by the store'
               }
             }
           } else if (vips.length > 0) {
@@ -165,6 +224,11 @@ module.exports = {
                 store.removeVip(vips[0])
                 status = 'Visitor';
                 statusUpdate = 'You have been demoted to Visitor status'
+              } else if (avgRating === 1) {
+                store.addBlackList(customers[0])
+                store.removeVip(customers[0])
+                status = 'BlackListed'
+                statusUpdate = 'You have been blacklisted by the store'
               }
             }
           } else {
@@ -180,6 +244,10 @@ module.exports = {
                 store.addRegisteredCustomer(user)
                 status = "Customer";
                 statusUpdate = 'You have been promoted to Customer status';
+              } else if (avgRating === 1) {
+                store.addBlackList(customers[0])
+                status = 'BlackListed'
+                statusUpdate = 'You have been blacklisted by the store'
               }
             }
           }
@@ -201,7 +269,6 @@ module.exports = {
       })
   },
   register(req, res) {
-    console.log(req.user)
     Promise.all([
       models.User.findOne({
         where: {
@@ -213,13 +280,31 @@ module.exports = {
           id: req.query.storeId,
         }
       }),
+      models.Store.findAll({
+        include: [{
+          model: models.User,
+          as: 'blacklist',
+          where: {
+            id: req.user.id 
+          }
+        }]
+      })
     ])
-      .then(([user, store]) => {
-        store.addRequest(user)
-        res.json({
-          success: true,
-          message: 'success store register',
-        })
+      .then(([user, store, stores]) => {
+        count = stores.reduce((x, y) => x+y.blacklist.length, 0)
+        
+        if (count > 0) {
+          res.json({
+            success: false,
+            message: 'request rejected due to your blacklisted status at another store'
+          })
+        } else {
+          store.addRequest(user)
+          res.json({
+            success: true,
+            message: 'success store register',
+          })
+        }
       })
       .catch(e => {
         console.log(e)

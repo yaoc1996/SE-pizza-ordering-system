@@ -19,14 +19,8 @@ class HireForm extends Component {
       selected,
     })
   }
-
-  onOffer(e) {
-    e.preventDefault();
-    console.log(e.target);
-  }
-
+d
   render() {
-    console.log('rendering HireForm');
     const {
       setSelect,
       onOffer,

@@ -1,10 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { 
-  postMgmtLogin,
-} from 'lib';
-
 const Login = props => {
   const {
     login,

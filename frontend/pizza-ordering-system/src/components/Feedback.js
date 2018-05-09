@@ -9,8 +9,6 @@ const Feedback = props => {
     source,
     reason,
   } = children;
-
-  console.log(children)
   
   return (
     <div className='padding-sm'>

@@ -72,6 +72,7 @@ module.exports = {
               where: {
                 value: {
                   [Op.lt]: 3,
+
                 }
               }
             }),

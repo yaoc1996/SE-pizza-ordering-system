@@ -10,7 +10,6 @@ class Checkout extends Component{
 	}
 
 	render(){
-		console.log(this.props.order)
 		const subtotal = this.props.order.reduce((x, y) => x+parseFloat(y.price), 0) * this.props.discount
 		const tax = subtotal * 0.0875;
 		const total = subtotal + tax;

@@ -77,6 +77,12 @@ module.exports = {
                   userId: delivery.id,
                 }
               })
+              delivery.getSent()
+                .then(ratings => {
+                  ratings.forEach(rating => {
+                    delivery.removeSent(rating)
+                  })
+                })
             }
           }
         }

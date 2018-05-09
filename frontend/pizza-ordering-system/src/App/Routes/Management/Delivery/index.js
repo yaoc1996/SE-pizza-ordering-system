@@ -14,11 +14,6 @@ import {
   Ratings, 
 } from 'components';
 
-const midTownManhattanCoords = {
-  lat: 40.7549,
-  lng: -73.9840,
-}
-
 class Delivery extends Component {
   constructor() {
     super();
@@ -212,12 +207,12 @@ class Delivery extends Component {
     e.preventDefault();
 
     const token = localStorage.getItem('token');
-    const id = parseInt(e.target.id.value);
+    const id = parseInt(e.target.id.value, 10);
     const reason = e.target.reason.value;
-    const value = parseInt(e.target.value.value);
+    const value = parseInt(e.target.value.value, 10);
 
     if (token) {
-      if (parseInt(value) < 3 && reason === '') {
+      if (parseInt(value, 10) < 3 && reason === '') {
         alert('any rating < 3 must be give a reason')
       } else {
         postRating(token, {
@@ -228,7 +223,7 @@ class Delivery extends Component {
           .then(json => {
             if (json && json.success) {
               this.setState(state => ({
-                pendingRatings: state.pendingRatings.filter(x => x.id != id)
+                pendingRatings: state.pendingRatings.filter(x => x.id !== id)
               }))
               const r = document.getElementById(`rating-${id}`)
               if (r) r.remove();
@@ -285,7 +280,6 @@ class Delivery extends Component {
   }
 
   initNavigation(destination) {
-    const { google } = window;
     const {
       location,
       travelMode,
@@ -300,7 +294,7 @@ class Delivery extends Component {
     
     console.log("initializing google maps directions api routing, destination:", destination);
     this.directionsService.route(DirectionsRequest, (result, status) => {
-      if (status == 'OK') {
+      if (status === 'OK') {
         console.log("routing successful")
         this.directionsDisplay.setDirections(result)
         this.setState({

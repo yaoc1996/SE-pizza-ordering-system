@@ -10,10 +10,6 @@ import {
 	postOrder,
 } from 'lib';
 
-import{
-	List, 
-} from 'components';
-
 class StoreID extends Component{
 
 	constructor(){
@@ -38,7 +34,6 @@ class StoreID extends Component{
 	}
 
 	componentDidMount() {
-		console.log(this.props)
 		this.props.addForm('request', props => 
 			<div className='centered-hv bg-white padding-lg edge-rounded'>
 				<p className='font-bold font-md'>
@@ -111,28 +106,23 @@ class StoreID extends Component{
 		if (token) {
 			getCheckRegistered(token, storeId)
 				.then(json => {
-					console.log(json)	
 					if (json && json.success) {
-						if (json.status === 'NotRegistered') {
+						if (json.status === 'BlackListed') {
+							alert(json.message)
+							this.props.history.push('/home');
+						} else if (json.status === 'NotRegistered') {
 							this.props.setForm('request')();
 						} else {
 							if (json.statusUpdate) {
-								this.props.addForm('status-update', props => 
-									<div className='centered-hv bg-white padding-lg edge-rounded'>
-										<p className='font-bold font-md'>
-											{json.statusUpdate}
-										</p>
-									</div>
-								)
-								setTimeout(this.props.setForm('status-update'), 1000);
+								alert(json.statusUpdate)	
 							}
 						}
 						var discount = 1;
-						if (json.status == 'Customer') {
+						if (json.status === 'Customer') {
 							discount = 0.9;
 						}
 
-						if (json.status == 'VIP') {
+						if (json.status === 'VIP') {
 							discount = 0.8;
 						}
 						this.setState({
@@ -159,7 +149,9 @@ class StoreID extends Component{
 				if (json && json.success) {
 					if (json.store) {
 						this.setState({
-							store: json.store
+							store: json.store,
+							popular: json.popular,
+							pastOrders: json.pastOrders,
 						})
 					} else {
 						alert('unable to find store')
@@ -181,6 +173,11 @@ class StoreID extends Component{
 		
 		if (token) {
 			putStoreRegister(token, storeId)
+				.then(json => {
+					if (!json.success) {
+						alert(json.message)
+					}
+				})
 		}
 
 		this.props.setForm('confirm')();
@@ -205,7 +202,7 @@ class StoreID extends Component{
 		return () => {
 			this.setState(({order}) => {
 				return {
-					order: order.filter((x, ind) => ind != id),
+					order: order.filter((x, ind) => ind !== id),
 				}
 			})
 		}
@@ -226,7 +223,7 @@ class StoreID extends Component{
 				d[i].checked = false;
 			}
 		}
-		for (var i = 0; i < t.length; i++) {
+		for (i = 0; i < t.length; i++) {
 			if (t[i].checked) {
 				toppings.push({
 					typeName: t[i].value
@@ -234,7 +231,7 @@ class StoreID extends Component{
 				t[i].checked = false;
 			}
 		}
-		for (var i = 0; i < c.length; i++) {
+		for (i = 0; i < c.length; i++) {
 			if (c[i].checked) {
 				chef = {
 					name: c[i].value
@@ -244,7 +241,6 @@ class StoreID extends Component{
 		}
 
 		if (dough && toppings.length > 0 && chef) {
-			console.log('reached')
 			this.addToCart({
 				name: 'Custom',
 				description: 'custom',
@@ -287,8 +283,6 @@ class StoreID extends Component{
 	}
 
 	render(){
-		const { storeID } = this.state;
-
 		return (
 		!this.state.loading &&
 		<div className = 'fill bg-grey scrollable'>
@@ -345,10 +339,35 @@ class StoreID extends Component{
 			    <div className="column">
 			      <div className="ui segment">
 			      	<div className='align-left margin-lg padding-lg'>
+							<div className='font-txl margin-lg padding-lg'>
+	          				{ this.state.status === 'Visitor' ? 'Most Popular' : 'Past Orders' }
+	          				<div className="ui cards">
+		             		{
+											 (this.state.status === 'Visitor'
+													 ? this.state.popular
+													 : this.state.pastOrders).map((pizza, id) => 
+															<div 	className="card" 
+																		key={`menu-${id}`}>
+																<div className="content">
+																	<div className="header">{pizza.name}</div>
+																	<div className="description">
+																		{pizza.description}
+																		<br></br>
+																		${(pizza.price * this.state.discount).toFixed(2)} 
+																	</div>
+																</div>
+																<button className="ui bottom attached button"
+																				onClick={this.addToCart(pizza)}>
+																	<i className="add icon"></i>
+																	Add to Cart
+																</button>
+															</div>
+														)
+		             		} 
+             				</div>
+									</div>
           				<div className='font-txl margin-lg padding-lg'>
 	          				Menu
-	          				<br />
-	          				<h1> Most Popular </h1>
 	          				<div className="ui cards">
 		             		{
 		             			this.state.store.menuItems.map((pizza, id) => 

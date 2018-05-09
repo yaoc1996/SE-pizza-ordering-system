@@ -1,13 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { 
-  postSignup
-} from 'lib';
-
 const Signup = props => {
   const {
-    setAppState,
     signup,
   } = props;
 

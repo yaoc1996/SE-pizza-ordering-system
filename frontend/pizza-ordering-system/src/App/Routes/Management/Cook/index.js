@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 import {
-  List,
-} from 'components';
-
-import {
   postCookStore,
   getCookStore,
   withModal,
@@ -83,8 +79,11 @@ class Cook extends Component {
       getCookStore(token)
         .then(json => {
           if (json && json.success) {
+            if (json.statusUpdate) {
+              alert(json.statusUpdate)
+              window.location.reload();
+            }
             if (json.store) {
-              console.log(json.menu)
               this.setState({
                 store: json.store,
                 menu: json.menu,
@@ -156,8 +155,6 @@ class Cook extends Component {
   }
 
   render() {
-    const { store } = this.state;
-
     return (
       <div className='fill bg-grey scrollable' >
         <div  className='align-right'>

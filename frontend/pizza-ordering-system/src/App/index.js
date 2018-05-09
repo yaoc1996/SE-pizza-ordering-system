@@ -40,19 +40,13 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.time = Date.now();
-    const {
-      history,
-    } = this.props;
   }
   
   componentDidMount() {
-    console.log(Date.now() - this.time);
     const token = localStorage.getItem('token')
     if (token) {
       getAuth(token)
         .then(json => {
-          console.log(json)
           if (json && json.success) {
             this.setState({
               user: json.user,
@@ -118,7 +112,6 @@ class App extends Component {
       type: 'customer',
     })
       .then(json => {
-        console.log(json);
         if (json && json.success) {
           localStorage.setItem('token', json.token);
           this.setState({
@@ -144,7 +137,6 @@ class App extends Component {
       password,
     })
     .then(json => {
-      console.log(json)
       if (json && json.success) {
         localStorage.setItem('token', json.token);
         this.setState({
@@ -176,7 +168,6 @@ class App extends Component {
       type,
     })
       .then(json => {
-        console.log(json);
         if (json && json.success) {
           localStorage.setItem('token', json.token);
           this.setState({
@@ -205,7 +196,6 @@ class App extends Component {
 
   render() {
     const {
-      setAppState,
       redirect,
     } = this;
 

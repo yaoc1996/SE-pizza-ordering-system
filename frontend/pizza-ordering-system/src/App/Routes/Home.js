@@ -18,8 +18,6 @@ const midTownManhattanCoords = {
   lng: -73.9840,
 }
 
-const pizzaIcon = 'http://icons.iconarchive.com/icons/sonya/swarm/256/Pizza-icon.png';
-
 class Home extends Component {
   constructor() {
     super();
@@ -109,7 +107,6 @@ class Home extends Component {
     if (token) {
       getOrders(token)
         .then(json => {
-          console.log(json)
           this.setState({
             pendingOrders: json.pendingOrders,
             pendingRatings: json.pendingRatings,
@@ -122,12 +119,12 @@ class Home extends Component {
     e.preventDefault();
 
     const token = localStorage.getItem('token');
-    const id = parseInt(e.target.id.value);
+    const id = parseInt(e.target.id.value, 10);
     const reason = e.target.reason.value;
-    const value = parseInt(e.target.value.value);
+    const value = parseInt(e.target.value.value, 10);
 
     if (token) {
-      if (parseInt(value) < 3 && reason === '') {
+      if (parseInt(value, 10) < 3 && reason === '') {
         alert('any rating < 3 must be give a reason')
       } else {
         postRating(token, {
@@ -138,10 +135,9 @@ class Home extends Component {
           .then(json => {
             if (json && json.success) {
               this.setState(state => ({
-                pendingRatings: state.pendingRatings.filter(x => x.id != id)
+                pendingRatings: state.pendingRatings.filter(x => x.id !== id)
               }))
               const r = document.getElementById(`rating-${id}`)
-              console.log(r)
               if (r) r.remove();
             } else {
               json && alert(json.message)
@@ -295,8 +291,6 @@ class Home extends Component {
       onSearch,
     } = this;
 
-    const { stores } = this.state;
-
     return (
       <div className='fill' >
         <div className='block align-left' >
@@ -362,37 +356,3 @@ class Home extends Component {
 }
 
 export default withModal(Home);
-
-const fakeLocations = [
-  {
-    lat: 40.742727,
-    lng: -73.983244,
-    name: 'joes pizza',
-    address: '123 123st st',
-  },
-  {
-    lat: 40.746527,
-    lng: -73.993244,
-    name: 'pizza paradise',
-    address: '123 123st st',
-  },
-  {
-    lat: 40.752727,
-    lng: -73.973244,
-    name: 'nom nom',
-    address: '123 123st st',
-  }
-]
-
-/*
-  40.759613               40.756362
-  -74.000822              -73.975846
-
-
-  40.739324               40.739391
-  -74.001080              -73.975588
-
-
-  40.739324 < lat < 40.759613
-  -74.001080 < lng < -73.975588
-*/
