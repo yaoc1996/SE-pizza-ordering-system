@@ -20,7 +20,11 @@ const PendingOrder = ({ last, children, delivery, assignTask }) => {
       <List bullet
             items={items}
             Li={props => 
-              <label className='fit' >{props.children.name}</label>
+              <div>
+                <label className='fit' >{props.children.name}</label>
+                <br />
+                <p>{props.children.description}</p>
+              </div> 
             } />
 
       <form className='align-right '

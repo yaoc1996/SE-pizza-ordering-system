@@ -81,7 +81,7 @@ module.exports = {
             models.Rating.create({
               status: 'pending',
               subject: store.name,
-              store: '',
+              store: store.name,
               source: customer.firstname + ' ' + customer.lastname,
             })
               .then(rating => {
@@ -103,7 +103,7 @@ module.exports = {
             models.Rating.create({
               status: 'pending',
               subject: customer.firstname + ' ' + customer.firstname,
-              store: '',
+              store: store.name,
               source: delivery.firstname + ' ' + delivery.lastname,
             })
               .then(rating => {

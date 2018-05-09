@@ -68,6 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       through: 'userRequests',
     })
     User.hasOne(models.Salary);
+    User.hasMany(models.Warning);
   }
 
   User.beforeCreate(user => {

@@ -1,7 +1,8 @@
 import { DOMAIN, STORE } from 'macro.json';
+import createQuery from './createQuery';
 
-function getStore(id) {
-  return fetch(DOMAIN+STORE+`?storeId=${id}`)
+function getStore(params) {
+  return fetch(createQuery(DOMAIN+STORE, params))
     .then(res => res.json())
     .catch(console.log)
 }

@@ -64,9 +64,6 @@ button > a {
   .home-search-button * {
     vertical-align: middle; }
 
-.hide {
-  visibility: hidden; }
-
 .form {
   width: 80vw;
   min-width: 376px;

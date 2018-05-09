@@ -30,8 +30,6 @@ module.exports = {
         attributes: ['id', 'firstname', 'lastname', 'email']
       }, {
         model: models.Topping,
-        as: 'offeredToppings',
-      }, {
         model: models.Dough,
         as: 'offeredDough',
       }, {
@@ -40,11 +38,18 @@ module.exports = {
       }]
     })
       .then(store => {
-        res.json({
-          success: true,
-          message: 'successful get store',
-          store: store,
-        })
+        if (store.workers.length < 2) {
+          res.json({
+            success: false,
+            message: 'Store isn\'t open yet',
+          })
+        } else {
+          res.json({
+            success: true,
+            message: 'successful get store',
+            store: store,
+          })
+        }
       })
       .catch(e => {
         console.log(e)
@@ -60,7 +65,7 @@ module.exports = {
       lng,
       lat,
     } = req.query;
-
+    
     models.Store.findAll({
       attributes: ['id', 'name', 'address', 'lng', 'lat']
     })
@@ -73,29 +78,116 @@ module.exports = {
       });
   },
   checkRegistered(req, res) {
-    models.Store.findOne({
-      where: {
-        id: req.query.storeId,
-      }
-    })
-      .then(store => {
+    Promise.all([
+      models.User.findOne({
+        where: {
+          id: req.user.id,
+        },
+        include: [{
+          model: models.Rating
+        }] 
+      }),
+      models.Store.findOne({
+        where: {
+          id: req.query.storeId,
+        }
+      })
+    ])
+      .then(([user, store]) => {
         Promise.all([
           store.getRequests({
             where: {
               id: req.user.id,
-            }
+            },
+            include: [{
+              model: models.Rating,
+              where: {
+                store: store.name
+              }
+            }]
           }),
           store.getRegisteredCustomers({
             where: {
               id: req.user.id,
-            }
+            },
+            include: [{
+              model: models.Rating,
+              where: {
+                store: store.name
+              }
+            }]
+          }),
+          store.getVip({
+            where: {
+              id: req.user.id,
+            },
+            include: [{
+              model: models.Rating,
+              where: {
+                store: store.name
+              }
+            }]
           })
         ])
-          .then(([requests, customers]) => {
+        .then(([requests, customers, vips]) => {
+          var statusUpdate = null;
+          var status = 'NotRegistered';
+          console.log(requests.length, customers.length, vips.length)
+          if (requests.length > 0) {
+            status = 'Visitor';
+          } else if (customers.length > 0) {
+            status = 'Customer';
+            if (customers[0].ratings.length > 3) {
+              const totalRating = customers[0].ratings.reduce((x, y) => x+parseInt(y.value), 0)
+              const avgRating = totalRating / customers[0].ratings.length
+              if (avgRating > 4) {
+                store.removeRegisteredCustomer(customers[0])
+                store.addVip(customers[0])
+                status = 'VIP'
+                statusUpdate = 'You have been promoted to VIP status'
+              } else if (avgRating < 2) {
+                store.removeRegisteredCustomer(customers[0])
+                status = 'Visitor';
+                statusUpdate = 'You have been demoted to Visitor status'
+              }
+            }
+          } else if (vips.length > 0) {
+            status = 'VIP'
+            if (vips[0].ratings.length > 3) {
+              const totalRating = vips[0].ratings.reduce((x, y) => x+parseInt(y.value), 0) 
+              const avgRating = totalRating / vips[0].ratings.length;
+              if (avgRating < 4) {
+                store.removeVip(vips[0])
+                store.addRegisteredCustomer(vips[0])
+                status = 'Customer';
+                statusUpdate = 'You have been demoted to Customer status'
+              } else if (avgRating < 2) {
+                store.removeVip(vips[0])
+                status = 'Visitor';
+                statusUpdate = 'You have been demoted to Visitor status'
+              }
+            }
+          } else {
+            status = 'Visitor';
+            if (user.ratings.length > 3) {
+              const totalRating = user.ratings.reduce((x, y) => x + parseInt(y.value), 0);
+              const avgRating = totalRating / user.ratings.length;
+              if (avgRating > 4) {
+                store.addVip(user)
+                status = "VIP";
+                statusUpdate = 'You have been promoted to VIP status';
+              } else if (avgRating > 2) {
+                store.addRegisteredCustomer(user)
+                status = "Customer";
+                statusUpdate = 'You have been promoted to Customer status';
+              }
+            }
+          }
             res.json({
               success: true,
               message: 'success check registered customer status',
-              isRegistered: requests.length > 0 || customers.length > 0,
+              status,
+              statusUpdate,
             })
           })
           .catch(e => {
