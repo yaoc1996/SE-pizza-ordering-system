@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_PATH=./ nodemon -L server.js",
-    "faker": "NODE_PATH=./ node faker.js"
+    "faker": "NODE_PATH=./ node faker.js",
+    "herokupostbuild": "cd frontend/pizza-ordering-system && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
