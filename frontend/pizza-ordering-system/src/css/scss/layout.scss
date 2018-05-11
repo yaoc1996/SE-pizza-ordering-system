@@ -206,3 +206,14 @@
 .box-shadow {
   box-shadow: 3px 3px 2px 0px #ddd;
 }
+
+.size {
+
+  &-sm {
+    height: 30px;
+  }
+  
+  &-md {
+    height: 60px;
+  }
+}

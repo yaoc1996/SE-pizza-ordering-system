@@ -1,5 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Store = sequelize.define('store', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -39,6 +44,22 @@ module.exports = (sequelize, DataTypes) => {
       as: 'workers',
       foreignKey: 'workPlaceId',
     });
+    Store.belongsToMany(models.User, {
+      as: 'requests',
+      through: 'userRequests',
+    })
+    Store.belongsToMany(models.User, {
+      as: 'blacklist',
+      through: 'storeBlacklist',
+    })
+    Store.belongsToMany(models.User, {
+      as: 'registeredCustomers',
+      through: 'userStore',
+    })
+    Store.belongsToMany(models.User, {
+      as: 'vip',
+      through: 'storeVip',
+    })
     Store.hasMany(models.Pizza, {
       as: 'menuItems',
       foreignKey: 'vendorStoreId',
@@ -51,37 +72,47 @@ module.exports = (sequelize, DataTypes) => {
       as: 'offeredToppings',
       foreignKey: 'vendorStoreId',
     })
-    Store.hasMany(models.Crust, {
-      as: 'offeredCrusts',
+    Store.hasMany(models.Dough, {
+      as: 'offeredDough',
       foreignKey: 'vendorStoreId',
     })
+    Store.hasMany(models.Rating)
+    Store.prototype.getManager = function() {
+      return this.getWorkers({
+        attributes: ['id', 'firstname', 'lastname', 'email'],
+        where: {
+          type: 'manager',
+        },
+        limit: 1,
+      })
+        .then(([manager]) => manager);
+    }
+  
+    Store.prototype.getCooks = function() {
+      return this.getWorkers({
+        attributes: ['id', 'firstname', 'lastname', 'email'],
+        where: {
+          type: 'cook',
+        },
+        include: [{
+          model: models.Salary,
+        }]
+      })
+    }
+  
+    Store.prototype.getDeliveryWorkers = function() {
+      return this.getWorkers({
+        attributes: ['id', 'firstname', 'lastname', 'email'],
+        where: {
+          type: 'delivery',
+        },
+        include: [{
+          model: models.Salary,
+        }]
+      })
+    }
   }
   
-  Store.prototype.getManager = function() {
-    return this.getWorkers({
-      where: {
-        type: 'manager',
-      },
-      limit: 1,
-    })
-      .then(([manager]) => manager);
-  }
-
-  Store.prototype.getCooks = function() {
-    return this.getWorkers({
-      where: {
-        type: 'cook',
-      }
-    })
-  }
-
-  Store.prototype.getDeliveryWorkers = function() {
-    return this.getWorkers({
-      where: {
-        type: 'delivery',
-      }
-    })
-  }
 
   return Store;
 }
