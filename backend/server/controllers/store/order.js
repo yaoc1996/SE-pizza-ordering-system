@@ -25,7 +25,6 @@ module.exports = {
         if (pizza.toppings && pizza.toppings.length > 0) {
           toppings = pizza.toppings.reduce((x, y) => x + y.typeName + ', ', '')
         }
-        console.log(pizza.price)
         return models.Pizza.create({
           name: pizza.name,
           description: 
