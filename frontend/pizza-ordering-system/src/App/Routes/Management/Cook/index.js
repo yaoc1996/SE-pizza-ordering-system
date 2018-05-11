@@ -35,12 +35,13 @@ class Cook extends Component {
                   required />
           <br /><br />
           <button className='btn-md btn-pink font-md' >Submit</button>
+          <br /><br />
           <button className='btn-md btn-pink font-md'
                   onClick={() => {
                     localStorage.removeItem('token');
                     this.props.history.push('/management/login')
                     window.location.reload();
-                  }} />
+                  }}>Logout</button>
         </form>
       </div>
     , true)
