@@ -75,7 +75,7 @@ models.sequelize.sync({
   
   function generate(n) {
     if (n === 0) {
-      models.sequelize.close()
+      process.exit(1)
       
       return
     }
