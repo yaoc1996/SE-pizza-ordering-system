@@ -11,7 +11,6 @@ import Manager from './Routes/Management/Manager';
 import Cook from './Routes/Management/Cook';
 import Delivery from './Routes/Management/Delivery';
 import Store from './Routes/Store';
-import SCheckout from './Routes/Store/Checkout';
 
 import {
   getAuth,
@@ -26,6 +25,7 @@ class App extends Component {
 
     this.state = {
       user: null,
+      type: '',
       redirectDest: '/home',
       loading: true,
     }
@@ -37,12 +37,12 @@ class App extends Component {
     this.mgmtLogin = this.mgmtLogin.bind(this);
     this.mgmtSignup = this.mgmtSignup.bind(this);
     this.logout = this.logout.bind(this);
+    this.listen = this.listen.bind(this);
+    this.accessControl = this.accessControl.bind(this);
   }
 
-  componentWillMount() {
-  }
-  
   componentDidMount() {
+    console.log(this.props.history.location.pathname)
     const token = localStorage.getItem('token')
     if (token) {
       getAuth(token)
@@ -50,18 +50,94 @@ class App extends Component {
           if (json && json.success) {
             this.setState({
               user: json.user,
+              type: json.user.type,
             })
           }
-  
-          this.setState({
-            loading: false,
-          })
+
+          this.accessControl(this.props.history.location)
+          this.unlisten = this.listen() 
         })
     } else {
-      this.setState({
-        loading: false,
-      })
+      this.accessControl(this.props.history.location)
+      this.unlisten = this.listen()
     }
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
+  }
+
+  listen() {
+    return this.props.history.listen((location, action) => {
+      this.accessControl(location) 
+    })
+  }
+
+  accessControl(location) {
+    var { pathname } = location;
+    if (pathname[pathname.length-1] === '/') {
+      pathname = pathname.slice(0, pathname.length-1)
+      this.props.history.push(pathname)
+    }
+    console.log(location.pathname)
+
+    switch (this.state.type) {
+      case 'customer':
+        switch(location.pathname) {
+          case '/home':
+          case '/store':
+            break;
+          default:
+            this.props.history.push('/home');
+        }
+        break;
+      case 'delivery':
+        switch(location.pathname) {
+          case '/management/delivery':
+            break;
+          default:
+            this.props.history.push('/management/delivery');
+            break;
+        }
+        break;
+      case 'cook':
+        switch(location.pathname) {
+          case '/management/cook':
+            break;
+          default:
+            this.props.history.push('/management/cook');
+            break;
+        }
+        break;
+      case 'manager':
+        switch(location.pathname) {
+          case '/management/manager':
+          case '/management/manager/setup':
+            break;
+          default:
+            this.props.history.push('/management/manager');
+            break;
+        }
+        break;
+      default:
+        switch(location.pathname) {
+          case '/login':
+          case '/signup':
+          case '/management/login':
+          case '/management/signup':
+          case '/home':
+          case '/store':
+            break;
+          default:
+            this.props.history.push('/home')
+            break;
+        }
+        break;
+    }
+
+    this.setState({
+      loading: false
+    })
   }
 
   setAppState(state) {
@@ -86,7 +162,8 @@ class App extends Component {
       if (json && json.success) {
         localStorage.setItem('token', json.token);
         this.setState({
-          user: json.user
+          user: json.user,
+          type: json.user.type,
         })
         this.redirect();
       } else {
@@ -116,6 +193,7 @@ class App extends Component {
           localStorage.setItem('token', json.token);
           this.setState({
             user: json.user,
+            type: json.user.type,
           })
 
           this.redirect();
@@ -140,7 +218,8 @@ class App extends Component {
       if (json && json.success) {
         localStorage.setItem('token', json.token);
         this.setState({
-          user: json.user
+          user: json.user,
+          type: json.user.type,
         })
         
         this.props.history.push('/management/'+json.user.type)
@@ -172,6 +251,7 @@ class App extends Component {
           localStorage.setItem('token', json.token);
           this.setState({
             user: json.user,
+            type: json.user.type,
           })
 
           this.props.history.push('/management/'+json.user.type)          
@@ -254,7 +334,6 @@ class App extends Component {
                     path='/management/manager/setup'
                     component={StoreSetup} />
             <Route  exact
-
                     path='/management/manager'
                     render={props => 
                       <Manager  logout={this.logout}
@@ -275,7 +354,8 @@ class App extends Component {
                                 { ...props } />
                     } />
 
-            <Route  path='/home' 
+            <Route  exact
+                    path='/home' 
                     render={props => 
                       <Home logout={this.logout}
                             setAppState={this.setAppState}
@@ -283,16 +363,12 @@ class App extends Component {
                             { ...props } />
                     } />    
 
-            <Route  path='/store/:storeId'
+            <Route  path='/store'
                     render={props => 
                       <Store  logout={this.logout}
                               user={user}
                               { ...props } />
                     }/>
-
-            <Route  exact
-                    path='/store/checkout'
-                    component={SCheckout} />
 
           </Switch>
 

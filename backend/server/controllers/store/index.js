@@ -17,9 +17,10 @@ module.exports = {
     return router;
   },
   getStore(req, res) {
+    console.log(req.query)
     models.Store.findOne({
       where: {
-        id: req.query.storeId,
+        id: parseInt(req.query.storeId),
       },
       include: [{
         model: models.User,
@@ -38,6 +39,12 @@ module.exports = {
       }]
     })
       .then(store => {
+        if (!store) {
+          return res.json({
+            success: false,
+            message: 'store does not exist',
+          })
+        }
         if (store.workers.length < 2) {
           res.json({
             success: false,
@@ -115,9 +122,17 @@ module.exports = {
     } = req.query;
     
     models.Store.findAll({
-      attributes: ['id', 'name', 'address', 'lng', 'lat']
+      attributes: ['id', 'name', 'address', 'lng', 'lat'],
+      include: [{
+        model: models.User,
+        as: 'workers',
+        where: {
+          type: 'cook',
+        }
+      }]
     })
       .then(stores => {
+        stores = stores.filter(store => stores.workers.length >= 2)
         res.json({
           stores: _.slice(_.sortBy(stores, store => Math.pow((store.lat - lat), 2) + Math.pow(store.lng - lng, 2)), 0, req.query.limit),
           success: true,

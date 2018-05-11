@@ -25,7 +25,7 @@ class Cook extends Component {
   }
 
   componentDidMount() {
-    this.props.addForm('setup', props => 
+    this.props.addForm('setup', props =>
       <div className='align-left centered-hv padding-lg edge-rounded bg-white'>
         <form onSubmit={this.postStore}>
           <p className='font-md' >You haven't setup a store yet.</p>
@@ -69,7 +69,9 @@ class Cook extends Component {
           }
         })
     } else {
-      this.props.history.push('/home');
+      localStorage.removeItem('token');
+      this.props.history.push('/management/login')
+      window.location.reload();
     }   
   }
 
@@ -89,7 +91,7 @@ class Cook extends Component {
                 menu: json.menu,
               })
             } else {
-              this.props.setForm('setup')();
+              setTimeout(this.props.setForm('setup'), 500);
             }
           } else {
             json && alert(json.message);
@@ -97,8 +99,9 @@ class Cook extends Component {
           }
         })
     } else {
-      alert('unauthorized');
-      this.props.history.push('/home');
+      localStorage.removeItem('token');
+      this.props.history.push('/management/login')
+      window.location.reload();
     }
   }
 
@@ -130,7 +133,9 @@ class Cook extends Component {
           e.target.price.value = "";
         })
     } else {
-      this.props.history.push('/home');
+      localStorage.removeItem('token');
+      this.props.history.push('/management/login')
+      window.location.reload();
     }
   }
 

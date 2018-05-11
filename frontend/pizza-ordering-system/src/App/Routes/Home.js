@@ -223,7 +223,7 @@ class Home extends Component {
   }
 
   onStoreEnter(id) {
-    const destination = `/store/${id}`;
+    const destination = `/store?storeId=${id}`;
     return () => {
       if (this.props.user) {
         this.props.history.push(destination)
@@ -277,6 +277,7 @@ class Home extends Component {
                 })
               }
               infoWindow.open(this.map, marker);
+              console.log(store)
               document.getElementById('info-window').onclick = that.onStoreEnter(store.id);
             })
 

@@ -26,7 +26,7 @@ module.exports = {
   },
   getStore(req, res) {
     Promise.all([
-      models.user.findOne({
+      models.User.findOne({
         where: {
           id: req.user.id
         },

@@ -8,6 +8,7 @@ import {
 	putStoreRegister,
 	getStore,
 	postOrder,
+	parseQuery,
 } from 'lib';
 
 class StoreID extends Component{
@@ -101,7 +102,9 @@ class StoreID extends Component{
 		)
 
 		const token = localStorage.getItem('token');
-		const { storeId } = this.props.match.params;
+		
+		const { storeId } = parseQuery(this.props.location.search);
+		console.log(parseQuery(this.props.location.search))
 
 		if (token) {
 			getCheckRegistered(token, storeId)
@@ -141,8 +144,9 @@ class StoreID extends Component{
 		var userId = null;
 		if (this.props.user) userId = this.props.user.id;
 
+		const { storeId } = parseQuery(this.props.location.search)
 		getStore({
-			storeId: this.props.match.params.storeId,
+			storeId,
 			userId,
 		})
 			.then(json => {
@@ -158,6 +162,7 @@ class StoreID extends Component{
 						this.props.history.push('/home');
 					}
 				} else {
+					console.log(json)
 					json && alert(json.message);
 					this.props.history.push('/home');
 				}

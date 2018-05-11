@@ -25,38 +25,53 @@ module.exports = {
       lat,
     } = req.body;
 
-    Promise.all([
-      models.Store.create({
-        name,
-        address,
-        lng,
-        lat,
-      }),
-      models.User.findOne({
-        where: {
-          id: req.user.id,
-        },
-      })
-    ])
-      .then(([store, manager]) => {
-        console.log(store)
-        store.addWorker(manager)
-        manager.setWorkPlace(store)
-        
+    const randomId = Math.floor(Math.random()*90000) + 10000;
 
-        res.json({
-          success: true,
-          message: 'successfully created store',
-          store,
-        })
+    models.Store.findOne({
+      where: {
+        id: randomId,
+      }
+    })
+      .then(store => {
+        if (store) {
+          this.createStore(req, res);
+        } else {
+          Promise.all([
+            models.Store.create({
+              name,
+              address,
+              lng,
+              lat,
+              id: randomId,
+            }),
+            models.User.findOne({
+              where: {
+                id: req.user.id,
+              },
+            })
+          ])
+            .then(([store, manager]) => {
+              console.log(store)
+              store.addWorker(manager)
+              manager.setWorkPlace(store)
+              
+      
+              res.json({
+                success: true,
+                message: 'successfully created store',
+                store,
+              })
+            })
+            .catch(e => {
+              console.log(e)
+              
+              res.json({
+                success: false,
+                message: 'error encountered during store create',
+              });
+            })
+          
+        }
       })
-      .catch(e => {
-        console.log(e)
-        
-        res.json({
-          success: false,
-          message: 'error encountered during store create',
-        });
-      })
-  }
+    }
 }

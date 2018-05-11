@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
-function withPopupForm(LOC) {
+function withModal(LOC) {
   return class extends Component {
     constructor() {
       super();
@@ -80,7 +80,7 @@ function withPopupForm(LOC) {
         <div className='fade-in fill'>
           { 
             selected &&
-            <Fragment>
+            <div>
               <div  style={{
                       position: 'absolute',
                       width: '100%',
@@ -90,7 +90,7 @@ function withPopupForm(LOC) {
                     }}
                     onClick={setForm(null)} />
               <Form />
-            </Fragment>
+            </div>
           }
           <div  className='fill'
                 style={{
@@ -105,4 +105,4 @@ function withPopupForm(LOC) {
   }
 }
 
-export default withPopupForm;
+export default withModal;
