@@ -12,7 +12,6 @@ import {
 } from 'lib';
 
 class StoreID extends Component{
-
 	constructor(){
 		super();
 
