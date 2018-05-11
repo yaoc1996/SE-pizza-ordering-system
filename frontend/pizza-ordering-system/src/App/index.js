@@ -364,10 +364,11 @@ class App extends Component {
                     } />    
 
             <Route  path='/store'
-                    render={props => 
-                      <Store  logout={this.logout}
-                              user={user}
-                              { ...props } />
+                    render={props =>
+                      <Store logout={this.logout}
+                                    user={user}
+                                    setAppState={this.setAppState}
+                                    { ...props } />
                     }/>
 
           </Switch>

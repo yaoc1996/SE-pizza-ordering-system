@@ -35,6 +35,9 @@ class StoreID extends Component{
 	}
 
 	componentDidMount() {
+		this.props.setAppState({
+			redirectDest: this.props.location.pathname+ this.props.location.search
+		})
 		this.props.addForm('request', props => 
 			<div className='centered-hv bg-white padding-lg edge-rounded'>
 				<p className='font-bold font-md'>

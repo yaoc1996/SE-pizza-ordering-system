@@ -175,10 +175,10 @@ class Home extends Component {
     );
 
     google.maps.event.addListener(map, 'click', e => {
-      if (!this.marker)
-        this.marker = this.initMarker(google, midTownManhattanCoords);
+      // if (!this.marker)
+      //   this.marker = this.initMarker(google, midTownManhattanCoords);
 
-      this.marker.setPosition(e.latLng);
+      // this.marker.setPosition(e.latLng);
       this.loadNearbyStores(google, e.latLng, 3);
     })
 
@@ -211,9 +211,9 @@ class Home extends Component {
       if (places.length === 0) return;
       
       const { location } = places[0].geometry
-      if (!this.marker) this.marker = this.initMarker(google, location);      
+      // if (!this.marker) this.marker = this.initMarker(google, location);      
 
-      this.marker.setPosition(location);
+      // this.marker.setPosition(location);
       map.panTo(location);      
       map.setZoom(16);
       this.loadNearbyStores(google, location, 3)
@@ -255,7 +255,7 @@ class Home extends Component {
 
             const contentString = `
               <div>
-                <h3>${store.name}</h3>
+                <h5>${store.name}</h5>
                 <p>${store.address}</p>
                 <button class='float-right' id='info-window'>Enter</button>
               </div>

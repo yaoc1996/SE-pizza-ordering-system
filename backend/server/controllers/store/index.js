@@ -17,7 +17,6 @@ module.exports = {
     return router;
   },
   getStore(req, res) {
-    console.log(req.query)
     models.Store.findOne({
       where: {
         id: parseInt(req.query.storeId),
@@ -107,8 +106,6 @@ module.exports = {
 
       })
       .catch(e => {
-        console.log(e)
-        
         res.json({
           success: false,
           message: 'error encountered during get store',
@@ -132,7 +129,7 @@ module.exports = {
       }]
     })
       .then(stores => {
-        stores = stores.filter(store => stores.workers.length >= 2)
+        stores = stores.filter(store => store.workers.length >= 2)
         res.json({
           stores: _.slice(_.sortBy(stores, store => Math.pow((store.lat - lat), 2) + Math.pow(store.lng - lng, 2)), 0, req.query.limit),
           success: true,
@@ -274,7 +271,6 @@ module.exports = {
             })
           })
           .catch(e => {
-            console.log(e)
             
             res.json({
               success: false,
@@ -322,7 +318,6 @@ module.exports = {
         }
       })
       .catch(e => {
-        console.log(e)
         
         res.json({
           success: false,
