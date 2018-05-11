@@ -2,6 +2,10 @@
   "name": "pizza-ordering-system",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.0.0",
+    "node": "10.0.0"
+  },
   "dependencies": {
     "bootstrap": "^4.1.1",
     "google-maps-react": "^1.1.2",

@@ -71,10 +71,6 @@ models.sequelize.sync({
     console.log("\nGenerating Database Data".green)
     generate(50) 
     
-    models.sequelize.close()
-      .then(() => {
-        console.log("\nGracefully Exited".green)
-      })
   })
   
   function generate(n) {
