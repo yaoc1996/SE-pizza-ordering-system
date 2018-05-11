@@ -176,7 +176,7 @@ class StoreID extends Component{
 
 	register() {
 		const token = localStorage.getItem('token');		
-		const { storeId } = this.props.match.params;
+		const { storeId } = parseQuery(this.props.location.search)
 		
 		if (token) {
 			putStoreRegister(token, storeId)
@@ -267,9 +267,9 @@ class StoreID extends Component{
 		const total = subtotal + tax;
 		const destination = e.target.destination.value;
 		
-
+		const { storeId } = this.props.match.params;
 		postOrder({
-			storeId: this.props.match.params.storeId,
+			storeId,
 			userId: this.props.user ? this.props.user.id : null,
 			subtotal,
 			tax,

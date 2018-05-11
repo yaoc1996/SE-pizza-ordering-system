@@ -9,8 +9,8 @@
   },
   "production": {
     "username": "se_app",
-    "password": "se_app",
-    "database": "se_app_development",
+    "password": "seappdev",
+    "database": "se_app_production",
     "host": "localhost",
     "dialect": "postgres",
     "secretOrKey": "sepizzaorderingsystem"

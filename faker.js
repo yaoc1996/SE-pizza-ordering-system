@@ -74,7 +74,11 @@ models.sequelize.sync({
   })
   
   function generate(n) {
-    if (n === 0) return
+    if (n === 0) {
+      models.sequelize.close()
+      
+      return
+    }
       models.Store.create({
         name: faker.company.companyName() + ' Pizzaria',
         address: faker.address.streetAddress('###')+' Manhattan, NY '+faker.address.zipCode(),
