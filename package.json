@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_PATH=./ node server.js", 
     "faker": "NODE_PATH=./ node faker.js",
-    "heroku-postbuild": "cd frontend/pizza-ordering-system && npm install && NODE_PATH=src/ npm run build"
+    "heroku-postbuild": "npm run faker && cd frontend/pizza-ordering-system && npm install && NODE_PATH=src/ npm run build"
   },
   "author": "",
   "license": "ISC",

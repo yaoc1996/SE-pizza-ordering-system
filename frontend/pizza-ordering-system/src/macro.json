@@ -1,5 +1,5 @@
 {
-  "DOMAIN": "http://localhost:3001",
+  "DOMAIN": "http://localhost:3001/api",
   "AUTH": "/user/auth",
   "LOGIN": "/user/login",
   "SIGNUP": "/user/create",
