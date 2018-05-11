@@ -14,7 +14,7 @@ const path = require('path')
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, 'frontend/pizza-ordering-system/build')));
-  app.get('*', (req, res) => {
+  app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/pizza-ordering-system', 'build/index.html'))
   })
 }
@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(router);
+app.use('/api', router);
 app.use(passport.initialize());
 
 const PORT = process.env.PORT || 3001;
