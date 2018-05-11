@@ -6,19 +6,23 @@ const Feedback = props => {
   } = props;
 
   const {
-    name,
-    msg,
-    positive,
+    source,
+    reason,
   } = children;
-
+  
   return (
     <div className='padding-sm'>
-      <label>{ name } said:</label>
-      <br />
-      <label className={ 'padding-sm fit ' + (positive ? 'font-green' : 'font-red') }>
-        { msg }
+      <label className={ 'padding-sm fit font-grey'}>
+        Comment: &nbsp; 
+        <div className='padding-sm' >
+          { reason }
+        </div>
       </label>
       <br />
+      <div className='align-right padding-sm'>
+        <label className='font-red font-sm margin-0 float-left'> Rating: {children.value}</label>
+        <label className='font-blue font-sm margin-0' >{ source }</label>&nbsp;
+      </div> 
       <div className='line-h' />
     </div>
   )

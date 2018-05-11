@@ -5,13 +5,15 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_PATH=./ nodemon -L server.js"
+    "start": "NODE_PATH=./ nodemon -L server.js",
+    "faker": "NODE_PATH=./ node faker.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
+    "colors": "^1.2.5",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.1",
     "lodash": "^4.17.5",
@@ -22,6 +24,7 @@
     "sequelize": "^4.34.0"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
     "nodemon": "^1.15.1"
   }
 }

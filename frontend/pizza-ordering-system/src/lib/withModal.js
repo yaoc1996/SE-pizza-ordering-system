@@ -1,51 +1,66 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
-function withPopupForm(LOC) {
+function withModal(LOC) {
   return class extends Component {
     constructor() {
       super();
       this.state = {
         forms: {},
+        locks: {},
         selected: null,
       }
 
       this.addForm = this.addForm.bind(this);
       this.setForm = this.setForm.bind(this);
+      this.closeForm = this.closeForm.bind(this);
     }
 
     componentWillMount() {
       const {
         addForm,
         setForm,
+        closeForm,
       } = this;
 
       this.LOC =          
-        <LOC 
-          addForm={addForm}
-          setForm={setForm}
-          { ...this.props } />
+        <LOC  closeForm={closeForm}
+              addForm={addForm}
+              setForm={setForm}
+              { ...this.props } />
     }
 
     shouldComponentUpdate(nextProps, nextState) {
       return nextState.selected !== this.state.selected;
     }
 
-    addForm(name, form) {
-      this.setState(({ forms }) => {
+    addForm(name, form, locked) {
+      this.setState(({ forms, locks }) => {
         forms[name] = form;
+        locks[name] = locked;
         return {
           forms,
+          locks,
         }
       })
     }
 
     setForm(selected) {
       return () => {
-        if (this.state.forms[selected] || selected === null) {
-          this.setState({
-            selected,
-          })
+        if (!this.state.locks[this.state.selected]){
+          if (this.state.forms[selected] || selected === null) {
+            this.setState({
+              selected,
+            })
+          }
         }
+      }
+    }
+
+    closeForm() {
+      return () => {
+        this.setState({
+          selected: null,
+        })
       }
     }
 
@@ -65,7 +80,7 @@ function withPopupForm(LOC) {
         <div className='fade-in fill'>
           { 
             selected &&
-            <Fragment>
+            <div>
               <div  style={{
                       position: 'absolute',
                       width: '100%',
@@ -75,7 +90,7 @@ function withPopupForm(LOC) {
                     }}
                     onClick={setForm(null)} />
               <Form />
-            </Fragment>
+            </div>
           }
           <div  className='fill'
                 style={{
@@ -90,4 +105,4 @@ function withPopupForm(LOC) {
   }
 }
 
-export default withPopupForm;
+export default withModal;

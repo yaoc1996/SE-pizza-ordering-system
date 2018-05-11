@@ -1,6 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const models = require('models');
+const passport = require('middlewares/authentication');
 
 module.exports = {
   Router() {
@@ -12,22 +14,25 @@ module.exports = {
   },
   createUser(req, res) {
     const {
-      username,
       email,
       password,
       type,
     } = req.body;
 
+    const firstname = req.body.firstname[0].toUpperCase() + req.body.firstname.slice(1)
+    const lastname = req.body.lastname[0].toUpperCase() + req.body.lastname.slice(1)
+
     models.User.create({
-      username,
+      firstname,
+      lastname,
       email,
       password,
       type,
     })
       .then(user => {
-        const { username } = user;
+        const { id } = user;
 
-        const payload = { username };
+        const payload = { id };
         const token = jwt.sign(
           payload,
           passport.secretOrKey,
@@ -38,7 +43,7 @@ module.exports = {
           success: true,
           message: 'user created',
           token,
-          user: _.pick(user, ['username', 'email', 'type']),
+          user: _.pick(user, ['id', 'firstname', 'lastname', 'email', 'type']),
         })
       })
       .catch(e => {

@@ -50,16 +50,21 @@ button > a {
 
 .home-search-area {
   display: inline-block;
-  max-width: 400px;
-  width: calc(100% - 258px);
+  max-width: 720px;
+  width: calc(100% - 360px);
   height: 42px; 
   margin: 6px;
+
+    @media only screen and (max-width: 520px) {
+      width: calc(100% - 60px);
+    }
 }
 
 .home-search-button {
   width: 48px;
   height: 42px;
   margin: 6px 6px 6px -6px;
+  padding: 0;
   line-height: 44px;
   vertical-align: top;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -73,4 +78,8 @@ button > a {
   & * {
     vertical-align: middle;
   }
+}
+
+.hide {
+  visibility: hidden;
 }

@@ -1,37 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import {
-  postLogin,
-} from 'lib';
-
 const Login = props => {
   const {
+    login,
     redirectDest,
-    redirect,
-    setAppState,
+    redirect, 
   } = props;
-
-  const onLogin = e => {
-    e.preventDefault();
-    
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    postLogin({
-      email,
-      password,
-    })
-      .then(json => {
-        if (json && json.success) {
-          setAppState({
-            user: json.user,
-          })
-          redirect();
-        }
-        console.log(json);
-      })
-  }
 
   return (
     <div className='fill' >
@@ -55,7 +30,7 @@ const Login = props => {
         </label>
         <br /><br /><br />
         <form className='form'
-              onSubmit={onLogin} >
+              onSubmit={login} >
           <div className='form-field' >
             <label>Email:</label>
             <input  type='text'
@@ -72,11 +47,15 @@ const Login = props => {
           <br /><br /><br />       
           <button className='btn-md btn-darkblue margin-sm'>Login</button>
         </form>
-        <br /><br />
+        <br />
         {
-          redirectDest === '/store' &&
-          <label  className='clickable font-sm font-blue'
-                  onClick={redirect} >Continue as guest</label>
+          redirectDest !== '/home' &&
+          <div>
+            <label>Or</label>
+            <br />  
+            <label  className='clickable font-sm font-blue'
+                    onClick={redirect} >Continue as guest</label>
+          </div>
         }
       </div>
     </div>

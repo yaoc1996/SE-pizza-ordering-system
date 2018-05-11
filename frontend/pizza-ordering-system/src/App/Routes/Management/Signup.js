@@ -1,35 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { 
-  postSMSignup
-} from 'lib';
-
 const Signup = props => {
   const {
+    signup
   } = props;
-
-  const onSignup = e => {
-    e.preventDefault();
-    
-    const firstname = e.target.firstname.value;
-    const lastname = e.target.lastname.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    postSMSignup({
-      firstname,
-      lastname,
-      email,
-      password,
-    })
-      .then(json => {
-        if (json && json.success) {
-
-        }
-        console.log(json);
-      })
-  }
 
   return (
     <div className='fill' >
@@ -48,7 +23,7 @@ const Signup = props => {
         </label>
         <br /><br /><br />
         <form className='form'
-              onSubmit={onSignup} >
+              onSubmit={signup} >
           <div className='form-field' >
             <label>Firstname:</label>
             <input  type='text'

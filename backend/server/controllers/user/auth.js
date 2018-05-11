@@ -11,6 +11,10 @@ module.exports = {
     return router;
   },
   authenticate(req, res) {
-    res.status(200).json(_.pick(req.user, ['username', 'email', 'type']));
+    res.status(200).json({
+      user: _.pick(req.user, ['id', 'firstname', 'lastname' , 'email', 'type']),
+      success: true,
+      message: 'user is athenticated',
+    });
   }
 }

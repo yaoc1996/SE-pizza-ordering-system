@@ -14,7 +14,7 @@ const jwtOptions = {
 const strategy = new Strategy(jwtOptions, (jwt_payload, next) => {
   models.User.findOne({
     where: {
-      username: jwt_payload.username,
+      id: jwt_payload.id,
     },
   })
     .then(user => {
