@@ -267,9 +267,9 @@ class StoreID extends Component{
 		const total = subtotal + tax;
 		const destination = e.target.destination.value;
 		
-
+		const { storeId } = parseQuery(this.props.location.search);
 		postOrder({
-			storeId: this.props.match.params.storeId,
+			storeId,
 			userId: this.props.user ? this.props.user.id : null,
 			subtotal,
 			tax,
