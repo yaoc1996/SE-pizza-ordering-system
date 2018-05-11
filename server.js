@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express();
+const app = require('express')();
 const bodyParser = require('body-parser');
 
 const env = process.env.NODE_ENV || 'development';

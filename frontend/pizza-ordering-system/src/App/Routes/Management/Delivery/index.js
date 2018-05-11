@@ -95,6 +95,13 @@ class Delivery extends Component {
                   required />
           <br /><br />
           <button className='btn-md btn-pink font-md' >Submit</button>
+          <button className='btn-md btn-pink font-md'
+                  onClick={() => {
+                    localStorage.removeItem('token');
+                    this.props.history.push('/management/login')
+                    window.location.reload();
+                  }} />
+
         </form>
       </div>
     , true)

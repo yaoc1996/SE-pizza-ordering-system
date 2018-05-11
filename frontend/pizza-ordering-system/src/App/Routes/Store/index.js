@@ -267,7 +267,7 @@ class StoreID extends Component{
 		const total = subtotal + tax;
 		const destination = e.target.destination.value;
 		
-		const { storeId } = this.props.match.params;
+		const { storeId } = parseQuery(this.props.location.search);
 		postOrder({
 			storeId,
 			userId: this.props.user ? this.props.user.id : null,
@@ -312,6 +312,11 @@ class StoreID extends Component{
 								<Link to='/signup'>
 									<button className='btn-md margin-sm btn-red'>
 										Signup
+									</button> 
+								</Link>
+								<Link to='/home'>
+									<button className='btn-md margin-sm btn-red'>
+										Home
 									</button> 
 								</Link>
 							</div>

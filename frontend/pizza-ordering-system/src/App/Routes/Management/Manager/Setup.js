@@ -83,6 +83,14 @@ class Setup extends Component {
 
     return (
       <div className='centered-hv fade-in' >
+          <button className='btn-md btn-pink margin-sm'
+                  onClick={() => {
+                    localStorage.removeItem('token');
+                    this.props.history.push('/management/login')
+                    window.location.reload();
+                  }} >
+            Logout
+          </button>
         <label className='font-txl font-bold font-lightgrey' >Setup</label>
         <br /><br />
         <label className='font-lg font-bold' >New Store</label>
