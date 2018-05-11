@@ -300,7 +300,11 @@ class Home extends Component {
           {
             !this.props.user
               ? <div className='fit float-right'>
-                  <Link to='/login'>
+                   <Link to='/management/login'>
+                    <button className='btn-md margin-sm btn-red'>
+                      Management
+                    </button>
+                  </Link>                 <Link to='/login'>
                     <button className='btn-md margin-sm btn-red'>
                       Login
                     </button>
