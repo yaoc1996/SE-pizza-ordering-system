@@ -11,7 +11,7 @@
     "username": "se_app",
     "password": "seappdev",
     "database": "se_app_production",
-    "host": "se-app.cyu2c1umvml2.us-east-1.rds.amazonaws.com",
+    "host": "pizza-ordering-system.cyu2c1umvml2.us-east-1.rds.amazonaws.com",
     "dialect": "postgres",
     "secretOrKey": "sepizzaorderingsystem"
   }
