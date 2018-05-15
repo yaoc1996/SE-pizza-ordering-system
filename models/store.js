@@ -60,6 +60,10 @@ module.exports = (sequelize, DataTypes) => {
       as: 'vip',
       through: 'storeVip',
     })
+    Store.belongsToMany(models.User, {
+      as: 'demotedVisitors',
+      through: 'storeDemotedVisitors',
+    })
     Store.hasMany(models.Pizza, {
       as: 'menuItems',
       foreignKey: 'vendorStoreId',

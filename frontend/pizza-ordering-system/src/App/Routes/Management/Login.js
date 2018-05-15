@@ -8,6 +8,11 @@ const Login = props => {
   
   return (
     <div className='fill' >
+      <Link to='/home'>
+        <button className='btn-md btn-pink margin-sm float-right' >
+          Home
+        </button>
+      </Link>
       <Link to='/management/signup'>
         <button className='btn-md btn-pink margin-sm float-right' >
           Signup

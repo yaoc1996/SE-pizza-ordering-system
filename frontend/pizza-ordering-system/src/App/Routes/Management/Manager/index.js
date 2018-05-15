@@ -194,8 +194,12 @@ class Manager extends Component {
           <button className='btn-md btn-pink float-right margin-sm'
                   onClick={() => {
                     localStorage.removeItem('token');
-                    this.props.history.push('/management/login')
-                    window.location.reload();
+                    this.props.setAppState({
+                      type: '',
+                      user: null,
+                    }, () => {
+                      this.props.history.push('/management/login')
+                    })
                   }} >
             Logout
           </button>

@@ -39,8 +39,12 @@ class Cook extends Component {
           <button className='btn-md btn-pink font-md'
                   onClick={() => {
                     localStorage.removeItem('token');
-                    this.props.history.push('/management/login')
-                    window.location.reload();
+                    this.props.setAppState({
+                      type: '',
+                      user: null,
+                    }, () => {
+                      this.props.history.push('/management/login')
+                    })
                   }}>Logout</button>
         </form>
       </div>
@@ -77,8 +81,12 @@ class Cook extends Component {
         })
     } else {
       localStorage.removeItem('token');
-      this.props.history.push('/management/login')
-      window.location.reload();
+      this.props.setAppState({
+        type: '',
+        user: null,
+      }, () => {
+        this.props.history.push('/management/login')
+      })
     }   
   }
 
@@ -107,8 +115,12 @@ class Cook extends Component {
         })
     } else {
       localStorage.removeItem('token');
-      this.props.history.push('/management/login')
-      window.location.reload();
+      this.props.setAppState({
+        type: '',
+        user: null,
+      }, () => {
+        this.props.history.push('/management/login')
+      })
     }
   }
 
@@ -141,8 +153,12 @@ class Cook extends Component {
         })
     } else {
       localStorage.removeItem('token');
-      this.props.history.push('/management/login')
-      window.location.reload();
+      this.props.setAppState({
+        type: '',
+                      user: null,
+      }, () => {
+        this.props.history.push('/management/login')
+      })
     }
   }
 
@@ -162,6 +178,11 @@ class Cook extends Component {
           })
       } else {
         this.props.history.push('/home');
+        this.props.setAppState({
+          type: '',
+        }, () => {
+          this.props.history.push('/management/login')
+        })
       }
     }
   }
@@ -173,8 +194,12 @@ class Cook extends Component {
           <button className='btn-md btn-pink margin-sm'
                   onClick={() => {
                     localStorage.removeItem('token');
-                    this.props.history.push('/management/login')
-                    window.location.reload();
+                    this.props.setAppState({
+                      type: '',
+                      user: null,
+                    }, () => {
+                      this.props.history.push('/management/login')
+                    })
                   }} >
  
             Logout

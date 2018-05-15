@@ -48,13 +48,6 @@ class StoreID extends Component{
 								onClick={this.props.setForm(null)} >No Thanks</button>
 			</div>
 		)
-		this.props.addForm('confirm', props => 
-			<div className='centered-hv bg-white padding-lg edge-rounded'>
-				<p className='font-bold font-md'>
-					The store manager has been notified of your request.
-				</p>
-			</div>
-		)
 
 		this.props.addForm('checkout', props => {
 			const subtotal = this.state.order.reduce((x, y) => x+parseFloat(y.price), 0) * this.state.discount
@@ -106,7 +99,6 @@ class StoreID extends Component{
 		const token = localStorage.getItem('token');
 		
 		const { storeId } = parseQuery(this.props.location.search);
-		console.log(parseQuery(this.props.location.search))
 
 		if (token) {
 			getCheckRegistered(token, storeId)
@@ -164,7 +156,6 @@ class StoreID extends Component{
 						this.props.history.push('/home');
 					}
 				} else {
-					console.log(json)
 					json && alert(json.message);
 					this.props.history.push('/home');
 				}
@@ -183,11 +174,12 @@ class StoreID extends Component{
 				.then(json => {
 					if (!json.success) {
 						alert(json.message)
-					}
+          } else {
+            alert('The manager of the store has been notified of your request.')
+            this.props.closeForm()();
+          }
 				})
 		}
-
-		this.props.setForm('confirm')();
 	}
 
 	toggleCart() {
@@ -248,13 +240,11 @@ class StoreID extends Component{
 		}
 
 		if (dough && toppings.length > 0 && chef) {
+      toppings = toppings.reduce((x, y) => x + y.typeName + ', ', '')
 			this.addToCart({
 				name: 'Custom',
-				description: 'custom',
+				description: `Request chef: ${chef.name}, Dough: ${dough.typeName}, Toppings: ${toppings.slice(0, toppings.length-1)}`,
 				price: 12,
-				toppings,
-				dough,
-				chef,
 			})();
 		}
 	}
@@ -338,7 +328,10 @@ class StoreID extends Component{
 										&nbsp;
 									</label>
 								</div>
-								<button onClick={this.props.logout.bind(this, this.props.location.pathname)} 
+          <button onClick={() => {
+                    localStorage.removeItem('token');
+                    window.location.reload();
+                  }} 
 												className='float-right btn-md margin-sm btn-red'>
 									Logout
 								</button>

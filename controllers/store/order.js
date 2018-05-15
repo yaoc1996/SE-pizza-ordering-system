@@ -21,16 +21,9 @@ module.exports = {
         }
       }),
       Promise.all(req.body.pizzas.map(pizza => {
-        var toppings;
-        if (pizza.toppings && pizza.toppings.length > 0) {
-          toppings = pizza.toppings.reduce((x, y) => x + y.typeName + ', ', '')
-        }
         return models.Pizza.create({
           name: pizza.name,
-          description: 
-            pizza.description === 'custom' 
-              ? `Request chef: ${pizza.chef.name}, Dough: ${pizza.dough.typeName}, Toppings: ${toppings}`
-              : pizza.description,
+          description: pizza.description,
           price: parseFloat(pizza.price),
         })
       })),

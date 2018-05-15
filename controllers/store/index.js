@@ -27,6 +27,7 @@ module.exports = {
         where: {
           type: 'cook',
         },
+        required: false,
         attributes: ['id', 'firstname', 'lastname', 'email']
       }, {
         model: models.Topping,
@@ -44,7 +45,7 @@ module.exports = {
             message: 'store does not exist',
           })
         }
-        if (store.workers.length < 2) {
+        if (!store.workers || store.workers.length < 2) {
           res.json({
             success: false,
             message: 'Store isn\'t open yet',
@@ -57,7 +58,8 @@ module.exports = {
                   id: pizza.id,
                 },
                 include: [{
-                  model: models.Rating
+                  model: models.Rating,
+                  required: false,
                 }]
               }),
             )),
@@ -144,7 +146,8 @@ module.exports = {
           id: req.user.id,
         },
         include: [{
-          model: models.Rating
+          model: models.Rating,
+          required: false,
         }] 
       }),
       models.Store.findOne({
@@ -163,7 +166,8 @@ module.exports = {
               model: models.Rating,
               where: {
                 store: store.name
-              }
+              },
+              required: false,
             }]
           }),
           store.getRegisteredCustomers({
@@ -174,7 +178,8 @@ module.exports = {
               model: models.Rating,
               where: {
                 store: store.name
-              }
+              },
+              required: false,
             }]
           }),
           store.getVip({
@@ -185,16 +190,29 @@ module.exports = {
               model: models.Rating,
               where: {
                 store: store.name
-              }
+              },
+              required: false,
             }]
           }),
           store.getBlacklist({
             where: {
               id: req.user.id,
             }
+          }),
+          store.getDemotedVisitors({
+            where: {
+              id: req.user.id,
+            },
+            include: [{
+              model: models.Rating,
+              where: {
+                store: store.name,
+              },
+              required: false,
+            }]
           })
         ])
-        .then(([requests, customers, vips, blacklist]) => {
+        .then(([requests, customers, vips, blacklist, demotedVisitors]) => {
           var status = 'NotRegistered';
           var statusUpdate = null;
           if (blacklist.length > 0) {
@@ -213,6 +231,7 @@ module.exports = {
                 statusUpdate = 'You have been promoted to VIP status'
               } else if (avgRating < 2 && avgRating > 1) {
                 store.removeRegisteredCustomer(customers[0])
+                store.addDemotedVisitor(customers[0])
                 status = 'Visitor';
                 statusUpdate = 'You have been demoted to Visitor status'
               } else if (avgRating === 1) {
@@ -234,6 +253,7 @@ module.exports = {
                 statusUpdate = 'You have been demoted to Customer status'
               } else if (avgRating < 2) {
                 store.removeVip(vips[0])
+                store.addDemotedVisitor(vips[0])
                 status = 'Visitor';
                 statusUpdate = 'You have been demoted to Visitor status'
               } else if (avgRating === 1) {
@@ -243,21 +263,24 @@ module.exports = {
                 statusUpdate = 'You have been blacklisted by the store'
               }
             }
-          } else {
+          } else if (demotedVisitors.length > 0) {
             status = 'Visitor';
             if (user.ratings.length > 3) {
               const totalRating = user.ratings.reduce((x, y) => x + parseInt(y.value), 0);
               const avgRating = totalRating / user.ratings.length;
               if (avgRating > 4) {
                 store.addVip(user)
+                store.removeDemotedVisitor(user)
                 status = "VIP";
                 statusUpdate = 'You have been promoted to VIP status';
               } else if (avgRating > 2) {
                 store.addRegisteredCustomer(user)
+                store.removeDemotedVisitor(user)
                 status = "Customer";
                 statusUpdate = 'You have been promoted to Customer status';
               } else if (avgRating === 1) {
                 store.addBlackList(customers[0])
+                store.removeDemotedVisitor(user)
                 status = 'BlackListed'
                 statusUpdate = 'You have been blacklisted by the store'
               }

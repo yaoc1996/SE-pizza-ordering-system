@@ -83,14 +83,6 @@ class Setup extends Component {
 
     return (
       <div className='centered-hv fade-in' >
-          <button className='btn-md btn-pink margin-sm'
-                  onClick={() => {
-                    localStorage.removeItem('token');
-                    this.props.history.push('/management/login')
-                    window.location.reload();
-                  }} >
-            Logout
-          </button>
         <label className='font-txl font-bold font-lightgrey' >Setup</label>
         <br /><br />
         <label className='font-lg font-bold' >New Store</label>
@@ -116,6 +108,19 @@ class Setup extends Component {
           </div>
           <br /><br /><br />        
           <button className='btn-pink btn-md' >Submit</button>
+          <button className='btn-md btn-pink margin-sm'
+                  type='button'
+                  onClick={() => {
+                    localStorage.removeItem('token');
+                    this.props.setAppState({
+                      type: '',
+                      user: null,
+                    }, () => {
+                      this.props.history.push('/management/login')
+                    })
+                  }} >
+            Logout
+          </button>
         </form>
       </div>
     )

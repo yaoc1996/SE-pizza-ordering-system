@@ -5,8 +5,7 @@ const _ = require('lodash');
 const app = require('express')();
 const bodyParser = require('body-parser');
 
-const env = process.env.NODE_ENV || 'development';
-const config = require('./config/config.json')[env];
+const config = require('./config/config.json')['production'];
 
 const passport = require('./middlewares/authentication');
 const verifyRole = require('./middlewares/verifyRole');
@@ -80,7 +79,7 @@ models.sequelize.sync({
       return
     }
       models.Store.create({
-        name: faker.company.companyName() + ' Pizzaria',
+        name: faker.company.companyName() + ' Pizzeria',
         address: faker.address.streetAddress('###')+' Manhattan, NY '+faker.address.zipCode(),
         lng: lngmin + (lngmax - lngmin) * Math.random(),
         lat: latmin + (latmax - latmin) * Math.random(),

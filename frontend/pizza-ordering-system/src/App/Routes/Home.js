@@ -277,7 +277,6 @@ class Home extends Component {
                 })
               }
               infoWindow.open(this.map, marker);
-              console.log(store)
               document.getElementById('info-window').onclick = that.onStoreEnter(store.id);
             })
 

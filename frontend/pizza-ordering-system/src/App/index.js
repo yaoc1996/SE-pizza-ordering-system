@@ -79,7 +79,6 @@ class App extends Component {
       pathname = pathname.slice(0, pathname.length-1)
       this.props.history.push(pathname)
     }
-    console.log(location.pathname)
 
     switch (this.state.type) {
       case 'customer':
@@ -140,12 +139,15 @@ class App extends Component {
     })
   }
 
-  setAppState(state) {
-    this.setState(state);
+  setAppState(state, callback) {
+    this.setState(state, callback);
   }
 
   redirect() {
     this.props.history.push(this.state.redirectDest);
+    this.setState({
+      redirectDest: '/home',
+    })
   }
 
   login(e) {
@@ -191,12 +193,12 @@ class App extends Component {
       .then(json => {
         if (json && json.success) {
           localStorage.setItem('token', json.token);
+          this.redirect();
           this.setState({
             user: json.user,
             type: json.user.type,
           })
 
-          this.redirect();
         } else {
           json && alert(json.message);
           window.location.reload();
@@ -265,6 +267,7 @@ class App extends Component {
   logout(dest) {
     this.setState({
       user: null,
+      type: '',
     })
     localStorage.removeItem('token')
     this.setState({
@@ -332,11 +335,15 @@ class App extends Component {
 
             <Route  exact
                     path='/management/manager/setup'
-                    component={StoreSetup} />
+                    render={props => 
+                      <StoreSetup setAppState={this.setAppState}
+                                  { ...props } />
+                    } />
             <Route  exact
                     path='/management/manager'
                     render={props => 
                       <Manager  logout={this.logout}
+                                setAppState={this.setAppState}
                                 { ...props } />
                     } />
 
@@ -344,6 +351,7 @@ class App extends Component {
                     path='/management/cook'
                     render={props =>
                       <Cook logout={this.logout}
+                            setAppState={this.setAppState}
                             { ...props } />
                     } />
 
@@ -351,6 +359,7 @@ class App extends Component {
                     path='/management/delivery'
                     render={props => 
                       <Delivery logout={this.logout}
+                                setAppState={this.setAppState}
                                 { ...props } />
                     } />
 

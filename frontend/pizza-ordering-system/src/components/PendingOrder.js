@@ -31,9 +31,9 @@ const PendingOrder = ({ last, children, delivery, assignTask }) => {
             onSubmit={assignTask(children.id)} >
         <select className='padding-sm bg-white' name='delivery'>
           {
-            delivery.map(delivery => {
+            delivery.map((delivery, id) => {
               return (
-                <option value={delivery.id}>
+                <option value={delivery.id} key={`delivery-option-${id}`}>
                   { delivery.firstname } {delivery.lastname}
                 </option>
               )

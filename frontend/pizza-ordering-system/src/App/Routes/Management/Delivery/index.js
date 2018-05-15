@@ -99,8 +99,12 @@ class Delivery extends Component {
           <button className='btn-md btn-pink font-md'
                   onClick={() => {
                     localStorage.removeItem('token');
-                    this.props.history.push('/management/login')
-                    window.location.reload();
+                    this.props.setAppState({
+                      type: '',
+                      user: null,
+                    }, () => {
+                      this.props.history.push('/management/login')
+                    })
                   }} >Logout</button>
 
         </form>
@@ -139,6 +143,12 @@ class Delivery extends Component {
         })
     } else {
       this.props.history.push('/home');
+      this.props.setAppState({
+        type: '',
+                      user: null,
+      }, () => {
+        this.props.history.push('/management/login')
+      })
     }   
   }
 
@@ -201,6 +211,7 @@ class Delivery extends Component {
           .then(json => {
             if (json && json.success) {
               this.getStore();
+              this.getOrders();
             } else {
               json && alert(json.message);
             }
@@ -321,8 +332,12 @@ class Delivery extends Component {
           <button className='btn-md btn-pink margin-sm'
                   onClick={() => {
                     localStorage.removeItem('token');
-                    this.props.history.push('/management/login')
-                    window.location.reload();
+                    this.props.setAppState({
+                      type: '',
+                      user: null,
+                    }, () => {
+                      this.props.history.push('/management/login')
+                    })
                   }} >
             Logout
           </button>

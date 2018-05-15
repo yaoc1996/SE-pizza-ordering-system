@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 function parseQuery(query) {
   if (query === '') return {}
   query = query.slice(1)
