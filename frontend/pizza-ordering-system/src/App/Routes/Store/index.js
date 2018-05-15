@@ -80,6 +80,12 @@ class StoreID extends Component{
 								required />
 					<br />
 					<br />
+					<div className='align-left'>Card Number: </div>
+						<input className='input-fill'
+								name='card'
+                pattern='^[0-9]{16}$'
+								required />
+          <br /><br />
 					<button className="ui button"
 									onClick={this.props.checkout} >
 						Place Order
