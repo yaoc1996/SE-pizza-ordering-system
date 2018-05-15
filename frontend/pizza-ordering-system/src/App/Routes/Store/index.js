@@ -190,6 +190,7 @@ class StoreID extends Component{
 
 	addToCart(pizza) {
 		return () => {
+      alert('Added to Cart!')
 			this.setState(state => {
 				state.order.push(pizza)
 				return state;
